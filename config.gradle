@@ -1,0 +1,24 @@
+ext{
+    android = [
+            compileSdkVersion   : 30,
+            buildToolsVersion   : "30.0.2",
+            minSdkVersion       : 16,
+            targetSdkVersion    : 30,
+            versionCode         : 1,
+            versionName         : "1.0"
+    ]
+    dependencies = [
+
+            "appcompat"              : 'androidx.appcompat:appcompat:1.2.0',
+
+            "material"               : 'com.google.android.material:material:1.2.1',
+            "constraintLayout"       : 'androidx.constraintlayout:constraintlayout:2.0.4',//约束性布局
+
+            //test
+            "junit"                  : "junit:junit:4.13.1",
+            "testExtJunit"           : 'androidx.test.ext:junit:1.1.2',//测试依赖，新建项目时会默认添加，一般不建议添加
+            "espressoCore"           : 'androidx.test.espresso:espresso-core:3.3.0',//测试依赖，新建项目时会默认添加，一般不建议添加
+
+    ]
+
+}
