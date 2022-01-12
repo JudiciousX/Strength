@@ -1,31 +1,34 @@
-plugins {
-    id 'com.android.application'
-}
-
-if (rootProject.ext.android["is_application"]) {
+if(is_Module.toBoolean()){
     apply plugin: 'com.android.application'
-} else {
+}else{
     apply plugin: 'com.android.library'
 }
 
 android {
-    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
-    buildToolsVersion rootProject.ext.android["buildToolsVersion"]
+    compileSdkVersion 30
 
     defaultConfig {
-        applicationId "com.example.moduletextt"
-        minSdkVersion rootProject.ext.android["minSdkVersion"]
-        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
-        versionCode rootProject.ext.android["versionCode"]
-        versionName rootProject.ext.android["versionName"]
+        if(is_Module.toBoolean()){
+            applicationId "activitytest.com.example.login"
+        }
+        minSdkVersion 16
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        javaCompileOptions{				//配置ARouter
+            annotationProcessorOptions{
+                arguments = [AROUTER_MODULE_NAME:project.getName()]
+            }
+        }
     }
-    sourceSets {
-        main {
-            if (isRunAlone.toBoolean()) {
-                manifest.srcFile 'src/main/mainfest/AndroidManifest.xml'
-            } else {
+    sourceSets{
+        main{
+            if(is_Module.toBoolean()){
                 manifest.srcFile 'src/main/AndroidManifest.xml'
+            }else{
+                manifest.srcFile 'src/main/manifest/AndroidManifest.xml'
             }
         }
     }
@@ -43,10 +46,6 @@ android {
 
 dependencies {
 
-    implementation project(':commlib')
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.2.1'
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    implementation project(':Baselibs')
+    annotationProcessor rootProject.ext.annotationLibs		//注释处理器
 }
