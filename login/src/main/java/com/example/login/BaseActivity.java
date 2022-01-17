@@ -12,11 +12,12 @@ public abstract class BaseActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
         initView();
-
+        init();
     }
 
     abstract int getLayout();
 
     abstract void initView();
 
+    abstract void init();
 }
