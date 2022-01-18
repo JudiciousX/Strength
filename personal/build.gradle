@@ -1,18 +1,38 @@
-plugins {
-    id 'com.android.application'
+if(is_Module.toBoolean()){
+    apply plugin: 'com.android.application'
+}else{
+    apply plugin: 'com.android.library'
 }
 
 android {
     compileSdkVersion 30
 
     defaultConfig {
-        applicationId "com.example.personal"
+        if(is_Module.toBoolean()){
+            applicationId "activitytest.com.example.personal"
+        }
+
+//        applicationId "com.example.personal"
         minSdkVersion 16
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        javaCompileOptions{				//配置ARouter
+            annotationProcessorOptions{
+                arguments = [AROUTER_MODULE_NAME:project.getName()]
+            }
+        }
+    }
+    sourceSets{
+        main{
+            if(is_Module.toBoolean()){
+                manifest.srcFile 'src/main/manifest/AndroidManifest.xml'
+            }else{
+                manifest.srcFile 'src/main/AndroidManifest.xml'
+            }
+        }
     }
 
     buildTypes {
@@ -29,9 +49,6 @@ android {
 
 dependencies {
 
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.2.1'
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    implementation project(':Baselibs')
+    annotationProcessor rootProject.ext.annotationLibs		//注释处理器
 }
