@@ -1,9 +1,8 @@
 rootProject.name = "Basketball"
 include ':app'
 include ':login'
-include ':personal'
 include ':message'
 include ':Baselibs'
 include ':home'
-include ':demomodule'
 include ':myapplication'
+include ':personal'

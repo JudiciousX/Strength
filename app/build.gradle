@@ -41,6 +41,7 @@ dependencies {
     if(!is_Module.toBoolean()){
         implementation project(":login")
         implementation project(":message")
+        implementation project(":personal")
     }
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
