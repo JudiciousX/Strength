@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
@@ -30,6 +31,7 @@ public class LoginActivity extends BaseActivity implements ILoginView{
     private String id;
     private String password;
     private LoginPresenter loginPresenter = new LoginPresenter(this);
+    private Context context;
 
     @Override
     int getLayout() {
@@ -38,6 +40,7 @@ public class LoginActivity extends BaseActivity implements ILoginView{
 
     @Override
     void initView() {
+        context = LoginActivity.this;
         id_edit = (EditText) findViewById(R.id.id_edit);
         password_edit = (EditText) findViewById(R.id.password_edit);
         login_button = (Button) findViewById(R.id.login_button);
@@ -118,7 +121,8 @@ public class LoginActivity extends BaseActivity implements ILoginView{
                 if(isEmpty(id_isEmpty, password_isEmpty)) {
                     id = id_edit.getText().toString();
                     password = password_edit.getText().toString();
-                    boolean b = loginPresenter.isSucceed(id, password);
+                    //boolean b = loginPresenter.isSucceed(id, password);
+                    boolean b = true;
                     if(b) {
                         Succeed();
                     }else {
@@ -188,6 +192,8 @@ public class LoginActivity extends BaseActivity implements ILoginView{
     public void Succeed() {
         //跳转到首页
         ARouter.getInstance().build("/message/message").navigation();
+        String id = loginPresenter.getModel().getIMEIDeviceId(context);
+        Log.d("TAG", id);
     }
 
     @Override

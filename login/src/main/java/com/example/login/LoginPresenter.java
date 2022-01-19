@@ -17,4 +17,8 @@ public class LoginPresenter implements ILoginPresenter{
             return false;
         }
     }
+
+    public ILoginModel getModel() {
+        return model;
+    }
 }
