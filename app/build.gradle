@@ -39,8 +39,8 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
     annotationProcessor rootProject.ext.annotationLibs		//注释处理器
     if(!is_Module.toBoolean()){
+        implementation project(":home")
         implementation project(":login")
-        implementation project(":message")
         implementation project(":personal")
     }
     testImplementation 'junit:junit:4.+'
