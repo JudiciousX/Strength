@@ -1,13 +1,15 @@
 package com.example.login;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.Bundle;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -19,22 +21,46 @@ import android.widget.Toast;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 
+import IPresenter.LoginPresenter;
+import IView.ILoginView;
+import Tools.JumpActivity;
+
 @Route(path="/login/login")
-public class LoginActivity extends BaseActivity implements ILoginView{
+public class LoginActivity extends BaseActivity implements ILoginView, JumpActivity {
     private boolean id_isEmpty = false;
     private boolean password_isEmpty = false;
+    private Button see;
     private EditText id_edit;
     private EditText password_edit;
     private Button login_button;
     private TextView forget_text;
     private TextView signIn_text;
-    private String id;
+    private String phoneNumbers;
     private String password;
     private LoginPresenter loginPresenter = new LoginPresenter(this);
     private Context context;
 
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.obj.toString()) {
+                case "Login400" :
+                    Failed();
+                    break;
+                default:
+                    Succeed();
+                    SharedPreferences.Editor editor= getSharedPreferences("LoginId", MODE_PRIVATE).edit();
+                    editor.putString("uid", msg.obj.toString());
+                    editor.apply();
+                    break;
+
+            }
+            Log.d("TAG", msg.obj.toString());
+        }
+    };
+
     @Override
-    int getLayout() {
+    protected int getLayout() {
         return R.layout.activity_login;
     }
 
@@ -46,6 +72,7 @@ public class LoginActivity extends BaseActivity implements ILoginView{
         login_button = (Button) findViewById(R.id.login_button);
         forget_text = (TextView) findViewById(R.id.forget_text);
         signIn_text = (TextView) findViewById(R.id.signIn_text);
+        see = (Button) findViewById(R.id.see_button);
     }
 
     @Override
@@ -119,23 +146,25 @@ public class LoginActivity extends BaseActivity implements ILoginView{
             @Override
             public void onClick(View view) {
                 if(isEmpty(id_isEmpty, password_isEmpty)) {
-                    id = id_edit.getText().toString();
+                    phoneNumbers = id_edit.getText().toString();
                     password = password_edit.getText().toString();
-                    //boolean b = loginPresenter.isSucceed(id, password);
-                    boolean b = true;
-                    if(b) {
-                        Succeed();
-                    }else {
-                        Failed();
+                    if(password.length() < 6) {
+                        Toast.makeText(context, "密码长度不得低于6位", Toast.LENGTH_SHORT).show();
+                    } else if(phoneNumbers.length() > 11) {
+                        Toast.makeText(context, "账号不得超过11位", Toast.LENGTH_SHORT).show();
+                    } else {
+                        String mobileToken = loginPresenter.getModel().getIMEIDeviceId(context);
+                        loginPresenter.getModel().result(phoneNumbers, password, mobileToken, context, handler);
                     }
+
                 }else {
                     login_button.setBackground(getResources().getDrawable(R.drawable.unlogin));
                     if(id_isEmpty) {
-                        Toast.makeText(LoginActivity.this, "输入密码", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "输入密码", Toast.LENGTH_SHORT).show();
                     }else if(password_isEmpty) {
-                        Toast.makeText(LoginActivity.this, "输入账号", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "输入账号", Toast.LENGTH_SHORT).show();
                     }else {
-                        Toast.makeText(LoginActivity.this, "输入账号和密码", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "输入账号和密码", Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -145,13 +174,28 @@ public class LoginActivity extends BaseActivity implements ILoginView{
             @Override
             public void onClick(View view) {
                 //跳转到忘记密码
-
+                jump("forget");
             }
         });
         signIn_text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //跳转到注册
+                jump("signIn");
+            }
+        });
+        see.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (see.getBackground().getConstantState().equals(getResources().getDrawable(R.drawable.see).getConstantState())) {
+                    see.setBackground(getResources().getDrawable(R.drawable.unsee));
+                    password_edit.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD | InputType.TYPE_CLASS_TEXT);
+                    password_edit.setSelection(password_edit.getText().length());
+                } else {
+                    see.setBackground(getResources().getDrawable(R.drawable.see));
+                    password_edit.setInputType(InputType.TYPE_CLASS_TEXT);
+                    password_edit.setSelection(password_edit.getText().length());
+                }
             }
         });
     }
@@ -192,8 +236,6 @@ public class LoginActivity extends BaseActivity implements ILoginView{
     public void Succeed() {
         //跳转到首页
         ARouter.getInstance().build("/message/message").navigation();
-        String id = loginPresenter.getModel().getIMEIDeviceId(context);
-        Log.d("TAG", id);
     }
 
     @Override
@@ -204,4 +246,10 @@ public class LoginActivity extends BaseActivity implements ILoginView{
         return false;
     }
 
+    @Override
+    public void jump(String data) {
+        Intent intent = new Intent(LoginActivity.this, SignInActivity.class);
+        intent.putExtra("type", data);
+        startActivity(intent);
+    }
 }

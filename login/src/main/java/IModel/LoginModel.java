@@ -1,26 +1,55 @@
-package com.example.login;
+package IModel;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Message;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
-public class LoginModel implements ILoginModel{
+import com.example.commlib.RetrofitBase;
+
+import IClass.LoginClass;
+import Request.ILoginRequest;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
+public class LoginModel implements ILoginModel {
     @Override
-    public String result(String id, String password) {
-        //处理账号超过长度问题
-        if(id.length() > 11) {
-            return "error";
-        }
+    public void result(String phoneNumbers, String password, String mobileToken, Context context, Handler handler) {
         //网络请求
-        //网络请求结果
-        String login_result = new String();
-        return login_result;
+        Retrofit retrofit = new RetrofitBase().getRetrofit();
+
+        ILoginRequest loginRequest = retrofit.create(ILoginRequest.class);
+
+        loginRequest.getCall(phoneNumbers, password, mobileToken).enqueue(new Callback<LoginClass>() {
+            @Override
+            public void onResponse(Call<LoginClass> call, Response<LoginClass> response) {
+                Message message = new Message();
+                Log.d("TAG", response.body().getCode());
+                if(response.body().getCode().equals("200")) {
+                    message.obj = response.body().getMsg();
+                }else {
+                    message.obj = "Login" + response.body().getCode();
+                }
+                handler.sendMessage(message);
+            }
+
+            @Override
+            public void onFailure(Call<LoginClass> call, Throwable t) {
+                Log.d("TAG", "请求失败");
+            }
+        });
     }
 
+    //获取手机唯一标识符
     @Override
     public String getIMEIDeviceId(Context context) {
         String deviceId;

@@ -1,4 +1,4 @@
-package com.example.login;
+package IView;
 
 public interface ILoginView {
     //登录失败

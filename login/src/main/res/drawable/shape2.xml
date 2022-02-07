@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-
     <!-- 背景颜色 -->
-    <solid android:color="#02858175" />
+    <solid android:color="#77766F" />
 
     <!-- 边框的宽度和颜色颜色 -->
     <stroke android:width="2dip" android:color="#676464" />
@@ -17,5 +16,4 @@
         android:right="10dp"
         android:bottom="10dp"
         />
-
 </shape>
