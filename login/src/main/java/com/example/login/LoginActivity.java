@@ -235,7 +235,7 @@ public class LoginActivity extends BaseActivity implements ILoginView, JumpActiv
     @Override
     public void Succeed() {
         //跳转到首页
-        ARouter.getInstance().build("/message/message").navigation();
+        ARouter.getInstance().build("/main/main").navigation();
     }
 
     @Override

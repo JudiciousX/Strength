@@ -1,130 +1,92 @@
 package com.example.basketball;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatTextView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 
-import com.alibaba.android.arouter.launcher.ARouter;
-import com.example.commlib.RetrofitBase;
+import com.alibaba.android.arouter.facade.annotation.Route;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import IClass.StateClass;
-import IModel.LoginModel;
-import Request.IStateRequest;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
+import org.jetbrains.annotations.NotNull;
 
-public class MainActivity extends AppCompatActivity {
-    private AppCompatTextView countDownText;
-    private CountDownTimer timer;
-    private String mobileToken;
-    private Context context = this;
-    private String code = new String();
-
+import Fragments.AmendFragment;
+import Fragments.SignInFragment;
+@Route(path = "/main/main")
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fullScreenConfig();
         setContentView(R.layout.activity_main);
-        countDownText = findViewById(R.id.tv_count_down);
-        ARouter.getInstance().inject(this);
+        bottomNavigationView = findViewById(R.id.main_bottom);
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        bottomNavigationView.setSelectedItemId(R.id.home);
 
-        countDownText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isLogin();
-            }
-        });
-
-        initCountDown();
-
-    }
-
-    private void initCountDown() {
-        //倒计时总时长 倒计时间间隔
-        timer = new CountDownTimer(1000 * 3, 1000) {
-            @Override
-            public void onTick(long l) {
-                if(!isFinishing()) {
-                    countDownText.setText(l / 1000 + "跳过");
-                }
-            }
-
-            @Override
-            public void onFinish() {
-                if(!isFinishing()) {
-                    isLogin();
-                }
-
-            }
-        }.start();
-    }
-
-    //全屏显示
-    protected void fullScreenConfig() {
-        //去除ActionBar
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        //去除状态栏 如电量 wifi等
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-    }
-
-    //销毁timer
-    public void destroyTimer() {
-        //避免内存泄漏
-        if(timer != null) {
-            timer.cancel();
-            timer = null;
+        //隐藏标题栏
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar!=null){
+            actionBar.hide();
         }
     }
 
-    //判断是否登录
-    public void isLogin() {
-        mobileToken = new LoginModel().getIMEIDeviceId(context);
-        Log.d("TAG", mobileToken);
-        //网络请求判断是否登录
-        Retrofit retrofit = new RetrofitBase().getRetrofit();
-        IStateRequest request = retrofit.create(IStateRequest.class);
 
-        request.getCall(mobileToken).enqueue(new Callback<StateClass>() {
-            @Override
-            public void onResponse(Call<StateClass> call, Response<StateClass> response) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        code = response.body().getCode();
-                        Log.d("TAG", code);
-                        if(code.equals("200")) {
-                            SharedPreferences.Editor editor = getSharedPreferences("user", MODE_PRIVATE).edit();
-                            editor.putString("phoneNumbers", response.body().getMsg());
-                            editor.putString("code", code);
-                            editor.apply();
-                            ARouter.getInstance().build("/message/message").navigation();
-                        }else {
-                            ARouter.getInstance().build("/login/login").navigation();
-                        }
-                        destroyTimer();
-                        finish();
-                    }
-                });
-            }
-
-            @Override
-            public void onFailure(Call<StateClass> call, Throwable t) {
-                Log.d("TAG", "请求失败");
-            }
-        });
-
-
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        //点击替换碎片
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        switch (item.getItemId()) {
+            case R.id.home:
+                //例子
+                fragmentTransaction.replace(R.id.main_frame, new AmendFragment(this)).commit();
+                break;
+            case R.id.ball_game:
+                //替换碎片
+                break;
+            case R.id.personal:
+                //替换碎片
+                break;
+        }
+        return true;
     }
+
+    //传入Activity，和修改后的颜色
+    public static void setWindowStatusBarColor(Activity activity, int colorResId) {
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Window window = activity.getWindow();
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                //顶部状态栏
+                window.setStatusBarColor(activity.getResources().getColor(colorResId));
+                //底部导航栏
+                window.setNavigationBarColor(activity.getResources().getColor(colorResId));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //设置字体颜色，true表示黑色
+    public static void setWindowLightStatusBar(Activity activity,boolean shouldChangeStatusBarTintToDark){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            View decor = activity.getWindow().getDecorView();
+            if (shouldChangeStatusBarTintToDark) {
+                decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            } else {
+                decor.setSystemUiVisibility(0);
+            }
+        }
+    }
+
 }

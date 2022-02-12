@@ -22,7 +22,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/app_text"
             app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/ball"/>
+            android:src="@drawable/icon"/>
 
         <TextView
             android:id="@+id/app_text"
