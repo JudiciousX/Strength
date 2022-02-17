@@ -18,16 +18,22 @@
         app:layout_constraintStart_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
 
+        app:tabTextAppearance="@style/TabTextSize"
         app:tabSelectedTextColor="@color/black"
         app:tabTextColor="@color/dynamic_unselect"
-        app:tabIndicatorColor="@color/black"/>
+        app:tabIndicatorColor="@color/classic"
+        app:tabRippleColor = "@android:color/transparent"
 
-    <ImageView
+        />
+
+    <Button
         android:id="@+id/court_toolbar_add"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/court_add"/>
+        android:background="@drawable/court_add"
+        app:backgroundTint="@color/classic"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

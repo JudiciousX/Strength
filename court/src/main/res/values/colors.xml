@@ -8,4 +8,5 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="dynamic_unselect">#9C9B9B</color>
+    <color name="classic">#EB5829</color>
 </resources>

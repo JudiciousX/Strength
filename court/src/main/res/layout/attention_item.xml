@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingTop="9dp"
+    android:paddingLeft="9dp"
+    android:paddingRight="9dp">
+    <androidx.cardview.widget.CardView
+        android:id="@+id/dynamic_profile_card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="6dp"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="0dp"
+        >
+        <ImageView
+            android:id="@+id/dynamic_profile"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:scaleType="fitXY"
+            />
+    </androidx.cardview.widget.CardView>
+
+
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="18dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/black"
+        android:text="抛物线篮球场"
+        app:layout_constraintStart_toEndOf="@+id/dynamic_profile_card"
+        />
+
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="15dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_name">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            >
+
+            <ImageView
+                android:id="@+id/court_local"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/court_local"/>
+
+            <TextView
+                android:id="@+id/dynamic_card_context"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_toEndOf="@+id/court_local"
+                android:layout_toRightOf="@+id/court_local"
+                android:ellipsize="end"
+                android:maxEms="15"
+                android:maxLines="2"
+                android:text="星火路抛物线篮球场" />
+
+            <ImageView
+                android:id="@+id/court_time"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_below="@+id/court_local"
+                android:src="@drawable/court_time"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:id="@+id/court_time_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dynamic_card_context"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@+id/court_time"
+                android:layout_toRightOf="@+id/court_time"
+                android:text="1月18日 19:00" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/court_time_text"
+                android:layout_marginTop="15dp"
+                android:text="5V5交流赛，欢迎切磋"
+                android:textColor="@color/black"/>
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!--分割线-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:background="#EFEDED"
+        app:layout_constraintTop_toBottomOf="@+id/cardView"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
