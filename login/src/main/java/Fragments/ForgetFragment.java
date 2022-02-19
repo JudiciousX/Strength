@@ -15,10 +15,11 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.login.R;
 
 import IPresenter.SignPresenter;
+import IView.IForgetView;
 import IView.ISignView;
 import Tools.TimeCount;
 
-public class ForgetFragment extends BaseFragment implements View.OnClickListener, ISignView {
+public class ForgetFragment extends BaseFragment implements View.OnClickListener, ISignView, IForgetView {
     private ImageButton back;
     private EditText user;
     private String phoneNumbers;
@@ -35,8 +36,10 @@ public class ForgetFragment extends BaseFragment implements View.OnClickListener
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-
-            Log.d("TAG", msg.obj.toString());
+            switch (msg.obj.toString()) {
+                case "":
+                    fragmentTransaction.replace(R.id.sign_frame, new AmendFragment(activity, context,phoneNumbers)).commit();
+            }
         }
     };
 
@@ -81,22 +84,13 @@ public class ForgetFragment extends BaseFragment implements View.OnClickListener
         }else if(view.getId() == R.id.Determine_text_1) {
             phoneNumbers = user.getText().toString();
             token = tokenEdit.getText().toString();
-            fragmentTransaction.replace(R.id.sign_frame, new AmendFragment(activity)).commit();
-
+            fragmentTransaction.replace(R.id.sign_frame, new AmendFragment(activity, context,phoneNumbers)).commit();
         }
     }
 
 
     @Override
     public void Succeed(String phoneNumbers, String password, String mobileToken, Context context) {
-        //注册
-        //presenter.getModel().SignIn(phoneNumbers, password, mobileToken, handler);
-
-        //验证验证码
-
-        //跳转修改密码页面
-        fragmentTransaction.replace(R.id.sign_frame, new AmendFragment(activity)).commit();
-
     }
 
     @Override
@@ -111,5 +105,14 @@ public class ForgetFragment extends BaseFragment implements View.OnClickListener
     @Override
     public void Fail(int id, EditText editText) {
 
+    }
+
+    @Override
+    public void verify(String phoneNumbers, String mobileToken, Handler handler) {
+
+    }
+
+    @Override
+    public void amend(String phoneNumbers, String password, Handler handler) {
     }
 }

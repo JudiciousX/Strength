@@ -6,8 +6,7 @@ import android.util.Log;
 
 import com.example.commlib.RetrofitBase;
 
-import IClass.SendSmsClass;
-import IClass.SignInClass;
+import IClass.SignIn_Logoff_Forget_SendSmsClass;
 import Request.ISendSmsRequest;
 import Request.ISignInRequest;
 import retrofit2.Call;
@@ -24,22 +23,23 @@ public class SignInModel implements ISignModel{
 
         ISendSmsRequest sendSmsRequest = retrofit.create(ISendSmsRequest.class);
 
-        sendSmsRequest.getCall(phoneNumbers).enqueue(new Callback<SendSmsClass>() {
+        sendSmsRequest.getCall(phoneNumbers).enqueue(new Callback<SignIn_Logoff_Forget_SendSmsClass>() {
             @Override
-            public void onResponse(Call<SendSmsClass> call, Response<SendSmsClass> response) {
+            public void onResponse(Call<SignIn_Logoff_Forget_SendSmsClass> call, Response<SignIn_Logoff_Forget_SendSmsClass> response) {
                 Message message = new Message();
                 message.obj = "SendSms" + response.body().getCode();
                 handler.sendMessage(message);
             }
 
             @Override
-            public void onFailure(Call<SendSmsClass> call, Throwable t) {
+            public void onFailure(Call<SignIn_Logoff_Forget_SendSmsClass> call, Throwable t) {
                 Log.d("TAG", "请求失败");
             }
         });
 
     }
 
+    //注册
     @Override
     public void SignIn(String phoneNumbers, String password, String token, Handler handler) {
         //网络请求
@@ -47,16 +47,16 @@ public class SignInModel implements ISignModel{
 
         ISignInRequest signInRequest = retrofit.create(ISignInRequest.class);
 
-        signInRequest.getCall(phoneNumbers, password, token).enqueue(new Callback<SignInClass>() {
+        signInRequest.getCall(phoneNumbers, password, token).enqueue(new Callback<SignIn_Logoff_Forget_SendSmsClass>() {
             @Override
-            public void onResponse(Call<SignInClass> call, Response<SignInClass> response) {
+            public void onResponse(Call<SignIn_Logoff_Forget_SendSmsClass> call, Response<SignIn_Logoff_Forget_SendSmsClass> response) {
                 Message message = new Message();
                 message.obj = "SignIn" + response.body().getCode();
                 handler.sendMessage(message);
             }
 
             @Override
-            public void onFailure(Call<SignInClass> call, Throwable t) {
+            public void onFailure(Call<SignIn_Logoff_Forget_SendSmsClass> call, Throwable t) {
                 Log.d("TAG", "请求失败");
             }
         });

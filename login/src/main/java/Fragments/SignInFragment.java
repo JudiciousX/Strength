@@ -40,7 +40,7 @@ public class SignInFragment extends BaseFragment implements View.OnClickListener
         @Override
         public void handleMessage(Message msg) {
             switch (msg.obj.toString()) {
-                case "SendSms401" :
+                case "SendSms403" :
                     Toast.makeText(context, "该账号已被注册", Toast.LENGTH_SHORT).show();
                 case "SignIn400" :
                     Toast.makeText(context, "验证码错误", Toast.LENGTH_SHORT).show();

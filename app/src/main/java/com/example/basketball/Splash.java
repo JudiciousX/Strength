@@ -15,7 +15,7 @@ import android.view.WindowManager;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.commlib.RetrofitBase;
 
-import IClass.StateClass;
+import IClass.Login_StateClass;
 import IModel.LoginModel;
 import Request.IStateRequest;
 import retrofit2.Call;
@@ -96,9 +96,9 @@ public class Splash extends AppCompatActivity {
         Retrofit retrofit = new RetrofitBase().getRetrofit();
         IStateRequest request = retrofit.create(IStateRequest.class);
 
-        request.getCall(mobileToken).enqueue(new Callback<StateClass>() {
+        request.getCall(mobileToken).enqueue(new Callback<Login_StateClass>() {
             @Override
-            public void onResponse(Call<StateClass> call, Response<StateClass> response) {
+            public void onResponse(Call<Login_StateClass> call, Response<Login_StateClass> response) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -106,7 +106,7 @@ public class Splash extends AppCompatActivity {
                         Log.d("TAG", code);
                         if(code.equals("200")) {
                             SharedPreferences.Editor editor = getSharedPreferences("user", MODE_PRIVATE).edit();
-                            editor.putString("phoneNumbers", response.body().getMsg());
+                            editor.putString("phoneNumbers", response.body().getData());
                             editor.putString("code", code);
                             editor.apply();
                             ARouter.getInstance().build("/message/message").navigation();
@@ -120,7 +120,7 @@ public class Splash extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<StateClass> call, Throwable t) {
+            public void onFailure(Call<Login_StateClass> call, Throwable t) {
                 Log.d("TAG", "请求失败");
             }
         });

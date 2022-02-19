@@ -21,7 +21,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import org.jetbrains.annotations.NotNull;
 
 import Fragments.AmendFragment;
-import Fragments.SignInFragment;
+
+
 @Route(path = "/main/main")
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     private BottomNavigationView bottomNavigationView;
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         switch (item.getItemId()) {
             case R.id.home:
                 //例子
-                fragmentTransaction.replace(R.id.main_frame, new AmendFragment(this)).commit();
+                //fragmentTransaction.replace(R.id.main_frame, new AmendFragment(this)).commit();
                 break;
             case R.id.ball_game:
                 //替换碎片
