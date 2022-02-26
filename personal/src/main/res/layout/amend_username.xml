@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Button
+        android:id="@+id/username_back"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/back"
+        android:layout_margin="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/username_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="修改昵称"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
+        android:textSize="20dp"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/username_over"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="完成"
+        app:layout_constraintBottom_toBottomOf="@id/username_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/username_title"
+        android:layout_margin="8dp"
+        android:textColor="@color/black"
+        android:textSize="17dp"/>
+
+    <EditText
+        android:id="@+id/username_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入新昵称"
+        app:layout_constraintTop_toBottomOf="@id/username_title"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="20dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="不得超过12个字"
+        app:layout_constraintStart_toStartOf="@id/username_name"
+        app:layout_constraintTop_toBottomOf="@id/username_name"
+        android:layout_margin="6dp"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
