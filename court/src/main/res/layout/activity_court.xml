@@ -2,22 +2,16 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <include
-        android:id="@+id/court_toolbar"
-        layout="@layout/court_toolbar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/message_toolbar_viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/court_toolbar"/>
+  <fragment
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/court_fragment"
+      android:name="com.example.court.CourtFragment"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

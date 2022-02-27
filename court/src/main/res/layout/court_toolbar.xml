@@ -6,10 +6,8 @@
     android:padding="9dp">
 
 
-
-
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/message_toolbar_tablayout"
+        android:id="@+id/court_toolbar_tablayout"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
 
