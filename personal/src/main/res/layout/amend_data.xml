@@ -11,13 +11,14 @@
         android:background="@drawable/back"
         android:layout_margin="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/data_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="修改个性资料"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -41,7 +42,7 @@
         android:id="@+id/tag1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="昵称："
+        android:text="昵称"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/data_title"
         android:layout_marginTop="40dp"
@@ -49,23 +50,129 @@
         android:layout_marginLeft="20dp" />
 
     <EditText
+        android:textSize="15dp"
+        android:hint="昵称最多不超过12个字符"
+        android:id="@+id/tag2"
+        android:maxLines="1"
+        android:maxLength="12"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/tag1"
+        android:background="@drawable/backggg"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tag1"
-        app:layout_constraintBottom_toBottomOf="@id/tag1"
-        android:layout_marginRight="50dp" />
+        app:layout_constraintTop_toBottomOf="@id/tag1"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        />
+
+    <TextView
+        android:id="@+id/tag3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="个性签名"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tag2"
+        android:textSize="17dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp" />
+
+    <EditText
+        android:maxLength="25"
+        android:textSize="15dp"
+        android:hint="个性签名不得超过25个字"
+        android:id="@+id/tag4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/backggg"
+        android:maxLines="2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tag3"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginRight="20dp"
+        />
+
+    <TextView
+        android:id="@+id/tag5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="性别"
+        android:textSize="17dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tag4"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp"/>
+
+    <RadioGroup
+        android:id="@+id/tag6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toEndOf="@id/tag5"
+        app:layout_constraintTop_toTopOf="@id/tag5"
+        app:layout_constraintBottom_toBottomOf="@id/tag5">
+
+        <RadioButton
+            android:layout_marginLeft="20dp"
+            android:id="@+id/boy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="男"/>
+
+        <RadioButton
+            android:layout_marginLeft="20dp"
+            android:id="@+id/girl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="女"/>
+
+    </RadioGroup>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="个性签名："
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tag1"
+        android:id="@+id/tag7"
+        android:text="邮箱"
         android:textSize="17dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="10dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tag6"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"/>
 
+    <EditText
+        android:id="@+id/tag8"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        app:layout_constraintTop_toBottomOf="@id/tag7"/>
+
+    <TextView
+        android:id="@+id/tag9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="生日"
+        android:textSize="17dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tag8"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/data_birthday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2000年00月00日"
+        android:textSize="17dp"
+        app:layout_constraintStart_toEndOf="@id/tag9"
+        app:layout_constraintTop_toTopOf="@id/tag9"
+        app:layout_constraintBottom_toBottomOf="@id/tag9"
+        android:layout_marginLeft="20dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

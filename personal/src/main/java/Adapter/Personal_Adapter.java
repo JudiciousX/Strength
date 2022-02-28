@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.viewpager2.widget.ViewPager2;
@@ -27,6 +28,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Fragments.Recycler_Fragment;
+import Fragments.amend_data_Fragment;
+import Fragments.amend_signature_Fragment;
+import Fragments.amend_username_Fragment;
 import IView.IBackgroundView;
 import Presenters.BackgroundPresenter;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -37,6 +41,7 @@ public class Personal_Adapter extends RecyclerView.Adapter<Personal_Adapter.View
     private FragmentActivity fm;
     private Activity activity;
     private ImageView imageView;
+    private FragmentTransaction fragmentTransaction;
     private CircleImageView circleImageView;
     private TextView personal_username;
     private TextView personal_signature;
@@ -48,10 +53,11 @@ public class Personal_Adapter extends RecyclerView.Adapter<Personal_Adapter.View
     private int SELECT_CAMER = 0x01;
     private BackgroundPresenter backgroundPresenter = new BackgroundPresenter(this);
 
-    public Personal_Adapter(Context context, FragmentActivity fm, Activity activity) {
+    public Personal_Adapter(Context context, FragmentActivity fm, Activity activity, FragmentTransaction fragmentTransaction) {
         this.context = context;
         this.fm = fm;
         this.activity = activity;
+        this.fragmentTransaction = fragmentTransaction;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -175,8 +181,6 @@ public class Personal_Adapter extends RecyclerView.Adapter<Personal_Adapter.View
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.personal_username:
-
             case R.id.personal_photo:
                 tag = "0";
                 dialog();
@@ -211,6 +215,15 @@ public class Personal_Adapter extends RecyclerView.Adapter<Personal_Adapter.View
                 break;
             case R.id.tv_cancel:
                 dialog.dismiss();
+                break;
+            case R.id.personal_signature:
+                fragmentTransaction.replace(R.id.personal_frame, new amend_signature_Fragment(context)).commit();
+                break;
+            case R.id.personal_edit:
+                fragmentTransaction.replace(R.id.personal_frame, new amend_data_Fragment(context)).commit();
+                break;
+            case R.id.personal_username:
+                fragmentTransaction.replace(R.id.personal_frame, new amend_username_Fragment( context)).commit();
                 break;
         }
     }

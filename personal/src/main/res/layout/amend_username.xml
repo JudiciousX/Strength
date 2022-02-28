@@ -38,6 +38,7 @@
         android:textSize="17dp"/>
 
     <EditText
+        android:maxLength="12"
         android:id="@+id/username_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

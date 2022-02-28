@@ -7,12 +7,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,6 +26,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class Personal_Fragment extends Fragment{
     private TextView textView;
     private Toolbar toolbar;
+    private Button more;
     private RecyclerView recyclerView;
     private Context context;
     private int height = 500;// 滑动开始变色的高
@@ -32,6 +35,7 @@ public class Personal_Fragment extends Fragment{
     private ImageView imageView;
     private CircleImageView circleImageView;
     private String tag = new String();
+    private FragmentTransaction fragmentTransaction;
 
 
 
@@ -49,12 +53,20 @@ public class Personal_Fragment extends Fragment{
     }
 
     public void init(View view) {
+        fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        more = view.findViewById(R.id.personal_more);
+        more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fragmentTransaction.replace(R.id.personal_frame, new amend_data_Fragment(context)).commit();
+            }
+        });
         activity = getActivity();
         toolbar = view.findViewById(R.id.personal_toolbar);
         textView = view.findViewById(R.id.personal_title);
         recyclerView = view.findViewById(R.id.personal_recycler);
         LinearLayoutManager manager = new LinearLayoutManager(context);
-        Personal_Adapter adapter = new Personal_Adapter(context, this.getActivity(),activity );
+        Personal_Adapter adapter = new Personal_Adapter(context, this.getActivity(),activity ,fragmentTransaction);
 
         recyclerView.setAdapter(adapter);
         adapter.setSelectItem(new Personal_Adapter.SelectItem() {

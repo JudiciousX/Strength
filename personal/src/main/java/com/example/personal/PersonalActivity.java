@@ -83,19 +83,9 @@ public class PersonalActivity extends AppCompatActivity {
             bitmap = new Tools().handle(resultCode, data, bitmap, this);
             if("0".equals(tag)) {
                 circleImageView = fragment.getCircleImageView();
-//                try {
-//                    new Tools().setPicToView(data, circleImageView, tag, this, this);
-//                } catch (FileNotFoundException e) {
-//                    e.printStackTrace();
-//                }
                 circleImageView.setImageBitmap(bitmap);
             }else {
                 imageView = fragment.getImageView();
-//                try {
-//                    new Tools().setPicToView(data, imageView, tag,  this, this);
-//                } catch (FileNotFoundException e) {
-//                    e.printStackTrace();
-//                }
                 imageView.setImageBitmap(bitmap);
             }
         }else if(requestCode == SELECT_CAMER) {
