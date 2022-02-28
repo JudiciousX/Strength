@@ -1,6 +1,9 @@
 package com.example.home;
 
 import android.app.Application;
+import android.content.Context;
+
+import androidx.multidex.MultiDex;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 
@@ -24,7 +27,13 @@ public class HomeApplication extends Application {
 
         }
 
-        private boolean isDebug() {
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
+
+    private boolean isDebug() {
             return BuildConfig.DEBUG;
         }
 

@@ -109,7 +109,7 @@ public class Splash extends AppCompatActivity {
                             editor.putString("phoneNumbers", response.body().getData());
                             editor.putString("code", code);
                             editor.apply();
-                            ARouter.getInstance().build("/message/message").navigation();
+                            ARouter.getInstance().build("/main/main").navigation();
                         }else {
                             ARouter.getInstance().build("/login/login").navigation();
                         }

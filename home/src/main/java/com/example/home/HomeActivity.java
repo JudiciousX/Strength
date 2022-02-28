@@ -25,6 +25,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
@@ -51,6 +52,7 @@ import com.example.home.poisearch.PoiSearch_adapter;
 import java.util.ArrayList;
 import java.util.List;
 
+@Route(path="/home/home")
 public class HomeActivity extends AppCompatActivity implements LocationSource,
         AMapLocationListener, AMap.OnCameraChangeListener, PoiSearch.OnPoiSearchListener{
 

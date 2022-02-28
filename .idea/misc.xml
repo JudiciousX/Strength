@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Strength/app/src/main/res/layout/activity_main.xml" value="0.13188798554652212" />
+        <entry key="..\:/Strength/app/src/main/res/layout/activity_splash.xml" value="0.13188798554652212" />
+        <entry key="..\:/Strength/court/src/main/res/layout/activity_court.xml" value="0.27037037037037037" />
+        <entry key="..\:/Strength/home/src/main/res/layout/activity_home.xml" value="0.27037037037037037" />
         <entry key="..\:/Strength/login/src/main/res/drawable/ic_launcher_background.xml" value="0.163" />
         <entry key="..\:/Strength/login/src/main/res/drawable/login_bg.xml" value="0.163" />
         <entry key="..\:/Strength/login/src/main/res/drawable/shape.xml" value="0.163" />
@@ -11,14 +15,20 @@
         <entry key="..\:/Strength/login/src/main/res/drawable/unlogin.xml" value="0.163" />
         <entry key="..\:/Strength/login/src/main/res/layout/fragment_amend_password.xml" value="0.13188798554652212" />
         <entry key="..\:/Strength/login/src/main/res/layout/fragment_forget_password.xml" value="0.22" />
+        <entry key="..\:/Strength/personal/src/main/res/drawable/backggg.xml" value="0.163" />
         <entry key="..\:/Strength/personal/src/main/res/drawable/translate_dialog_in.xml" value="0.128" />
+        <entry key="..\:/Strength/personal/src/main/res/layout/activity_personal.xml" value="0.13188798554652212" />
         <entry key="..\:/Strength/personal/src/main/res/layout/amend_data.xml" value="0.27037037037037037" />
         <entry key="..\:/Strength/personal/src/main/res/layout/amend_signature.xml" value="0.27037037037037037" />
         <entry key="..\:/Strength/personal/src/main/res/layout/amend_username.xml" value="0.3333333333333333" />
         <entry key="..\:/Strength/personal/src/main/res/layout/dialog_content_normal.xml" value="0.1" />
+        <entry key="..\:/Strength/personal/src/main/res/layout/fragment_blogs.xml" value="0.13188798554652212" />
         <entry key="..\:/Strength/personal/src/main/res/layout/fragment_collect.xml" value="0.1" />
+        <entry key="..\:/Strength/personal/src/main/res/layout/fragment_personal.xml" value="0.13188798554652212" />
         <entry key="..\:/Strength/personal/src/main/res/layout/item_background.xml" value="0.1" />
         <entry key="..\:/Strength/personal/src/main/res/layout/item_basic_information.xml" value="0.3333333333333333" />
+        <entry key="..\:/Strength/personal/src/main/res/layout/layout_picker_date.xml" value="0.27037037037037037" />
+        <entry key="..\:/Strength/personal/src/main/res/layout/tags_dialog.xml" value="0.27037037037037037" />
         <entry key="..\:/Strength/personal/src/main/res/layout/translate_dialog_in.xml" value="0.27037037037037037" />
       </map>
     </option>

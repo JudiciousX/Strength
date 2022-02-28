@@ -16,6 +16,9 @@ android {
         versionCode 1
         versionName "1.0"
 
+        // 这里添加
+        multiDexEnabled true
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions{				//配置ARouter
             annotationProcessorOptions{
@@ -45,6 +48,12 @@ android {
 }
 
 dependencies {
+    // 引入support支持库的multidex库
+    implementation 'com.android.support:multidex:1.0.3'
+    //或androidx支持库的multidex库
+    implementation 'androidx.multidex:multidex:2.0.1'
+    // NOTE: Do not place your application dependencies here; they belong
+    // in the individual module build.gradle files
 
     implementation 'androidx.core:core:1.5.0-alpha05'
     implementation 'androidx.appcompat:appcompat:1.2.0'

@@ -50,5 +50,8 @@ android {
 dependencies {
 
     implementation project(':Baselibs')
+    implementation 'androidx.test:monitor:1.4.0'
+    implementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'junit:junit:4.12'
     annotationProcessor rootProject.ext.annotationLibs		//注释处理器
 }

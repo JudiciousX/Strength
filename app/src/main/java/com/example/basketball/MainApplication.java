@@ -1,6 +1,9 @@
 package com.example.basketball;
 
 import android.app.Application;
+import android.content.Context;
+
+import androidx.multidex.MultiDex;
 
 import com.alibaba.android.arouter.BuildConfig;
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -34,5 +37,11 @@ public class MainApplication extends BaseApplication {
 
     @Override
     public void initover(Application application) {
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 }

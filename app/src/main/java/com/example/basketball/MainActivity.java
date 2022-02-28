@@ -16,6 +16,7 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.example.court.CourtFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.jetbrains.annotations.NotNull;
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 //fragmentTransaction.replace(R.id.main_frame, new AmendFragment(this)).commit();
                 break;
             case R.id.ball_game:
-                //替换碎片
+                fragmentTransaction.replace(R.id.main_frame, new CourtFragment()).commit();
                 break;
             case R.id.personal:
                 //替换碎片

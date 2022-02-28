@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.example.court.attention.AttentionFragment;
 import com.example.court.choice.ChoiceFragment;
 import com.google.android.material.tabs.TabLayout;
@@ -23,6 +24,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import java.util.ArrayList;
 import java.util.List;
 
+@Route(path="/court/court")
 public class CourtActivity extends AppCompatActivity {
 
     @Override
