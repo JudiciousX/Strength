@@ -8,6 +8,9 @@ android {
     compileSdkVersion 30
 
     defaultConfig {
+        if(is_Module.toBoolean()){
+            applicationId "com.example.court"
+    }
 
         minSdkVersion 16
         targetSdkVersion 30

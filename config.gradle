@@ -35,10 +35,6 @@ ext{
             "adapter"   : 'com.squareup.retrofit2:adapter-rxjava2:2.9.0'
     ]
 
-    ampLocation = [
-            "map" : '',
-            "location" : ''
-    ]
     androidxLibs = androidxDeps.values()
     commonLibs = commonDeps.values()
     annotationLibs = annotationDeps.values()
