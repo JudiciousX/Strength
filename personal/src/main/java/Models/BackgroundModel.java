@@ -6,11 +6,10 @@ import android.provider.MediaStore;
 public class BackgroundModel implements IBackgroundModel{
     @Override
     public Intent photo() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.addCategory(intent.CATEGORY_OPENABLE);
+        Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
-
         return intent;
+
     }
 
     @Override

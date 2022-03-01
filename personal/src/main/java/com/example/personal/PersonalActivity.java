@@ -29,14 +29,20 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Objects;
 
 import Adapter.Personal_Adapter;
 import Fragments.Personal_Fragment;
 import Tool.Tools;
 import de.hdodenhof.circleimageview.CircleImageView;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
 
 @Route(path = "/personal/personal")
 public class PersonalActivity extends AppCompatActivity {
@@ -47,6 +53,24 @@ public class PersonalActivity extends AppCompatActivity {
     private ImageView imageView;
     private CircleImageView circleImageView;
     private Personal_Fragment fragment;
+    /**
+     * 外部存储权限请求码
+     */
+    public static final int REQUEST_EXTERNAL_STORAGE_CODE = 9527;
+    /**
+     * 图片剪裁请求码
+     */
+    public static final int PICTURE_CROPPING_CODE = 200;
+
+
+    /**
+     * Glide请求图片选项配置
+     */
+    private RequestOptions requestOptions = RequestOptions
+            .circleCropTransform()//圆形剪裁
+            .diskCacheStrategy(DiskCacheStrategy.NONE)//不做磁盘缓存
+            .skipMemoryCache(true);//不做内存缓存
+
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -75,22 +99,20 @@ public class PersonalActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode != RESULT_OK) {
-            return;
-        }
-        if(requestCode == SELECT_PICTURE) {
+
+        if(requestCode == SELECT_PICTURE && resultCode == RESULT_OK) {
+            final Uri imageUri = Objects.requireNonNull(data).getData();
             String tag = fragment.getSign();
-            bitmap = new Tools().handle(resultCode, data, bitmap, this);
             if("0".equals(tag)) {
-                circleImageView = fragment.getCircleImageView();
-                circleImageView.setImageBitmap(bitmap);
+                pictureCropping2(imageUri);
             }else {
-                imageView = fragment.getImageView();
-                imageView.setImageBitmap(bitmap);
+                //图片剪裁
+                pictureCropping(imageUri);
             }
-        }else if(requestCode == SELECT_CAMER) {
-            Log.i("TAG", "相机");
+        }else if(requestCode == SELECT_CAMER && resultCode == RESULT_OK)  {
+
             if(data.getData() == null) {
+                Log.d("xxxxxx", "xxx");
                 bitmap = (Bitmap) data.getExtras().get("data");
                 String tag = fragment.getSign();
                 if("0".equals(tag)) {
@@ -100,36 +122,98 @@ public class PersonalActivity extends AppCompatActivity {
                     imageView = fragment.getImageView();
                     imageView.setImageBitmap(bitmap);
                 }
-            }else try{
-                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
+            }else {
+                Log.d("xxxxxx", "xxx");
+                final Uri imageUri = Objects.requireNonNull(data).getData();
                 String tag = fragment.getSign();
                 if("0".equals(tag)) {
-                    circleImageView = fragment.getCircleImageView();
-                    circleImageView.setImageBitmap(bitmap);
+                    pictureCropping2(imageUri);
                 }else {
-                    imageView = fragment.getImageView();
-                    imageView.setImageBitmap(bitmap);
+                    //图片剪裁
+                    pictureCropping(imageUri);
                 }
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+            }
+        }else if(requestCode == PICTURE_CROPPING_CODE && resultCode == RESULT_OK) {
+                //图片剪裁返回
+                Bundle bundle = data.getExtras();
+                Log.d("xxxxxx", "ooo");
+                if (bundle != null) {
+                    Log.d("xxxxxx", "ooo");
+                    //在这里获得了剪裁后的Bitmap对象，可以用于上传
+                    Bitmap image = bundle.getParcelable("data");
+                    //设置到ImageView上
+                    String tag = fragment.getSign();
+                    if("0".equals(tag)) {
+                        circleImageView = fragment.getCircleImageView();
+                        Glide.with(this).load(image).apply(requestOptions).into(circleImageView);
+                    }else {
+
+                        imageView = fragment.getImageView();
+                        imageView.setImageBitmap(image);
+                    }
             }
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case 1:
-                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        // 将结果转发给 EasyPermissions (添加的依赖库中的）
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
 
-                }else {
-                    Toast.makeText(this, "You denied the permission", Toast.LENGTH_SHORT).show();
-                }
-                break;
-            default:
+    @AfterPermissionGranted(REQUEST_EXTERNAL_STORAGE_CODE)
+    //注解的意思是权限通过后在调用一次该方法 根据内部参数权限码
+    private void requestPermission() {
+        //一个权限组只要有一个权限通过则代表整组权限通过
+        String[] param = {Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        if(EasyPermissions.hasPermissions(this, param)) {
+            showMsg("已获得权限");
+        }else {
+            //无权限 则进行权限请求
+            EasyPermissions.requestPermissions(this,"请求权限",REQUEST_EXTERNAL_STORAGE_CODE,param);
         }
+    }
+
+    private void showMsg(String msg) {
+        Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
+    }
+
+    private void pictureCropping(Uri uri) {
+        // 调用系统中自带的图片剪裁
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, "image/*");
+
+        // 下面这个crop=true是设置在开启的Intent中设置显示的VIEW可裁剪
+        intent.putExtra("crop", "true");
+        // aspectX aspectY 是宽高的比例
+        intent.putExtra("aspectX", 1080);
+        intent.putExtra("aspectY", 750);
+        // outputX outputY 是裁剪图片宽高
+        intent.putExtra("outputX", 432);
+        intent.putExtra("outputY", 300);
+
+        // 返回裁剪后的数据
+        intent.putExtra("return-data", true);
+        startActivityForResult(intent, PICTURE_CROPPING_CODE);
 
     }
+
+    private void pictureCropping2(Uri uri) {
+        // 调用系统中自带的图片剪裁
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, "image/*");
+        // 下面这个crop=true是设置在开启的Intent中设置显示的VIEW可裁剪
+        intent.putExtra("crop", "true");
+        // aspectX aspectY 是宽高的比例
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        // outputX outputY 是裁剪图片宽高
+        intent.putExtra("outputX", 300);
+        intent.putExtra("outputY", 300);
+        // 返回裁剪后的数据
+        intent.putExtra("return-data", true);
+        startActivityForResult(intent, PICTURE_CROPPING_CODE);
+    }
+
 }

@@ -188,6 +188,8 @@ public class Personal_Adapter extends RecyclerView.Adapter<Personal_Adapter.View
             case R.id.personal_background:
                 tag = "1";
                 dialog();
+                Log.d("xxxxxx", String.valueOf(imageView.getRight()));
+                Log.d("xxxxxx", String.valueOf(imageView.getBottom()));
                 break;
             case R.id.tv_camera:
                 Intent intent = backgroundPresenter.getModel().camera();
