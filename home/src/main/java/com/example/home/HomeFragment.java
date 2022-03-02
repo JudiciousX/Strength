@@ -12,9 +12,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -182,13 +181,18 @@ public class HomeFragment extends Fragment implements LocationSource,
 
     @Override
     public void onCameraChange(CameraPosition cameraPosition) {
+        aMap.clear();
     }
 
     @Override
     public void onCameraChangeFinish(CameraPosition cameraPosition) {
         latlng = cameraPosition.target;
         aMap.clear();
-        aMap.addMarker(new MarkerOptions().position(latlng));
+        MarkerOptions markerOption = new MarkerOptions().position(latlng)
+                .draggable(false)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.map_localicon));
+        //将数据添加到地图上
+        aMap.addMarker(markerOption);
         doSearchQuery();
     }
 
@@ -250,7 +254,17 @@ public class HomeFragment extends Fragment implements LocationSource,
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 
-            Intent intent = new Intent(getActivity(),ReserveActivity.class);
+            // 在Fragment1中创建Fragment2的实例
+
+//            Bundle bundle = new Bundle();
+////设置数据
+//            fragment2.setArguments(bundle);
+//调用上面的方法由 fragment1 跳转到 fragment2
+
+            Intent intent = new Intent(getActivity(), ReserveActivity.class);
+            intent.putExtra("court_name",poiItems.get(position).getTitle());
+            intent.putExtra("court_latitude",poiItems.get(position).getLatLonPoint().getLatitude());
+            intent.putExtra("court_longitude",poiItems.get(position).getLatLonPoint().getLongitude());
             startActivity(intent);
 
 //            latlng = new LatLng(poiItems.get(position).getLatLonPoint().getLatitude(), poiItems.get(position).getLatLonPoint().getLongitude());
@@ -266,4 +280,5 @@ public class HomeFragment extends Fragment implements LocationSource,
 //            finish();
         }
     }
+
 }
