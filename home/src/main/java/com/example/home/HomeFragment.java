@@ -65,20 +65,17 @@ public class HomeFragment extends Fragment implements LocationSource,
     private AMapLocationClient mLocationClient = null;
     private AMapLocationClientOption locationOption = null;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        MapsInitializer.updatePrivacyShow(context,true,true);
-        MapsInitializer.updatePrivacyAgree(context,true);
-        initLocation();
-    }
 
     public View onCreateView( LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        context = getContext();
         mapView = view.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
         mapList = view.findViewById(R.id.map_list);
         textView = view.findViewById(R.id.local);
+        MapsInitializer.updatePrivacyShow(context,true,true);
+        MapsInitializer.updatePrivacyAgree(context,true);
+        initLocation();
         return view ;
     }
     private void initLocation(){
@@ -136,7 +133,7 @@ public class HomeFragment extends Fragment implements LocationSource,
         if(latlng!=null) {
             LatLonPoint lp = new LatLonPoint(latlng.latitude, latlng.longitude);
             try {
-                poiSearch = new PoiSearch(context, query);
+                poiSearch = new PoiSearch(context.getApplicationContext(), query);
             } catch (AMapException e) {
                 e.printStackTrace();
             }
@@ -206,7 +203,7 @@ public class HomeFragment extends Fragment implements LocationSource,
                     List<SuggestionCity> suggestionCities = poiResult
                             .getSearchSuggestionCitys();
                     if (poiItems != null && poiItems.size() > 0) {
-                        adapter = new PoiSearch_adapter(context, poiItems);
+                        adapter = new PoiSearch_adapter(context.getApplicationContext(), poiItems);
                         mapList.setAdapter(adapter);
                         mapList.setOnItemClickListener(new HomeFragment.mOnItemClickListener());
                     }

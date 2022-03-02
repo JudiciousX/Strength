@@ -55,50 +55,6 @@ import java.util.List;
 @Route(path="/home/home")
 public class HomeActivity extends AppCompatActivity{
 
-    /**
-     //     * 更新隐私合规状态,需要在初始化地图之前完成
-     //     *
-     //     * @param context:    上下文
-     //     * @param isContains: 隐私权政策是否包含高德开平隐私权政策  true是包含
-     //     * @param isShow:     隐私权政策是否弹窗展示告知用户 true是展示
-     //     * @since 8.1.0
-     //     */
-    public static void updatePrivacyShow(Context context, boolean isContains, boolean isShow){
-
-    }
-
-    /**
-     * 更新同意隐私状态,需要在初始化地图之前完成
-     *
-     * @param context: 上下文
-     * @param isAgree: 隐私权政策是否取得用户同意  true是用户同意
-     * @since 8.1.0
-     */
-    public static void updatePrivacyAgree(Context context, boolean isAgree) {
-
-    }
-
-
-    MapView mapView;
-    ListView mapList;
-    TextView textView;
-//    private AMapLocationClient mLocationClient;
-    private LocationSource.OnLocationChangedListener mListener;
-    private AMapLocation aMapLocation;
-    private LatLng latlng;
-    private String city = null;
-    private AMap aMap;
-    private Marker locationMarker; // 选择的点
-    private String deepType = "";// poi搜索类型
-    private PoiSearch.Query query;// Poi查询条件类
-    private PoiSearch poiSearch;
-    private PoiResult poiResult; // poi返回的结果
-    private List<PoiItem> poiItems;// poi数据
-    private PoiSearch_adapter adapter; //普通的 ListView 的 adapter，需根据需要自行编写
-    //声明AMapLocationClient类对象
-    private AMapLocationClient mLocationClient = null;
-    private AMapLocationClientOption locationOption = null;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
