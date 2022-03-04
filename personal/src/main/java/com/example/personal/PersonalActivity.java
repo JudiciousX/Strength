@@ -24,6 +24,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -35,7 +36,9 @@ import com.bumptech.glide.request.RequestOptions;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
+
 
 import Adapter.Personal_Adapter;
 import Fragments.Personal_Fragment;
@@ -49,7 +52,7 @@ public class PersonalActivity extends AppCompatActivity {
     private static Bitmap bitmap;
     private int SELECT_PICTURE = 0x00;
     private int SELECT_CAMER = 0x01;
-
+    private List<View> head;
     private ImageView imageView;
     private CircleImageView circleImageView;
     private Personal_Fragment fragment;
@@ -114,16 +117,16 @@ public class PersonalActivity extends AppCompatActivity {
             if(data.getData() == null) {
                 Log.d("xxxxxx", "xxx");
                 bitmap = (Bitmap) data.getExtras().get("data");
+                Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, null,null));
                 String tag = fragment.getSign();
                 if("0".equals(tag)) {
-                    circleImageView = fragment.getCircleImageView();
-                    circleImageView.setImageBitmap(bitmap);
+                    pictureCropping2(uri);
                 }else {
-                    imageView = fragment.getImageView();
-                    imageView.setImageBitmap(bitmap);
+                    //图片剪裁
+                    pictureCropping(uri);
                 }
             }else {
-                Log.d("xxxxxx", "xxx");
+                Log.d("xxxxxx", "xx");
                 final Uri imageUri = Objects.requireNonNull(data).getData();
                 String tag = fragment.getSign();
                 if("0".equals(tag)) {
@@ -144,12 +147,18 @@ public class PersonalActivity extends AppCompatActivity {
                     //设置到ImageView上
                     String tag = fragment.getSign();
                     if("0".equals(tag)) {
+                        head = fragment.getList1();
                         circleImageView = fragment.getCircleImageView();
+                        for(View view : head) {
+                            Log.d("xxxxxxxx", view.toString());
+                            Glide.with(this).load(image).apply(requestOptions).into((CircleImageView) view);
+                        }
                         Glide.with(this).load(image).apply(requestOptions).into(circleImageView);
                     }else {
 
                         imageView = fragment.getImageView();
-                        imageView.setImageBitmap(image);
+                        //imageView.setImageBitmap(image);
+                        Glide.with(this).load(image).into(imageView);
                     }
             }
         }

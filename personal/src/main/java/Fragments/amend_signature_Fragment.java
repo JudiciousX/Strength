@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,11 +16,14 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.personal.R;
 
+import Tool.ReplaceFragment;
+
 public class amend_signature_Fragment extends Fragment implements View.OnClickListener{
     Button back;
     TextView over;
     private Context context;
     private FragmentTransaction fragmentTransaction;
+    private EditText signature_signature;
 
     public amend_signature_Fragment(Context context) {
         this.context = context;
@@ -34,6 +38,7 @@ public class amend_signature_Fragment extends Fragment implements View.OnClickLi
     }
 
     private void init(View view) {
+        signature_signature = view.findViewById(R.id.signature_signature);
         fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         back = view.findViewById(R.id.signature_back);
         back.setOnClickListener(this);
@@ -46,8 +51,11 @@ public class amend_signature_Fragment extends Fragment implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.signature_over:
+                Personal_Fragment.dataClass.setSignature(signature_signature.getText().toString());
+                Personal_Fragment.signature.setText(signature_signature.getText().toString());
             case R.id.signature_back:
-                fragmentTransaction.replace(R.id.personal_frame, new Personal_Fragment(context, getActivity())).commit();
+                getActivity().onBackPressed();
+                //ReplaceFragment.showFragment(fragmentTransaction, this, new Personal_Fragment(context, getActivity()));
                 break;
 
         }

@@ -1,7 +1,11 @@
 package Models;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
+
+import java.io.File;
 
 public class BackgroundModel implements IBackgroundModel{
     @Override
@@ -15,9 +19,9 @@ public class BackgroundModel implements IBackgroundModel{
     @Override
     public Intent camera() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra("111", "00");
         return intent;
     }
+
 
     @Override
     public void gain() {

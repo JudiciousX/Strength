@@ -12,6 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.personal.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import Adapter.Blogs_Adapter;
 
 public class Recycler_Fragment extends Fragment {
@@ -19,6 +22,7 @@ public class Recycler_Fragment extends Fragment {
     private Context context;
     private int id;
     private RecyclerView.Adapter adapter;
+    private List<View> list = new ArrayList<>();
 
     public Recycler_Fragment(Context context, int id, RecyclerView.Adapter adapter) {
         this.context = context;
@@ -33,6 +37,8 @@ public class Recycler_Fragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
+
         return view;
+
     }
 }

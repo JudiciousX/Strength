@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/tag_title0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="设置兴趣标签"
+        android:textSize="19dp"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
         android:id="@+id/tag_title"
@@ -11,7 +24,16 @@
         android:text="全部标签"
         android:textSize="16dp"
         android:layout_margin="10dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tag_title0"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <Button
+        android:id="@+id/tag_button"
+        android:layout_width="35dp"
+        android:background="@drawable/over"
+        android:layout_height="35dp"
+        android:layout_margin="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
@@ -22,10 +44,10 @@
         android:gravity="center"
         android:textSize="17dp"
         android:background="@drawable/backggg"
-        android:layout_margin="10dp"
+        android:layout_marginTop="13dp"
         app:layout_constraintEnd_toStartOf="@id/tag_tag2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tag_title"/>
+        app:layout_constraintTop_toBottomOf="@+id/tag_title" />
 
     <TextView
         android:id="@+id/tag_tag2"
@@ -34,7 +56,6 @@
         android:text="  足球  "
         android:background="@drawable/backggg"
         android:textSize="17dp"
-        android:layout_margin="10dp"
         app:layout_constraintEnd_toStartOf="@id/tag_tag3"
         app:layout_constraintStart_toEndOf="@id/tag_tag1"
         app:layout_constraintTop_toTopOf="@id/tag_tag1"
@@ -47,7 +68,6 @@
         android:text="  羽毛球  "
         android:background="@drawable/backggg"
         android:textSize="17dp"
-        android:layout_margin="10dp"
         app:layout_constraintEnd_toStartOf="@id/tag_tag4"
         app:layout_constraintStart_toEndOf="@id/tag_tag2"
         app:layout_constraintTop_toTopOf="@id/tag_tag2"
@@ -60,11 +80,146 @@
         android:text="  乒乓球  "
         android:background="@drawable/backggg"
         android:textSize="17dp"
-        android:layout_margin="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tag_tag3"
         app:layout_constraintTop_toTopOf="@id/tag_tag3"
         app:layout_constraintBottom_toBottomOf="@id/tag_tag3"/>
+
+    <TextView
+        android:id="@+id/tag_tag5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="  排球  "
+        android:background="@drawable/backggg"
+        android:textSize="17dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tag_tag6"
+        app:layout_constraintTop_toBottomOf="@id/tag_tag1"/>
+
+    <TextView
+        android:id="@+id/tag_tag6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="  台球  "
+        android:background="@drawable/backggg"
+        android:textSize="17dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toStartOf="@id/tag_tag7"
+        app:layout_constraintStart_toEndOf="@id/tag_tag5"
+        app:layout_constraintTop_toBottomOf="@id/tag_tag2"/>
+
+    <TextView
+        android:id="@+id/tag_tag7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="  网球  "
+        android:background="@drawable/backggg"
+        android:textSize="17dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toStartOf="@id/tag_tag8"
+        app:layout_constraintStart_toEndOf="@id/tag_tag6"
+        app:layout_constraintTop_toBottomOf="@id/tag_tag3"/>
+
+    <TextView
+        android:id="@+id/tag_tag8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="  曲棍球  "
+        android:background="@drawable/backggg"
+        android:textSize="17dp"
+        android:layout_marginTop="10dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tag_tag7"
+        app:layout_constraintTop_toBottomOf="@id/tag_tag4"/>
+
+    <TextView
+        android:id="@+id/tag_tag9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="  保龄球  "
+        android:background="@drawable/backggg"
+        android:textSize="17dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toStartOf="@id/tag_tag10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tag_tag5"/>
+
+    <TextView
+        android:id="@+id/tag_tag10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="  高尔夫球  "
+        android:background="@drawable/backggg"
+        android:textSize="17dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toStartOf="@id/tag_tag11"
+        app:layout_constraintStart_toEndOf="@id/tag_tag9"
+        app:layout_constraintTop_toBottomOf="@id/tag_tag6"/>
+
+    <TextView
+        android:id="@+id/tag_tag11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="  棒球  "
+        android:background="@drawable/backggg"
+        android:textSize="17dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toStartOf="@id/tag_tag12"
+        app:layout_constraintStart_toEndOf="@id/tag_tag10"
+        app:layout_constraintTop_toBottomOf="@id/tag_tag7"/>
+
+    <TextView
+        android:id="@+id/tag_tag12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="  垒球  "
+        android:background="@drawable/backggg"
+        android:textSize="17dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tag_tag11"
+        app:layout_constraintTop_toBottomOf="@id/tag_tag7"/>
+
+    <TextView
+        android:id="@+id/tag_tag13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="  冰球  "
+        android:background="@drawable/backggg"
+        android:textSize="17dp"
+        android:layout_margin="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tag_tag14"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tag_tag9"/>
+
+    <TextView
+        android:id="@+id/tag_tag14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="  水球  "
+        android:background="@drawable/backggg"
+        android:textSize="17dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tag_tag15"
+        app:layout_constraintStart_toEndOf="@id/tag_tag13"
+        app:layout_constraintTop_toBottomOf="@id/tag_tag10"/>
+
+    <TextView
+        android:id="@+id/tag_tag15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="  弹球  "
+        android:background="@drawable/backggg"
+        android:textSize="17dp"
+        android:layout_margin="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tag_tag14"
+        app:layout_constraintTop_toBottomOf="@id/tag_tag11"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,12 +23,16 @@ import java.util.List;
 
 import Tool.DatePickerDialog;
 import Tool.DateUtil;
+import Tool.ReplaceFragment;
 
 public class amend_data_Fragment extends Fragment implements View.OnClickListener {
     Context context;
     Button back;
     TextView over;
     TextView birthday;
+    private EditText signature;
+    private RadioGroup radioGroup;
+    private EditText username;
     private Dialog dateDialog;
     private FragmentTransaction fragmentTransaction;
     @Override
@@ -38,11 +44,17 @@ public class amend_data_Fragment extends Fragment implements View.OnClickListene
 
     private void init(View view) {
         fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        username = view.findViewById(R.id.tag2);
+        username.setText(Personal_Fragment.dataClass.getUsername());
+        radioGroup = view.findViewById(R.id.tag6);
+        signature = view.findViewById(R.id.tag4);
+        signature.setText(Personal_Fragment.dataClass.getSignature());
         back = view.findViewById(R.id.data_back);
         back.setOnClickListener(this);
         over = view.findViewById(R.id.data_over);
         over.setOnClickListener(this);
         birthday = view.findViewById(R.id.data_birthday);
+        birthday.setText(Personal_Fragment.dataClass.getBirthday());
         birthday.setOnClickListener(this);
     }
 
@@ -52,7 +64,7 @@ public class amend_data_Fragment extends Fragment implements View.OnClickListene
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void Birthday() {
-        showDateDialog(DateUtil.getDateForString("1990-01-01"));
+        showDateDialog(DateUtil.getDateForString(Personal_Fragment.dataClass.getBirthday()));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -89,8 +101,26 @@ public class amend_data_Fragment extends Fragment implements View.OnClickListene
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.data_over:
+                Personal_Fragment.dataClass.setUsername(username.getText().toString());
+                Personal_Fragment.dataClass.setSignature(signature.getText().toString());
+                Personal_Fragment.signature.setText(signature.getText().toString());
+                Personal_Fragment.name.setText(username.getText().toString());
+                for(View view1 : Personal_Fragment.list2) {
+                    TextView v = (TextView) view1;
+                    v.setText(username.getText().toString());
+                }
+                if(radioGroup.getCheckedRadioButtonId() == R.id.boy) {
+                    Personal_Fragment.dataClass.setSex((short) 1);
+                    Personal_Fragment.personal_sex.setBackgroundResource(R.drawable.boy);
+                }else {
+                    Personal_Fragment.dataClass.setSex((short) 0);
+                    Personal_Fragment.personal_sex.setBackgroundResource(R.drawable.girl);
+                }
+                Personal_Fragment.dataClass.setBirthday(birthday.getText().toString());
+
             case R.id.data_back:
-                fragmentTransaction.replace(R.id.personal_frame, new Personal_Fragment(context, getActivity())).commit();
+                getActivity().onBackPressed();
+                //ReplaceFragment.showFragment(fragmentTransaction,this, new Personal_Fragment(context, getActivity()));
                 break;
             case R.id.data_birthday:
                 Birthday();
@@ -98,4 +128,6 @@ public class amend_data_Fragment extends Fragment implements View.OnClickListene
 
         }
     }
+
+
 }
