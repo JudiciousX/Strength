@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="发球局"
+        android:layout_marginTop="10dp"
+        android:textSize="25dp"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <View
+        android:id="@+id/court_line"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/classic"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/court_local"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/court_local"
+        app:layout_constraintTop_toBottomOf="@+id/court_line"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+    <EditText
+        android:id="@+id/court_local_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/court_line"
+        app:layout_constraintStart_toEndOf="@+id/court_local"
+        android:hint="请输入球场地点..."/>
+
+    <ImageView
+        android:id="@+id/court_time"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/court_time"
+        android:layout_marginTop="25dp"
+        app:layout_constraintTop_toBottomOf="@+id/court_local"
+        app:layout_constraintStart_toStartOf="parent"/>
+    <TextView
+        android:id="@+id/court_time_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="点击选择时间"
+        android:textSize="16dp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/court_local_text"
+        app:layout_constraintStart_toEndOf="@id/court_time"/>
+
+    <EditText
+        android:id="@+id/court_context"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginTop="15dp"
+        android:hint="请输入内容..."
+        android:padding="10dp"
+        android:gravity="top"
+        android:background="@drawable/edit_bg"
+        app:layout_constraintTop_toBottomOf="@+id/court_time_text"
+        app:layout_constraintStart_toStartOf="parent"/>
+    <Button
+        android:id="@+id/issue_publish"
+        android:layout_marginRight="15dp"
+        android:background="@color/classic"
+        android:text="发布"
+        android:textColor="@color/white"
+        android:textSize="25dp"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+/>
+</androidx.constraintlayout.widget.ConstraintLayout>
