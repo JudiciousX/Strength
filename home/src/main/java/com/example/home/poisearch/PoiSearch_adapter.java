@@ -1,20 +1,16 @@
 package com.example.home.poisearch;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.amap.api.services.core.PoiItem;
-import com.example.home.HomeActivity;
 import com.example.home.R;
-import com.example.home.ReserveActivity;
 
 import java.util.List;
 
@@ -54,12 +50,6 @@ public class PoiSearch_adapter extends BaseAdapter {
         PoiItem item = poiItems.get(position);
         holder.title.setText(item.getTitle());
         holder.des.setText(item.getSnippet());
-        holder.res.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ARouter.getInstance().build("/reserve/reserve").navigation();
-            }
-        });
         if(item.getDistance()<=1000){
             holder.dis.setText("距离"+String.valueOf(item.getDistance())+"米");
         }else

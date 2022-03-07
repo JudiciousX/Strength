@@ -12,9 +12,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -65,20 +64,17 @@ public class HomeFragment extends Fragment implements LocationSource,
     private AMapLocationClient mLocationClient = null;
     private AMapLocationClientOption locationOption = null;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        MapsInitializer.updatePrivacyShow(context,true,true);
-        MapsInitializer.updatePrivacyAgree(context,true);
-        initLocation();
-    }
 
     public View onCreateView( LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        context = getContext();
         mapView = view.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
         mapList = view.findViewById(R.id.map_list);
         textView = view.findViewById(R.id.local);
+        MapsInitializer.updatePrivacyShow(context,true,true);
+        MapsInitializer.updatePrivacyAgree(context,true);
+        initLocation();
         return view ;
     }
     private void initLocation(){
@@ -136,7 +132,7 @@ public class HomeFragment extends Fragment implements LocationSource,
         if(latlng!=null) {
             LatLonPoint lp = new LatLonPoint(latlng.latitude, latlng.longitude);
             try {
-                poiSearch = new PoiSearch(context, query);
+                poiSearch = new PoiSearch(context.getApplicationContext(), query);
             } catch (AMapException e) {
                 e.printStackTrace();
             }
@@ -185,13 +181,18 @@ public class HomeFragment extends Fragment implements LocationSource,
 
     @Override
     public void onCameraChange(CameraPosition cameraPosition) {
+        aMap.clear();
     }
 
     @Override
     public void onCameraChangeFinish(CameraPosition cameraPosition) {
         latlng = cameraPosition.target;
         aMap.clear();
-        aMap.addMarker(new MarkerOptions().position(latlng));
+        MarkerOptions markerOption = new MarkerOptions().position(latlng)
+                .draggable(false)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.map_localicon));
+        //将数据添加到地图上
+        aMap.addMarker(markerOption);
         doSearchQuery();
     }
 
@@ -206,7 +207,7 @@ public class HomeFragment extends Fragment implements LocationSource,
                     List<SuggestionCity> suggestionCities = poiResult
                             .getSearchSuggestionCitys();
                     if (poiItems != null && poiItems.size() > 0) {
-                        adapter = new PoiSearch_adapter(context, poiItems);
+                        adapter = new PoiSearch_adapter(context.getApplicationContext(), poiItems);
                         mapList.setAdapter(adapter);
                         mapList.setOnItemClickListener(new HomeFragment.mOnItemClickListener());
                     }
@@ -253,7 +254,17 @@ public class HomeFragment extends Fragment implements LocationSource,
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 
-            Intent intent = new Intent(getActivity(),ReserveActivity.class);
+            // 在Fragment1中创建Fragment2的实例
+
+//            Bundle bundle = new Bundle();
+////设置数据
+//            fragment2.setArguments(bundle);
+//调用上面的方法由 fragment1 跳转到 fragment2
+
+            Intent intent = new Intent(getActivity(), ReserveActivity.class);
+            intent.putExtra("court_name",poiItems.get(position).getTitle());
+            intent.putExtra("court_latitude",poiItems.get(position).getLatLonPoint().getLatitude());
+            intent.putExtra("court_longitude",poiItems.get(position).getLatLonPoint().getLongitude());
             startActivity(intent);
 
 //            latlng = new LatLng(poiItems.get(position).getLatLonPoint().getLatitude(), poiItems.get(position).getLatLonPoint().getLongitude());
@@ -269,4 +280,5 @@ public class HomeFragment extends Fragment implements LocationSource,
 //            finish();
         }
     }
+
 }
