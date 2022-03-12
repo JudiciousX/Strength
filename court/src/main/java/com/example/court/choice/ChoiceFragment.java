@@ -1,9 +1,13 @@
 package com.example.court.choice;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,11 +16,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.court.CourtAdapter;
 import com.example.court.Court_Context;
 import com.example.court.R;
+import com.example.court.RobActivity;
 
 import java.util.ArrayList;
 
 public class ChoiceFragment extends Fragment {
     private View view;
+    private ImageView button;
 
     private ArrayList<Court_Context> list = new ArrayList<>();
 
@@ -31,6 +37,7 @@ public class ChoiceFragment extends Fragment {
         CourtAdapter adapter = new CourtAdapter(getActivity(), list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
+
     }
     public void initContext(){
         for(int i = 0 ;i<20;i++){

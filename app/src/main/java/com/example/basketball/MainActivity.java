@@ -17,11 +17,13 @@ import android.widget.FrameLayout;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.example.court.CourtFragment;
+import com.example.home.HomeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.jetbrains.annotations.NotNull;
 
 import Fragments.AmendFragment;
+import Fragments.ForgetFragment;
 
 
 @Route(path = "/main/main")
@@ -51,13 +53,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         switch (item.getItemId()) {
             case R.id.home:
                 //例子
-                //fragmentTransaction.replace(R.id.main_frame, new AmendFragment(this)).commit();
+                fragmentTransaction.replace(R.id.main_frame, new HomeFragment()).commit();
                 break;
             case R.id.ball_game:
                 fragmentTransaction.replace(R.id.main_frame, new CourtFragment()).commit();
                 break;
             case R.id.personal:
                 //替换碎片
+                fragmentTransaction.replace(R.id.main_frame, new ForgetFragment(this,this)).commit();
                 break;
         }
         return true;

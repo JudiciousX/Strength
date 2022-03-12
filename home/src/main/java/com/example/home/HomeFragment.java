@@ -1,5 +1,6 @@
 package com.example.home;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -50,6 +51,7 @@ public class HomeFragment extends Fragment implements LocationSource,
     //    private AMapLocationClient mLocationClient;
     private LocationSource.OnLocationChangedListener mListener;
     private AMapLocation aMapLocation;
+    private Activity activity;
     private LatLng latlng;
     private String city = null;
     private AMap aMap;
@@ -75,27 +77,7 @@ public class HomeFragment extends Fragment implements LocationSource,
         MapsInitializer.updatePrivacyShow(context,true,true);
         MapsInitializer.updatePrivacyAgree(context,true);
         initLocation();
-        return view ;
-    }
-    private void initLocation(){
-//        //初始化client
-//        mLocationClient = new AMapLocationClient(this.getApplicationContext());
-//        locationOption =getDefaultOption();
-//        //设置定位参数
-//        mLocationClient.setLocationOption(locationOption);
-//        // 设置定位监听
-//        mLocationClient.setLocationListener(locationListener);
-        if (aMap == null) {
-            aMap = mapView.getMap();
-            aMap.setOnCameraChangeListener(this);
-            setUpMap();
-//                doSearchQuery();
-        }
-        deepType = "010000";//这里以餐饮为例
-    }
-    //-------- 定位 Start ------
-
-    private void setUpMap() {
+        //-------- 定位 Start ------
         if (mLocationClient == null) {
             mLocationClient = new AMapLocationClient(context.getApplicationContext());
             AMapLocationClientOption mLocationOption = new AMapLocationClientOption();
@@ -118,14 +100,27 @@ public class HomeFragment extends Fragment implements LocationSource,
         aMap.setLocationSource(this);// 设置定位监听
         aMap.getUiSettings().setMyLocationButtonEnabled(true);// 设置默认定位按钮是否显示
         aMap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
+        //开始搜索
         doSearchQuery();
+        return view ;
     }
+    private void initLocation(){
+        if (aMap == null) {
+            aMap = mapView.getMap();
+            aMap.setOnCameraChangeListener(this);
+//            setUpMap();
+//                doSearchQuery();
+        }
+        deepType = "010000";//这里以餐饮为例
+    }
+    //-------- 定位 Start ------
+
     /**
      * 开始进行poi搜索
      */
     protected void doSearchQuery() {
 //            aMap.setOnMapClickListener(null);// 进行poi搜索时清除掉地图点击事件
-        query = new PoiSearch.Query("火锅", "", city);// 第一个参数表示搜索字符串，第二个参数表示poi搜索类型，第三个参数表示poi搜索区域（空字符串代表全国）
+        query = new PoiSearch.Query("篮球", "", city);// 第一个参数表示搜索字符串，第二个参数表示poi搜索类型，第三个参数表示poi搜索区域（空字符串代表全国）
         query.setPageSize(20);// 设置每页最多返回多少条poiitem
         query.setPageNum(1);// 设置查第一页
 //        getLatlon(city);
@@ -202,7 +197,7 @@ public class HomeFragment extends Fragment implements LocationSource,
             if (result != null && result.getQuery() != null) {// 搜索poi的结果
                 if (result.getQuery().equals(query)) {// 是否是同一条
                     poiResult = result;
-                    poiItems = poiResult.getPois();// 取得第一页的poiitem数据，页数从数字0开始
+                    poiItems = poiResult.getPois();// 取得第一页的poiItem数据，页数从数字0开始
                     Log.d("conttte", poiItems.get(1).toString());
                     List<SuggestionCity> suggestionCities = poiResult
                             .getSearchSuggestionCitys();

@@ -32,11 +32,6 @@ public class CourtFragment extends Fragment{
                         ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View view = inflater.inflate(R.layout.court_fragment, container, false);
-        initView(view);
-        return view;
-    }
-
-    private void initView(View view){
         TabLayout tabLayout = view.findViewById(R.id.court_toolbar_tablayout);
         ViewPager2 viewPager = view.findViewById(R.id.court_toolbar_viewpager);
         Button button = view.findViewById(R.id.court_toolbar_add);
@@ -64,6 +59,7 @@ public class CourtFragment extends Fragment{
                 startActivity(intent);
             }
         });
+        return view;
     }
 
     static class MyFragmentPagerAdapter extends FragmentStateAdapter {
