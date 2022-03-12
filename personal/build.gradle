@@ -48,6 +48,7 @@ android {
 }
 
 dependencies {
+    //implementation project(':login')
     //  google权限管理框架
     implementation 'pub.devrel:easypermissions:3.0.0'
     //热门强大的图片加载器

@@ -83,7 +83,6 @@ public class Personal_Fragment extends Fragment{
         dataClass.setUsername("摩西摩西");
         dataClass.setSex((short) 1);
         dataClass.setPhone_numbers("123456");
-        Date date = new Date(20020212);
         dataClass.setBirthday("2002-01-03");
         dataClass.setSignature("没想好");
         fragment = this;
@@ -92,7 +91,7 @@ public class Personal_Fragment extends Fragment{
             @Override
             public void onClick(View view) {
                 fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                ReplaceFragment.showFragment(fragmentTransaction, fragment,  new amend_data_Fragment(context));
+                ReplaceFragment.showFragment(fragmentTransaction, fragment,  new more_Fragment());
             }
         });
         activity = getActivity();

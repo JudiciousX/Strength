@@ -20,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
         button2 = findViewById(R.id.message);
         ARouter.getInstance().inject(this);
 
+
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
