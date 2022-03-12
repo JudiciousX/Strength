@@ -23,8 +23,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:labelVisibilityMode="labeled"
-        app:itemTextAppearanceActive="@color/orange"
-        app:itemTextAppearanceInactive="@color/white"
+        app:itemBackground="@color/white"
+        app:itemIconTint="@color/selector_color"
+        app:itemTextColor="@color/selector_color"
+        app:itemRippleColor="@null"
         app:menu="@menu/navigation"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

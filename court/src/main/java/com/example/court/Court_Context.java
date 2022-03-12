@@ -1,12 +1,18 @@
 package com.example.court;
 
-    public class  Court_Context {
+import android.content.Intent;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+
+public class  Court_Context {
 
         private int profile;
         private String name;
         private String address;
         private String time;
         private String information;
+
 
         public int getProfile() {
             return profile;
@@ -47,5 +53,7 @@ package com.example.court;
         public void setInformation(String information) {
             this.information = information;
         }
+
+
     }
 

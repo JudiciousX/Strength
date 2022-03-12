@@ -101,18 +101,17 @@
                 android:text="5V5交流赛，欢迎切磋"
                 android:textColor="@color/black"/>
 
-            <Button
-                android:layout_width="70dp"
+            <ImageView
+                android:id="@+id/court_rob"
+                android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:background="@drawable/rob_bg"
                 android:layout_below="@+id/court_information"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="6dp"
                 android:layout_marginEnd="15dp"
-                android:text="抢"
-                android:textColor="@color/white"
                 android:layout_marginRight="295dp"
-                app:backgroundTint="@color/classic"
                 />
 
 

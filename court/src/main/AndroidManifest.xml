@@ -4,6 +4,8 @@
 
     <application>
         <activity android:name=".CourtActivity"></activity>
+        <activity android:name=".IssueActivity"></activity>
+        <activity android:name=".RobActivity"></activity>
     </application>
 
 </manifest>
