@@ -116,7 +116,7 @@ public class Personal_Adapter extends RecyclerView.Adapter<Personal_Adapter.View
                     personal_sex.setBackgroundResource(R.drawable.girl);
                 }
                 personal_phone = view1.findViewById(R.id.personal_phone);
-                personal_phone.setText("ID:" + Personal_Fragment.dataClass.getPhone_numbers());
+                personal_phone.setText("ID:" + Personal_Fragment.dataClass.getPhoneNumbers());
                 circleImageView = view1.findViewById(R.id.personal_photo);
                 circleImageView.setOnClickListener(this);
                 personal_username = view1.findViewById(R.id.personal_username);

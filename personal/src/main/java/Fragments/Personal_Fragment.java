@@ -26,12 +26,12 @@ import java.util.Date;
 import java.util.List;
 
 import Adapter.Personal_Adapter;
-import Tool.DataClass;
 import Tool.ReplaceFragment;
+import Tool.User;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Personal_Fragment extends Fragment{
-    public static DataClass dataClass;
+    public static User dataClass;
     public static final String TAG = "RightFragment";
     public static List<String> tags;
     private TextView textView;
@@ -56,7 +56,6 @@ public class Personal_Fragment extends Fragment{
 
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_personal, container, false);
@@ -74,15 +73,15 @@ public class Personal_Fragment extends Fragment{
 
 
     public void init(View view) {
-        dataClass = new DataClass();
+        dataClass = new User();
         tags = new ArrayList<>();
         tags.add("  篮球  ");
         tags.add("  足球  ");
         tags.add("  乒乓球  ");
-        dataClass.setLabel(tags);
+        dataClass.setLabel(tags.toString());
         dataClass.setUsername("摩西摩西");
         dataClass.setSex((short) 1);
-        dataClass.setPhone_numbers("123456");
+        dataClass.setPhoneNumbers("123456");
         dataClass.setBirthday("2002-01-03");
         dataClass.setSignature("没想好");
         fragment = this;

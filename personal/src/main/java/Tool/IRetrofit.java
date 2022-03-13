@@ -1,8 +1,9 @@
 package Tool;
 
+import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class Retrofit {
+public class IRetrofit {
     public Retrofit getRetrofit() {
         //网络请求
         Retrofit retrofit = new Retrofit.Builder()
