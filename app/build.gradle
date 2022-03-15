@@ -12,6 +12,9 @@ android {
         versionCode 1
         versionName "1.0"
 
+        // 这里添加
+        multiDexEnabled true
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions{				//配置ARouter
             annotationProcessorOptions{
@@ -33,17 +36,32 @@ android {
 }
 
 dependencies {
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    //  google权限管理框架
+    implementation 'pub.devrel:easypermissions:3.0.0'
+    //热门强大的图片加载器
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    // 引入support支持库的multidex库
+    implementation 'com.android.support:multidex:1.0.3'
+    //或androidx支持库的multidex库
+    implementation 'androidx.multidex:multidex:2.0.1'
+    // NOTE: Do not place your application dependencies here; they belong
+    // in the individual module build.gradle files
     implementation project(":Baselibs")
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+    implementation project(path: ':personal')
+    implementation project(path: ':court')
     annotationProcessor rootProject.ext.annotationLibs		//注释处理器
     if(!is_Module.toBoolean()){
+        implementation project(":home")
         implementation project(":login")
-        implementation project(":message")
         implementation project(":personal")
+        implementation project(":court")
     }
-    testImplementation 'junit:junit:4.+'
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0' // ViewPager 2 需要使用 RecycleView 的 adapter    testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'io.github.meetsl:SCardView:1.1'

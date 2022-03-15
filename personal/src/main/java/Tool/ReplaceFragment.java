@@ -1,7 +1,6 @@
 package Tool;
 
-import android.app.Activity;
-import android.content.Context;
+import android.util.Log;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -10,10 +9,12 @@ import com.example.personal.R;
 
 public class ReplaceFragment {
 
-    public static void showFragment(FragmentTransaction fragmentTransaction, Fragment fragment1, Fragment fragment2) {
+    public static void showFragment(FragmentTransaction fragmentTransaction, Fragment fragment1, Fragment fragment2, int id) {
+        Log.d("xxxxxxxx", id+"");
+        Log.d("xxxxxxxx", R.id.personal_frame + "");
         //如果fragment2没有被添加过，就添加它替换当前的fragment1
         if (!fragment2.isAdded()) {
-            fragmentTransaction.add(R.id.personal_frame,fragment2)
+            fragmentTransaction.add(id,fragment2)
                     //加入返回栈，这样你点击返回键的时候就会回退到fragment1了
                     .addToBackStack(null)
                     // 提交事务
