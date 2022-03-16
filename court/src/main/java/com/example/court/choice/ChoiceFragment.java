@@ -1,6 +1,7 @@
 package com.example.court.choice;
 
 import android.content.Intent;
+import android.icu.text.IDNA;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -52,7 +53,6 @@ public class ChoiceFragment extends Fragment {
         Call<Article> jsonDataCall = api.getJsonData("944348013390725120");
         Call<Article> cloneCall = jsonDataCall.clone();
         //同步执行
-//         Response<Data<Info>> execute = jsonDataCall.execute();
 //        for (int i = 0; i < 20; i++) {
         //步骤7:发送网络请求(异步)
         Log.d("uriui","get == url：" + jsonDataCall.request().url());
@@ -65,7 +65,7 @@ public class ChoiceFragment extends Fragment {
 //                if (body == null) return;
 //                Article article = body.getData();
 //                if (article == null) return;
-//                if( response.body().getMsg()!=null){
+                if( response.body().getMsg()!=null){
                     Court_Context court_context = new Court_Context();
                     court_context.setAddress(response.body().getData().getAddress());
                     court_context.setProfile(R.drawable.court_profile);
@@ -73,7 +73,9 @@ public class ChoiceFragment extends Fragment {
                     court_context.setTime("1月18日 19:00");
                     court_context.setInformation("5V5交流赛，欢迎切磋");
                     list.add(court_context);
-//                }
+                    initRecyclerView();
+                    Log.d("addd",list.get(0).getAddress());
+                }
             }
 
             @Override
@@ -92,11 +94,7 @@ public class ChoiceFragment extends Fragment {
 //            court_context.setInformation("5V5交流赛，欢迎切磋");
 //            list.add(court_context);
 //        }
-        RecyclerView recyclerView = view.findViewById(R.id.dynamic_recycler);
-        CourtAdapter adapter = new CourtAdapter(list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener(clickListener);
+
 
 
         return view;
