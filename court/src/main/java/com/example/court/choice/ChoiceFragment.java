@@ -53,7 +53,7 @@ public class ChoiceFragment extends Fragment {
         Call<Article> jsonDataCall = api.getJsonData("944348013390725120");
         Call<Article> cloneCall = jsonDataCall.clone();
         //同步执行
-//        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 20; i++) {
         //步骤7:发送网络请求(异步)
         Log.d("uriui","get == url：" + jsonDataCall.request().url());
         jsonDataCall.enqueue(new Callback<Article>() {
@@ -85,15 +85,15 @@ public class ChoiceFragment extends Fragment {
             }
         });
 // later...
-//            jsonDataCall.cancel(); //取消请求
-//            cloneCall.cancel(); //取消请求
+            jsonDataCall.cancel(); //取消请求
+            cloneCall.cancel(); //取消请求
 //            Court_Context court_context = new Court_Context();
 //            court_context.setProfile(R.drawable.court_profile);
 //            court_context.setName("陈末末");
 //            court_context.setTime("1月18日 19:00");
 //            court_context.setInformation("5V5交流赛，欢迎切磋");
 //            list.add(court_context);
-//        }
+        }
 
 
 
