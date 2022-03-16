@@ -19,6 +19,7 @@
 
     </style>
     <style name="DatePickerTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="android:textSize">20sp</item>
         <item name="colorPrimary">#EB5829</item>
         <item name="colorPrimaryVariant">#EB5829</item>
         <item name="colorOnPrimary">@color/white</item>
