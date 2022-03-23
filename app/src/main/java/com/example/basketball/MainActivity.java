@@ -1,39 +1,97 @@
 package com.example.basketball;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.FrameLayout;
 
-import com.alibaba.android.arouter.launcher.ARouter;
+import com.alibaba.android.arouter.facade.annotation.Route;
+import com.example.court.CourtFragment;
+import com.example.home.HomeFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity {
-    private Button button;
-    private Button button2;
+import org.jetbrains.annotations.NotNull;
+
+import Fragments.AmendFragment;
+import Fragments.ForgetFragment;
+
+
+@Route(path = "/main/main")
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        button = findViewById(R.id.login);
-        button2 = findViewById(R.id.message);
-        ARouter.getInstance().inject(this);
+        bottomNavigationView = findViewById(R.id.main_bottom);
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        bottomNavigationView.setSelectedItemId(R.id.home);
 
-
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ARouter.getInstance().build("/login/login").navigation();
-            }
-        });
-
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ARouter.getInstance().build("/message/message").navigation();
-            }
-        });
+        //隐藏标题栏
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar!=null){
+            actionBar.hide();
+        }
     }
+
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        //点击替换碎片
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        switch (item.getItemId()) {
+            case R.id.home:
+                //例子
+                fragmentTransaction.replace(R.id.main_frame, new HomeFragment()).commit();
+                break;
+            case R.id.ball_game:
+                fragmentTransaction.replace(R.id.main_frame, new CourtFragment()).commit();
+                break;
+            case R.id.personal:
+                //替换碎片
+                fragmentTransaction.replace(R.id.main_frame, new ForgetFragment(this,this)).commit();
+                break;
+        }
+        return true;
+    }
+
+    //传入Activity，和修改后的颜色
+    public static void setWindowStatusBarColor(Activity activity, int colorResId) {
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Window window = activity.getWindow();
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                //顶部状态栏
+                window.setStatusBarColor(activity.getResources().getColor(colorResId));
+                //底部导航栏
+                window.setNavigationBarColor(activity.getResources().getColor(colorResId));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //设置字体颜色，true表示黑色
+    public static void setWindowLightStatusBar(Activity activity,boolean shouldChangeStatusBarTintToDark){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            View decor = activity.getWindow().getDecorView();
+            if (shouldChangeStatusBarTintToDark) {
+                decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            } else {
+                decor.setSystemUiVisibility(0);
+            }
+        }
+    }
+
 }

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RobActivity">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="球局"
+        android:layout_marginTop="10dp"
+        android:textSize="25dp"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <View
+        android:id="@+id/court_line"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/classic"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/court_profile_card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/court_line">
+
+        <ImageView
+            android:id="@+id/issue_profile"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:scaleType="fitXY" />
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="18dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:textSize="15dp"
+        android:text="抛物线篮球场"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toEndOf="@+id/court_profile_card"
+        app:layout_constraintTop_toBottomOf="@+id/court_line" />
+
+    <ImageView
+        android:id="@+id/court_local"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/court_local"
+        app:layout_constraintTop_toBottomOf="@+id/court_profile_card"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+    <TextView
+        android:id="@+id/court_local_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/user_name"
+        app:layout_constraintStart_toEndOf="@+id/court_local"
+        android:textSize="16dp"
+        android:text="西安抛物线篮球场"/>
+
+    <ImageView
+        android:id="@+id/court_time"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/court_time"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/court_local"
+        app:layout_constraintStart_toStartOf="parent"/>
+    <TextView
+        android:id="@+id/court_time_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="1月18日 19:00"
+        android:textSize="16dp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/court_local_text"
+        app:layout_constraintStart_toEndOf="@id/court_time"/>
+
+    <TextView
+        android:id="@+id/court_context_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="5V5交流赛，欢迎切磋"
+        android:layout_marginLeft="25dp"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        app:layout_constraintTop_toBottomOf="@id/court_time"
+        />
+
+    <EditText
+        android:id="@+id/court_context"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginTop="15dp"
+        android:hint="留下您的应战信息..."
+        android:padding="10dp"
+        android:gravity="top"
+        android:background="@drawable/edit_bg"
+        app:layout_constraintTop_toBottomOf="@+id/court_context_text"
+        app:layout_constraintStart_toStartOf="parent"/>
+    <Button
+        android:id="@+id/issue_publish"
+        android:layout_marginRight="15dp"
+        android:background="@color/classic"
+        android:text="应战"
+        android:textColor="@color/white"
+        android:textSize="25dp"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

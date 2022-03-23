@@ -9,12 +9,15 @@ android {
 
     defaultConfig {
         if(is_Module.toBoolean()){
-            applicationId "activitytest.com.example.home"
+            applicationId "com.example.home"
         }
         minSdkVersion 16
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
+
+        // 这里添加
+        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions{				//配置ARouter
@@ -26,9 +29,9 @@ android {
     sourceSets{
         main{
             if(is_Module.toBoolean()){
-                manifest.srcFile 'src/main/AndroidManifest.xml'
-            }else{
                 manifest.srcFile 'src/main/manifest/AndroidManifest.xml'
+            }else{
+                manifest.srcFile 'src/main/AndroidManifest.xml'
             }
         }
     }
@@ -45,7 +48,18 @@ android {
 }
 
 dependencies {
+    // 引入support支持库的multidex库
+    implementation 'com.android.support:multidex:1.0.3'
+    //或androidx支持库的multidex库
+    implementation 'androidx.multidex:multidex:2.0.1'
+    // NOTE: Do not place your application dependencies here; they belong
+    // in the individual module build.gradle files
 
+    implementation 'androidx.core:core:1.5.0-alpha05'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation fileTree(include:['*.jar'],dir:'libs')
     implementation project(':Baselibs')
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
     annotationProcessor rootProject.ext.annotationLibs		//注释处理器
 }

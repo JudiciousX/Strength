@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.court">
+
+    <application>
+        <activity android:name=".CourtActivity"></activity>
+        <activity android:name=".IssueActivity"></activity>
+        <activity android:name=".RobActivity"></activity>
+    </application>
+
+</manifest>
