@@ -36,6 +36,13 @@ android {
 }
 
 dependencies {
+//    debugImplementation 'com.squareup.leakcanary: leakcanary-android-core: 2.8.1@aar'
+//    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    //  google权限管理框架
+    implementation 'pub.devrel:easypermissions:3.0.0'
+    //热门强大的图片加载器
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
     // 引入support支持库的multidex库
     implementation 'com.android.support:multidex:1.0.3'
     //或androidx支持库的multidex库

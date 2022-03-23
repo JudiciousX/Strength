@@ -7,8 +7,7 @@ import android.util.Log;
 import com.example.commlib.RetrofitBase;
 
 import IClass.SignIn_Logoff_Forget_SendSmsClass;
-import Request.ISendSmsRequest;
-import Request.ISignInRequest;
+import Request.IRequests;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -21,9 +20,9 @@ public class SignInModel implements ISignModel{
         //网络请求
         Retrofit retrofit = new RetrofitBase().getRetrofit();
 
-        ISendSmsRequest sendSmsRequest = retrofit.create(ISendSmsRequest.class);
+        IRequests sendSmsRequest = retrofit.create(IRequests.class);
 
-        sendSmsRequest.getCall(phoneNumbers).enqueue(new Callback<SignIn_Logoff_Forget_SendSmsClass>() {
+        sendSmsRequest.getSendSms(phoneNumbers).enqueue(new Callback<SignIn_Logoff_Forget_SendSmsClass>() {
             @Override
             public void onResponse(Call<SignIn_Logoff_Forget_SendSmsClass> call, Response<SignIn_Logoff_Forget_SendSmsClass> response) {
                 Message message = new Message();
@@ -45,9 +44,9 @@ public class SignInModel implements ISignModel{
         //网络请求
         Retrofit retrofit = new RetrofitBase().getRetrofit();
 
-        ISignInRequest signInRequest = retrofit.create(ISignInRequest.class);
+        IRequests signInRequest = retrofit.create(IRequests.class);
 
-        signInRequest.getCall(phoneNumbers, password, token).enqueue(new Callback<SignIn_Logoff_Forget_SendSmsClass>() {
+        signInRequest.getSignIn(phoneNumbers, password, token).enqueue(new Callback<SignIn_Logoff_Forget_SendSmsClass>() {
             @Override
             public void onResponse(Call<SignIn_Logoff_Forget_SendSmsClass> call, Response<SignIn_Logoff_Forget_SendSmsClass> response) {
                 Message message = new Message();

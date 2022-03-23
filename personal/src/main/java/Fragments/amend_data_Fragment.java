@@ -4,11 +4,14 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,18 +26,31 @@ import java.util.List;
 
 import Tool.DatePickerDialog;
 import Tool.DateUtil;
-import Tool.ReplaceFragment;
+import Tool.Requests;
 
 public class amend_data_Fragment extends Fragment implements View.OnClickListener {
     Context context;
     Button back;
     TextView over;
     TextView birthday;
+    private EditText email;
     private EditText signature;
     private RadioGroup radioGroup;
     private EditText username;
     private Dialog dateDialog;
     private FragmentTransaction fragmentTransaction;
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.obj.toString()) {
+                case "200":
+                    getActivity().onBackPressed();
+                    break;
+                case "500":
+                    Toast.makeText(context, "服务器异常，修改失败", Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.amend_data, container, false);
@@ -46,7 +62,16 @@ public class amend_data_Fragment extends Fragment implements View.OnClickListene
         fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         username = view.findViewById(R.id.tag2);
         username.setText(Personal_Fragment.dataClass.getUsername());
+        email = view.findViewById(R.id.tag8);
+        email.setText(Personal_Fragment.dataClass.getEmail());
         radioGroup = view.findViewById(R.id.tag6);
+        RadioButton radioButton = null;
+        if(Personal_Fragment.dataClass.getSex() == 1) {
+            radioButton = radioGroup.findViewById(R.id.boy);
+        }else {
+            radioButton = radioGroup.findViewById(R.id.girl);
+        }
+        radioButton.setChecked(true);
         signature = view.findViewById(R.id.tag4);
         signature.setText(Personal_Fragment.dataClass.getSignature());
         back = view.findViewById(R.id.data_back);
@@ -99,33 +124,36 @@ public class amend_data_Fragment extends Fragment implements View.OnClickListene
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.data_over:
+        int id = view.getId();
+        if (id == R.id.data_over) {
+            if(username.getText().toString().equals("") || signature.getText().toString().equals("")) {
+                Toast.makeText(context, "昵称或个性签名不能为空" , Toast.LENGTH_SHORT).show();
+            }else {
                 Personal_Fragment.dataClass.setUsername(username.getText().toString());
                 Personal_Fragment.dataClass.setSignature(signature.getText().toString());
                 Personal_Fragment.signature.setText(signature.getText().toString());
                 Personal_Fragment.name.setText(username.getText().toString());
-                for(View view1 : Personal_Fragment.list2) {
+                Personal_Fragment.dataClass.setEmail(email.getText().toString());
+                for (View view1 : Personal_Fragment.list2) {
                     TextView v = (TextView) view1;
                     v.setText(username.getText().toString());
                 }
-                if(radioGroup.getCheckedRadioButtonId() == R.id.boy) {
+                if (radioGroup.getCheckedRadioButtonId() == R.id.boy) {
                     Personal_Fragment.dataClass.setSex((short) 1);
                     Personal_Fragment.personal_sex.setBackgroundResource(R.drawable.boy);
-                }else {
+                } else {
                     Personal_Fragment.dataClass.setSex((short) 0);
                     Personal_Fragment.personal_sex.setBackgroundResource(R.drawable.girl);
                 }
                 Personal_Fragment.dataClass.setBirthday(birthday.getText().toString());
 
-            case R.id.data_back:
-                getActivity().onBackPressed();
+                Requests.Request(handler);
                 //ReplaceFragment.showFragment(fragmentTransaction,this, new Personal_Fragment(context, getActivity()));
-                break;
-            case R.id.data_birthday:
-                Birthday();
-                break;
-
+            }
+        } else if (id == R.id.data_back) {
+            getActivity().onBackPressed();
+        } else if (id == R.id.data_birthday) {
+            Birthday();
         }
     }
 

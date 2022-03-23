@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.FragmentTransaction;
 
@@ -37,15 +38,28 @@ public class ForgetFragment extends BaseFragment implements View.OnClickListener
         @Override
         public void handleMessage(Message msg) {
             switch (msg.obj.toString()) {
-                case "":
+                case "Verify200":
                     fragmentTransaction.replace(R.id.sign_frame, new AmendFragment(activity, context,phoneNumbers)).commit();
+                    break;
+                case "Verify500":
+                    toast("服务器异常");
+                    break;
+                case "Verify400":
+                    toast("验证码错误");
+                    break;
+                case "Verify410":
+                    toast("验证码过期");
+                    break;
+                default:
+                    toast("验证码或手机号填写错误");
+                    break;
             }
         }
     };
 
     public ForgetFragment(Activity activity, Context context) {
         this.activity = activity;
-        this.context = context;
+        this.context = context.getApplicationContext();
     }
 
 
@@ -80,11 +94,22 @@ public class ForgetFragment extends BaseFragment implements View.OnClickListener
         }else if(view.getId() == R.id.send_button_1) {
             //发送验证码
             phoneNumbers = user.getText().toString();
-            Send(phoneNumbers, timeCount, context);
+            if (phoneNumbers.length() > 11) {
+                toast("请输入正确的号码");
+            }else {
+                Send(phoneNumbers, timeCount, context);
+            }
+
         }else if(view.getId() == R.id.Determine_text_1) {
             phoneNumbers = user.getText().toString();
             token = tokenEdit.getText().toString();
-            fragmentTransaction.replace(R.id.sign_frame, new AmendFragment(activity, context,phoneNumbers)).commit();
+
+            if(token.length() == 0 || phoneNumbers.length() == 0) {
+                toast("验证码或手机号未输入");
+            }else {
+                verify(phoneNumbers, token, handler);
+            }
+
         }
     }
 
@@ -109,10 +134,15 @@ public class ForgetFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     public void verify(String phoneNumbers, String mobileToken, Handler handler) {
-
+        presenter.getModel2().verify(phoneNumbers, token, handler);
     }
 
     @Override
     public void amend(String phoneNumbers, String password, Handler handler) {
     }
+
+    public void toast(String str) {
+        Toast.makeText(context, str, Toast.LENGTH_SHORT).show();
+    }
+
 }

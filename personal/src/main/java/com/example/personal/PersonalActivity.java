@@ -1,31 +1,30 @@
 package com.example.personal;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -33,19 +32,29 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.commlib.RetrofitBase;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.List;
 import java.util.Objects;
 
 
-import Adapter.Personal_Adapter;
 import Fragments.Personal_Fragment;
-import Tool.Tools;
+import IClass.IClass0;
+import IClass.IClass2;
+import IRequest.NameRequest;
+import Tool.Requests;
+import Tool.User;
 import de.hdodenhof.circleimageview.CircleImageView;
-import pub.devrel.easypermissions.AfterPermissionGranted;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import pub.devrel.easypermissions.EasyPermissions;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 @Route(path = "/personal/personal")
 public class PersonalActivity extends AppCompatActivity {
@@ -56,6 +65,50 @@ public class PersonalActivity extends AppCompatActivity {
     private ImageView imageView;
     private CircleImageView circleImageView;
     private Personal_Fragment fragment;
+    private Context context = this;
+    private Activity activity = this;
+    private int size = 0;
+    private Bitmap map;
+    public static List<IClass2.ArticleContent> articleContent;
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.obj.toString()) {
+                case "200":
+                    //设置到ImageView上
+                    String tag = fragment.getSign();
+                    if("0".equals(tag)) {
+
+                        circleImageView = fragment.getCircleImageView();
+                        for(View view : head) {
+                            Log.d("xxxxxxxx", view.toString());
+                            Glide.with(context).load(map).apply(requestOptions).into((CircleImageView) view);
+                        }
+                        Glide.with(context).load(map).apply(requestOptions).into(circleImageView);
+                    }else {
+                        imageView = fragment.getImageView();
+                        //imageView.setImageBitmap(image);
+                        Glide.with(context).load(map).into(imageView);
+                    }
+                    break;
+                case "500":
+                    Toast.makeText(context, "服务器异常，上传失败", Toast.LENGTH_SHORT).show();
+                    break;
+                case "articleContent200":
+                    size++;
+                    if(size == 2) {
+                        replaceFragment(fragment);
+                    }
+                    break;
+                default :
+                    fragment = new Personal_Fragment(context, activity , R.id.personal_frame);
+                    fragment.dataClass = (User) msg.obj;
+                    head = fragment.getList1();
+                    replaceFragment(fragment);
+                    break;
+            }
+        }
+    };
     /**
      * 外部存储权限请求码
      */
@@ -81,9 +134,9 @@ public class PersonalActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal);
-        fragment = new Personal_Fragment(this, this);
-        replaceFragment(fragment);
-
+        RetrofitBase.uid = "944348013390725120";
+        Requests.Request1(handler);
+        //Requests.Request3(handler);
     }
 
     private void replaceFragment(Fragment fragment) {
@@ -92,6 +145,9 @@ public class PersonalActivity extends AppCompatActivity {
         transaction.replace(R.id.personal_frame, fragment);
         transaction.commit();
     }
+
+
+
 
     /**
      *
@@ -102,7 +158,6 @@ public class PersonalActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if(requestCode == SELECT_PICTURE && resultCode == RESULT_OK) {
             final Uri imageUri = Objects.requireNonNull(data).getData();
             String tag = fragment.getSign();
@@ -141,53 +196,119 @@ public class PersonalActivity extends AppCompatActivity {
                 Bundle bundle = data.getExtras();
                 Log.d("xxxxxx", "ooo");
                 if (bundle != null) {
-                    Log.d("xxxxxx", "ooo");
+                    Log.d("xxxxxx", "eee");
                     //在这里获得了剪裁后的Bitmap对象，可以用于上传
-                    Bitmap image = bundle.getParcelable("data");
-                    //设置到ImageView上
-                    String tag = fragment.getSign();
-                    if("0".equals(tag)) {
-                        head = fragment.getList1();
-                        circleImageView = fragment.getCircleImageView();
-                        for(View view : head) {
-                            Log.d("xxxxxxxx", view.toString());
-                            Glide.with(this).load(image).apply(requestOptions).into((CircleImageView) view);
-                        }
-                        Glide.with(this).load(image).apply(requestOptions).into(circleImageView);
-                    }else {
+                    map = bundle.getParcelable("data");
+                    File file = saveImageToGallery(map);
+                    uploadFanganFile(file);
+                    deleteSuccess(this, file.getName());
 
-                        imageView = fragment.getImageView();
-                        //imageView.setImageBitmap(image);
-                        Glide.with(this).load(image).into(imageView);
-                    }
             }
         }
     }
 
+    //保存图片
+    public File saveImageToGallery(Bitmap bitmap) {
+        if(ContextCompat.checkSelfPermission(PersonalActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            //没有授权的话调用ActivityCompat.requestPermissions（）方法向客户申请授权
+            //第一个参数是Activity实例 第二个是String数组 将需要申诉的权限名放入即可 第三个是请求码 只要是唯一值即可
+            ActivityCompat.requestPermissions(PersonalActivity.this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        }
+        File appDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "android");
+        if (!appDir.exists()) {
+            // 目录不存在 则创建
+            appDir.mkdirs();
+        }
+        //下面的CompressFormat.PNG/CompressFormat.JPEG， 这里对应.png/.jpeg
+        String fileName = System.currentTimeMillis() + ".png";
+        File file = new File(appDir, fileName);
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos); // 保存bitmap至本地
+            fos.flush();
+            fos.close();
+        } catch (Exception e) {
+            Log.d("Personal_TAG", "保存图片异常" + e.toString());
+            e.printStackTrace();
+        } finally {
+            if (bitmap!=null&&!bitmap.isRecycled()) {
+                //当存储大图片时，为避免出现OOM ，及时回收Bitmap
+                //bitmap.recycle();
+                // 通知系统回收
+                System.gc();
+            }
+            //返回保存的图片路径
+            return file;
+        }
+    }
+
+    //删除图片
+    public static void deleteSuccess(Context context, String filePath) {
+        Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        ContentResolver mContentResolver = context.getContentResolver();
+        String where = MediaStore.Images.Media.DATA + "='" + filePath + "'";
+        //删除图片
+        mContentResolver.delete(uri, where, null);
+    }
+
+    //上传服务器
+    public void uploadFanganFile(File file) {
+        String tag = fragment.getSign();
+        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        MultipartBody.Part body;
+        if("0".equals(tag)) {
+            body = MultipartBody.Part.createFormData("headSculpture", file.getName(), requestFile);
+        }else {
+            body = MultipartBody.Part.createFormData("background", file.getName(), requestFile);
+        }
+        Retrofit retrofit = new RetrofitBase().getRetrofit();
+        NameRequest nameRequest = retrofit.create(NameRequest.class);
+
+        Call<IClass0> call;
+        if("0".equals(tag)) {
+            call = nameRequest.upload2("944348013390725120", body);
+        }else {
+            call = nameRequest.upload1("944348013390725120", body);
+        }
+        call.enqueue(new Callback<IClass0>() {
+            @Override
+            public void onResponse(Call<IClass0> call, Response<IClass0> response) {
+                Message message = new Message();
+                message.obj = response.body().getCode();
+                handler.sendMessage(message);
+            }
+
+            @Override
+            public void onFailure(Call<IClass0> call, Throwable t) {
+                Log.d("Personal_TAG", "请求失败" + t.toString());
+            }
+        });
+    }
+
+    //申请权限
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         // 将结果转发给 EasyPermissions (添加的依赖库中的）
+        switch (requestCode) {
+            case 1:
+                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    showMsg("You agree the permission");
+                }else {
+                    showMsg("You denied the permission");
+                }
+                break;
+            default:
+        }
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
-    @AfterPermissionGranted(REQUEST_EXTERNAL_STORAGE_CODE)
-    //注解的意思是权限通过后在调用一次该方法 根据内部参数权限码
-    private void requestPermission() {
-        //一个权限组只要有一个权限通过则代表整组权限通过
-        String[] param = {Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        if(EasyPermissions.hasPermissions(this, param)) {
-            showMsg("已获得权限");
-        }else {
-            //无权限 则进行权限请求
-            EasyPermissions.requestPermissions(this,"请求权限",REQUEST_EXTERNAL_STORAGE_CODE,param);
-        }
-    }
-
+    //显示Toast
     private void showMsg(String msg) {
         Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
     }
 
+    //裁剪头像
     private void pictureCropping(Uri uri) {
         // 调用系统中自带的图片剪裁
         Intent intent = new Intent("com.android.camera.action.CROP");
@@ -208,6 +329,7 @@ public class PersonalActivity extends AppCompatActivity {
 
     }
 
+    //裁剪背景
     private void pictureCropping2(Uri uri) {
         // 调用系统中自带的图片剪裁
         Intent intent = new Intent("com.android.camera.action.CROP");
@@ -224,5 +346,4 @@ public class PersonalActivity extends AppCompatActivity {
         intent.putExtra("return-data", true);
         startActivityForResult(intent, PICTURE_CROPPING_CODE);
     }
-
 }

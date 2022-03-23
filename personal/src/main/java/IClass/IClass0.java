@@ -1,6 +1,6 @@
 package IClass;
 
-public class NameClass {
+public class IClass0 {
     private String code;
     private String msg;
 

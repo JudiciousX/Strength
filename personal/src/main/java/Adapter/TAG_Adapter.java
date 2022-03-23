@@ -18,7 +18,6 @@ public class TAG_Adapter extends RecyclerView.Adapter<TAG_Adapter.ViewHolder> {
     static class ViewHolder extends RecyclerView.ViewHolder {
         public ViewHolder(View itemView) {
             super(itemView);
-
         }
     }
 

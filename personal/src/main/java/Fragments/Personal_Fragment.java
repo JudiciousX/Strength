@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +13,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -22,11 +24,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.personal.R;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Arrays;
 import java.util.List;
 
 import Adapter.Personal_Adapter;
 import Tool.ReplaceFragment;
+import Tool.Requests;
 import Tool.User;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -53,7 +56,7 @@ public class Personal_Fragment extends Fragment{
     public static String username;
     public static TextView signature;
     public static CircleImageView personal_sex;
-
+    private int id;
 
 
     @Override
@@ -65,7 +68,9 @@ public class Personal_Fragment extends Fragment{
         return view;
     }
 
-    public Personal_Fragment(Context context, Activity activity) {
+    public Personal_Fragment(Context context, Activity activity, int id) {
+        this.id = id;
+        Log.d("xxxxxxxx", id+"");
         this.context = context;
         this.activity = activity;
 
@@ -73,24 +78,15 @@ public class Personal_Fragment extends Fragment{
 
 
     public void init(View view) {
-        dataClass = new User();
-        tags = new ArrayList<>();
-        tags.add("  篮球  ");
-        tags.add("  足球  ");
-        tags.add("  乒乓球  ");
-        dataClass.setLabel(tags.toString());
-        dataClass.setUsername("摩西摩西");
-        dataClass.setSex((short) 1);
-        dataClass.setPhoneNumbers("123456");
-        dataClass.setBirthday("2002-01-03");
-        dataClass.setSignature("没想好");
+        tags = Arrays.asList(Personal_Fragment.dataClass.getLabel().replace("[", "").replace("]","").split(", "));
+        tags = new ArrayList<>(tags);
         fragment = this;
         more = view.findViewById(R.id.personal_more);
         more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                ReplaceFragment.showFragment(fragmentTransaction, fragment,  new more_Fragment());
+                ReplaceFragment.showFragment(fragmentTransaction, fragment,  new more_Fragment(), id);
             }
         });
         activity = getActivity();
@@ -98,7 +94,7 @@ public class Personal_Fragment extends Fragment{
         textView = view.findViewById(R.id.personal_title);
         recyclerView = view.findViewById(R.id.personal_recycler);
         LinearLayoutManager manager = new LinearLayoutManager(context);
-        Personal_Adapter adapter = new Personal_Adapter(this, context, this.getActivity(),activity);
+        Personal_Adapter adapter = new Personal_Adapter(this, context, this.getActivity(),activity, id);
 
         recyclerView.setAdapter(adapter);
         adapter.setSelectItem(new Personal_Adapter.SelectItem() {

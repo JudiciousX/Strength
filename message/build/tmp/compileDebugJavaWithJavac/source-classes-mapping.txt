@@ -1,0 +1,4 @@
+com/example/message/BuildConfig.java
+ com.example.message.BuildConfig
+com/example/message/MessageActivity.java
+ com.example.message.MessageActivity

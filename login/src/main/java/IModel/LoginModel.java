@@ -13,7 +13,7 @@ import android.util.Log;
 import com.example.commlib.RetrofitBase;
 
 import IClass.Login_StateClass;
-import Request.ILoginRequest;
+import Request.IRequests;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,13 +26,13 @@ public class LoginModel implements ILoginModel {
         //网络请求
         Retrofit retrofit = new RetrofitBase().getRetrofit();
 
-        ILoginRequest loginRequest = retrofit.create(ILoginRequest.class);
-
-        loginRequest.getCall(phoneNumbers, password, mobileToken).enqueue(new Callback<Login_StateClass>() {
+        IRequests loginRequest = retrofit.create(IRequests.class);
+        //Log.d("xxxxxx", "login");
+        loginRequest.getLogin(phoneNumbers, password, mobileToken).enqueue(new Callback<Login_StateClass>() {
             @Override
             public void onResponse(Call<Login_StateClass> call, Response<Login_StateClass> response) {
                 Message message = new Message();
-                Log.d("TAG", response.body().getCode());
+                Log.d("xxxxxx", response.body().getCode());
                 if(response.body().getCode().equals("200")) {
                     message.obj = response.body().getData();
                 }else {

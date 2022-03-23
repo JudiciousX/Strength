@@ -1,9 +1,12 @@
 package com.example.commlib;
 
+import java.net.URI;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitBase {
+
     public Retrofit getRetrofit() {
         //网络请求
         Retrofit retrofit = new Retrofit.Builder()
@@ -13,5 +16,7 @@ public class RetrofitBase {
 
         return retrofit;
     }
+
+    public static String uid;
 
 }

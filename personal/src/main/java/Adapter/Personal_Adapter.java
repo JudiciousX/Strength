@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -18,9 +20,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.personal.R;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
@@ -39,6 +43,7 @@ import Fragments.amend_username_Fragment;
 import IView.IBackgroundView;
 import Presenters.BackgroundPresenter;
 import Tool.ReplaceFragment;
+import Tool.Requests;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Personal_Adapter extends RecyclerView.Adapter<Personal_Adapter.ViewHolder> implements IBackgroundView, View.OnClickListener {
@@ -48,7 +53,7 @@ public class Personal_Adapter extends RecyclerView.Adapter<Personal_Adapter.View
     private List<View> time1;
     private List<String> tags;
     private String tag;
-    private Blogs_Adapter adapter1 = new Blogs_Adapter();
+    private Blogs_Adapter adapter1;
     private FragmentActivity fm;
     private Activity activity;
     private ImageView imageView;
@@ -67,9 +72,26 @@ public class Personal_Adapter extends RecyclerView.Adapter<Personal_Adapter.View
     private int SELECT_PICTURE = 0x00;
     private int SELECT_CAMER = 0x01;
     private BackgroundPresenter backgroundPresenter = new BackgroundPresenter(this);
+    private int ids;
 
-    public Personal_Adapter(Fragment fragment, Context context, FragmentActivity fm, Activity activity) {
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.obj.toString()) {
+                case "200":
+                    Toast.makeText(context, "修改成功", Toast.LENGTH_SHORT).show();
+                    break;
+                case "500":
+                    Toast.makeText(context, "服务器异常，修改失败", Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
+
+    public Personal_Adapter(Fragment fragment, Context context, FragmentActivity fm, Activity activity, int id) {
         this.context = context;
+        this.ids = id;
+        adapter1 = new Blogs_Adapter(context);
         this.fragment = fragment;
         this.fm = fm;
         this.activity = activity;
@@ -95,13 +117,14 @@ public class Personal_Adapter extends RecyclerView.Adapter<Personal_Adapter.View
             case 0:
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_background, parent, false);
                 imageView = view.findViewById(R.id.personal_background);
+                Glide.with(view).load(Personal_Fragment.dataClass.getBackground()).into(imageView);
                 imageView.setOnClickListener(this);
                 return new ViewHolder(view);
             case 1:
+
                 View view1 = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_basic_information, parent, false);
                 recyclerView = view1.findViewById(R.id.personal_tags);
-                //StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
-                //recyclerView.setLayoutManager(layoutManager);
+
                 FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(context);
                 layoutManager.setFlexDirection(FlexDirection.ROW);
                 layoutManager.setJustifyContent(JustifyContent.FLEX_START);
@@ -118,6 +141,7 @@ public class Personal_Adapter extends RecyclerView.Adapter<Personal_Adapter.View
                 personal_phone = view1.findViewById(R.id.personal_phone);
                 personal_phone.setText("ID:" + Personal_Fragment.dataClass.getPhoneNumbers());
                 circleImageView = view1.findViewById(R.id.personal_photo);
+                Glide.with(view1).load(Personal_Fragment.dataClass.getHead_sculpture()).into(circleImageView);
                 circleImageView.setOnClickListener(this);
                 personal_username = view1.findViewById(R.id.personal_username);
                 personal_username.setText(Personal_Fragment.dataClass.getUsername());
@@ -217,157 +241,146 @@ public class Personal_Adapter extends RecyclerView.Adapter<Personal_Adapter.View
     @Override
     public void onClick(View view) {
 
-        switch (view.getId()) {
-            case R.id.personal_photo:
-                head1 = adapter1.getHead1();
-                tag = "0";
-                dialog();
-                break;
-            case R.id.personal_background:
-                tag = "1";
-                dialog();
-                Log.d("xxxxxx", String.valueOf(imageView.getRight()));
-                Log.d("xxxxxx", String.valueOf(imageView.getBottom()));
-                break;
-            case R.id.tv_camera:
-                Intent intent = backgroundPresenter.getModel().camera();
-                activity.startActivityForResult(intent, SELECT_CAMER);
-                if (null != mSelectItem) {
-                    if(tag.equals("0")) {
-                        mSelectItem.select(circleImageView, tag);
-                        mSelectItem.getList(head1, "0");
-                    }else {
-                        mSelectItem.select(imageView, tag);
-                    }
+        int id = view.getId();
+        if (id == R.id.personal_photo) {
+
+            tag = "0";
+            dialog();
+        } else if (id == R.id.personal_background) {
+            tag = "1";
+            dialog();
+            Log.d("xxxxxx", String.valueOf(imageView.getRight()));
+            Log.d("xxxxxx", String.valueOf(imageView.getBottom()));
+        } else if (id == R.id.tv_camera) {
+            Intent intent = backgroundPresenter.getModel().camera();
+            activity.startActivityForResult(intent, SELECT_CAMER);
+            if (null != mSelectItem) {
+                if (tag.equals("0")) {
+                    mSelectItem.select(circleImageView, tag);
+                    mSelectItem.getList(head1, "0");
+                } else {
+                    mSelectItem.select(imageView, tag);
                 }
-                dialog.dismiss();  //取消弹窗
-                break;
-            case R.id.tv_phone:
-                intent = backgroundPresenter.getModel().photo();
-                activity.startActivityForResult(intent.createChooser(intent, "选择图片"), SELECT_PICTURE);
-                if (null != mSelectItem) {
-                    if(tag.equals("0")) {
-                        mSelectItem.select(circleImageView, tag);
-                        mSelectItem.getList(head1, "0");
-                    }else {
-                        mSelectItem.select(imageView, tag);
-                    }
+            }
+            dialog.dismiss();  //取消弹窗
+        } else if (id == R.id.tv_phone) {
+            Intent intent;
+            intent = backgroundPresenter.getModel().photo();
+            activity.startActivityForResult(intent.createChooser(intent, "选择图片"), SELECT_PICTURE);
+            if (null != mSelectItem) {
+                if (tag.equals("0")) {
+                    mSelectItem.select(circleImageView, tag);
+                    mSelectItem.getList(head1, "0");
+                } else {
+                    mSelectItem.select(imageView, tag);
                 }
-                dialog.dismiss();  //取消弹窗
-                break;
-            case R.id.tv_cancel:
-                dialog.dismiss();
-                break;
-            case R.id.personal_signature:
-                mSelectItem.select(personal_signature, "3");
-                fragmentTransaction = fm.getSupportFragmentManager().beginTransaction();
-                ReplaceFragment.showFragment(fragmentTransaction, fragment, new amend_signature_Fragment(context));
-                break;
-            case R.id.personal_edit:
-                mSelectItem.select(personal_sex, "4");
-                mSelectItem.select(personal_username, "2");
-                mSelectItem.getList(adapter1.getUser1(), "1");
-                mSelectItem.select(personal_signature, "3");
-                fragmentTransaction = fm.getSupportFragmentManager().beginTransaction();
-                ReplaceFragment.showFragment(fragmentTransaction, fragment, new amend_data_Fragment(context));
-                break;
-            case R.id.personal_username:
-                mSelectItem.select(personal_username, "2");
-                mSelectItem.getList(adapter1.getUser1(), "1");
-                fragmentTransaction = fm.getSupportFragmentManager().beginTransaction();
-                ReplaceFragment.showFragment(fragmentTransaction, fragment, new amend_username_Fragment(context));
-                break;
-            case R.id.personal_add:
-                //选择对话框
-                dialog = new Dialog(context, R.style.BottomDialog);
-                View v = LayoutInflater.from(context).inflate(R.layout.tags_dialog, null);
-                //获取控件
-                final TextView tag1 = v.findViewById(R.id.tag_tag1);
-                final TextView tag2 = v.findViewById(R.id.tag_tag2);
-                final TextView tag3 = v.findViewById(R.id.tag_tag3);
-                final TextView tag4 = v.findViewById(R.id.tag_tag4);
-                final TextView tag5 = v.findViewById(R.id.tag_tag5);
-                final TextView tag6 = v.findViewById(R.id.tag_tag6);
-                final TextView tag7 = v.findViewById(R.id.tag_tag7);
-                final TextView tag8 = v.findViewById(R.id.tag_tag8);
-                final TextView tag9 = v.findViewById(R.id.tag_tag9);
-                final TextView tag10 = v.findViewById(R.id.tag_tag10);
-                final TextView tag11 = v.findViewById(R.id.tag_tag11);
-                final TextView tag12 = v.findViewById(R.id.tag_tag12);
-                final TextView tag13 = v.findViewById(R.id.tag_tag13);
-                final TextView tag14 = v.findViewById(R.id.tag_tag14);
-                final TextView tag15 = v.findViewById(R.id.tag_tag15);
-                final Button over = v.findViewById(R.id.tag_button);
-                showTag(tag1);
-                showTag(tag2);
-                showTag(tag3);
-                showTag(tag4);
-                showTag(tag5);
-                showTag(tag6);
-                showTag(tag7);
-                showTag(tag8);
-                showTag(tag9);
-                showTag(tag10);
-                showTag(tag11);
-                showTag(tag12);
-                showTag(tag13);
-                showTag(tag14);
-                showTag(tag15);
-                over.setOnClickListener(this);
-                tag1.setOnClickListener(this);
-                tag2.setOnClickListener(this);
-                tag3.setOnClickListener(this);
-                tag4.setOnClickListener(this);
-                tag5.setOnClickListener(this);
-                tag6.setOnClickListener(this);
-                tag7.setOnClickListener(this);
-                tag8.setOnClickListener(this);
-                tag9.setOnClickListener(this);
-                tag10.setOnClickListener(this);
-                tag11.setOnClickListener(this);
-                tag12.setOnClickListener(this);
-                tag13.setOnClickListener(this);
-                tag14.setOnClickListener(this);
-                tag15.setOnClickListener(this);
-                dialog.setContentView(v);
-                ViewGroup.LayoutParams layoutParams = v.getLayoutParams();
-                layoutParams.width = context.getResources().getDisplayMetrics().widthPixels;
-                v.setLayoutParams(layoutParams);
-                //弹窗位置
-                dialog.getWindow().setGravity(Gravity.BOTTOM);
+            }
+            dialog.dismiss();  //取消弹窗
+        } else if (id == R.id.tv_cancel) {
+            dialog.dismiss();
+        } else if (id == R.id.personal_signature) {
+            mSelectItem.select(personal_signature, "3");
+            fragmentTransaction = fm.getSupportFragmentManager().beginTransaction();
+            ReplaceFragment.showFragment(fragmentTransaction, fragment, new amend_signature_Fragment(context), ids);
+            Log.d("xxxxxxxxx", id+"");
+        } else if (id == R.id.personal_edit) {
+            mSelectItem.select(personal_sex, "4");
+            mSelectItem.select(personal_username, "2");
+            mSelectItem.getList(adapter1.getUser1(), "1");
+            mSelectItem.select(personal_signature, "3");
+            fragmentTransaction = fm.getSupportFragmentManager().beginTransaction();
+            ReplaceFragment.showFragment(fragmentTransaction, fragment, new amend_data_Fragment(context), ids);
+        } else if (id == R.id.personal_username) {
+            mSelectItem.select(personal_username, "2");
+            mSelectItem.getList(adapter1.getUser1(), "1");
+            fragmentTransaction = fm.getSupportFragmentManager().beginTransaction();
+            ReplaceFragment.showFragment(fragmentTransaction, fragment, new amend_username_Fragment(context), ids);
+        } else if (id == R.id.personal_add) {//选择对话框
+            dialog = new Dialog(context, R.style.BottomDialog);
+            View v = LayoutInflater.from(context).inflate(R.layout.tags_dialog, null);
+            //获取控件
+            final TextView tag1 = v.findViewById(R.id.tag_tag1);
+            final TextView tag2 = v.findViewById(R.id.tag_tag2);
+            final TextView tag3 = v.findViewById(R.id.tag_tag3);
+            final TextView tag4 = v.findViewById(R.id.tag_tag4);
+            final TextView tag5 = v.findViewById(R.id.tag_tag5);
+            final TextView tag6 = v.findViewById(R.id.tag_tag6);
+            final TextView tag7 = v.findViewById(R.id.tag_tag7);
+            final TextView tag8 = v.findViewById(R.id.tag_tag8);
+            final TextView tag9 = v.findViewById(R.id.tag_tag9);
+            final TextView tag10 = v.findViewById(R.id.tag_tag10);
+            final TextView tag11 = v.findViewById(R.id.tag_tag11);
+            final TextView tag12 = v.findViewById(R.id.tag_tag12);
+            final TextView tag13 = v.findViewById(R.id.tag_tag13);
+            final TextView tag14 = v.findViewById(R.id.tag_tag14);
+            final TextView tag15 = v.findViewById(R.id.tag_tag15);
+            final Button over = v.findViewById(R.id.tag_button);
+            showTag(tag1);
+            showTag(tag2);
+            showTag(tag3);
+            showTag(tag4);
+            showTag(tag5);
+            showTag(tag6);
+            showTag(tag7);
+            showTag(tag8);
+            showTag(tag9);
+            showTag(tag10);
+            showTag(tag11);
+            showTag(tag12);
+            showTag(tag13);
+            showTag(tag14);
+            showTag(tag15);
+            over.setOnClickListener(this);
+            tag1.setOnClickListener(this);
+            tag2.setOnClickListener(this);
+            tag3.setOnClickListener(this);
+            tag4.setOnClickListener(this);
+            tag5.setOnClickListener(this);
+            tag6.setOnClickListener(this);
+            tag7.setOnClickListener(this);
+            tag8.setOnClickListener(this);
+            tag9.setOnClickListener(this);
+            tag10.setOnClickListener(this);
+            tag11.setOnClickListener(this);
+            tag12.setOnClickListener(this);
+            tag13.setOnClickListener(this);
+            tag14.setOnClickListener(this);
+            tag15.setOnClickListener(this);
+            dialog.setContentView(v);
+            ViewGroup.LayoutParams layoutParams = v.getLayoutParams();
+            layoutParams.width = context.getResources().getDisplayMetrics().widthPixels;
+            v.setLayoutParams(layoutParams);
+            //弹窗位置
+            dialog.getWindow().setGravity(Gravity.BOTTOM);
 
-                //显示弹窗
-                dialog.show();
-
-                break;
-            case R.id.tag_button:
-                TAG_Adapter tag_adapter = new TAG_Adapter();
-                recyclerView.setAdapter(tag_adapter);
-                Toast.makeText(context, "ooo", Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
-                //修改兴趣标签
-                break;
-            default:
-                if(view.getBackground().getConstantState().equals(context.getResources().getDrawable(R.drawable.backggg).getConstantState())) {
-                    view.setBackgroundResource(R.drawable.backgg);
-                    TextView v0 = (TextView) view;
-                    if(!Personal_Fragment.tags.contains(v0.getText())) {
-                        Personal_Fragment.tags.add(v0.getText().toString());
-                    }
-
-                }else {
-                    TextView v0 = (TextView) view;
-                    view.setBackgroundResource(R.drawable.backggg);
-                    if(Personal_Fragment.tags.contains(v0.getText().toString())) {
-                        Personal_Fragment.tags.remove(v0.getText().toString());
-                    }
+            //显示弹窗
+            dialog.show();
+        } else if (id == R.id.tag_button) {
+            TAG_Adapter tag_adapter = new TAG_Adapter();
+            recyclerView.setAdapter(tag_adapter);
+            Toast.makeText(context, "ooo", Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
+            //修改兴趣标签
+            Personal_Fragment.dataClass.setLabel(Personal_Fragment.tags.toString());
+            Requests.Request2(handler);
+        } else {
+            if (view.getBackground().getConstantState().equals(context.getResources().getDrawable(R.drawable.backggg).getConstantState())) {
+                view.setBackgroundResource(R.drawable.backgg);
+                TextView v0 = (TextView) view;
+                if (!Personal_Fragment.tags.contains(v0.getText().toString())) {
+                    Personal_Fragment.tags.add(v0.getText().toString());
                 }
-                for(String str : Personal_Fragment.tags) {
-                    Log.d("xxxxxxx", str);
+
+            } else {
+                TextView v0 = (TextView) view;
+                view.setBackgroundResource(R.drawable.backggg);
+                if (Personal_Fragment.tags.contains(v0.getText().toString())) {
+                    Personal_Fragment.tags.remove(v0.getText().toString());
                 }
-                break;
-
-
+            }
+            for (String str : Personal_Fragment.tags) {
+                Log.d("xxxxxxx", str);
+            }
         }
     }
     /**

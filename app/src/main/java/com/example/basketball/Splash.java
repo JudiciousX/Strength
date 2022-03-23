@@ -17,7 +17,7 @@ import com.example.commlib.RetrofitBase;
 
 import IClass.Login_StateClass;
 import IModel.LoginModel;
-import Request.IStateRequest;
+import Request.IRequests;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -90,40 +90,53 @@ public class Splash extends AppCompatActivity {
 
     //判断是否登录
     public void isLogin() {
-        mobileToken = new LoginModel().getIMEIDeviceId(context);
-        Log.d("TAG", mobileToken);
-        //网络请求判断是否登录
-        Retrofit retrofit = new RetrofitBase().getRetrofit();
-        IStateRequest request = retrofit.create(IStateRequest.class);
+        SharedPreferences sharedPreferences = getSharedPreferences("LoginId", MODE_PRIVATE);
 
-        request.getCall(mobileToken).enqueue(new Callback<Login_StateClass>() {
-            @Override
-            public void onResponse(Call<Login_StateClass> call, Response<Login_StateClass> response) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        code = response.body().getCode();
-                        Log.d("TAG", code);
-                        if(code.equals("200")) {
-                            SharedPreferences.Editor editor = getSharedPreferences("user", MODE_PRIVATE).edit();
-                            editor.putString("phoneNumbers", response.body().getData());
-                            editor.putString("code", code);
-                            editor.apply();
-                            ARouter.getInstance().build("/main/main").navigation();
-                        }else {
-                            ARouter.getInstance().build("/login/login").navigation();
-                        }
-                        destroyTimer();
-                        finish();
-                    }
-                });
-            }
+        if(sharedPreferences.getBoolean("is_Login", false)) {
+            RetrofitBase.uid = sharedPreferences.getString("uid", "");
+            ARouter.getInstance().build("/main/main").navigation();
+        }else {
+            Log.d("scout", "login");
+            ARouter.getInstance().build("/login/login").navigation();
+        }
+        destroyTimer();
+        finish();
 
-            @Override
-            public void onFailure(Call<Login_StateClass> call, Throwable t) {
-                Log.d("TAG", "请求失败");
-            }
-        });
+//        mobileToken = new LoginModel().getIMEIDeviceId(context);
+//        Log.d("TAG", mobileToken);
+//        //网络请求判断是否登录
+//        Retrofit retrofit = new RetrofitBase().getRetrofit();
+//        IRequests request = retrofit.create(IRequests.class);
+//
+//        request.getState(mobileToken).enqueue(new Callback<Login_StateClass>() {
+//            @Override
+//            public void onResponse(Call<Login_StateClass> call, Response<Login_StateClass> response) {
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        code = response.body().getCode();
+//                        Log.d("TAG", code);
+//                        if(code.equals("200")) {
+//                            RetrofitBase.uid = response.body().getData();
+//                            SharedPreferences.Editor editor = getSharedPreferences("user", MODE_PRIVATE).edit();
+//                            editor.putString("phoneNumbers", response.body().getData());
+//                            editor.putString("code", code);
+//                            editor.apply();
+//                            ARouter.getInstance().build("/main/main").navigation();
+//                        }else {
+//                            ARouter.getInstance().build("/login/login").navigation();
+//                        }
+//                        destroyTimer();
+//                        finish();
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Login_StateClass> call, Throwable t) {
+//                Log.d("TAG", "请求失败");
+//            }
+//        });
 
 
     }
