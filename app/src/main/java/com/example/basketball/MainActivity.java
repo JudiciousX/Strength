@@ -39,6 +39,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.commlib.RetrofitBase;
 import com.example.court.CourtFragment;
 import com.example.home.HomeFragment;
+import com.example.personal.PersonalActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.File;
@@ -47,8 +48,11 @@ import java.util.List;
 import java.util.Objects;
 
 import Fragments.Personal_Fragment;
-import IClass.IClass;
+import IClass.IClass0;
+import IClass.IClass2;
 import IRequest.NameRequest;
+import Tool.Requests;
+import Tool.User;
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -72,6 +76,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private Personal_Fragment fragment;
     private Context context = this;
     private Bitmap map;
+    private Activity activity = this;
+    private int size = 0;
+    public static List<IClass2.ArticleContent> articleContent;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -80,7 +87,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     //设置到ImageView上
                     String tag = fragment.getSign();
                     if("0".equals(tag)) {
-                        head = fragment.getList1();
                         circleImageView = fragment.getCircleImageView();
                         for(View view : head) {
                             Log.d("xxxxxxxx", view.toString());
@@ -95,13 +101,15 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     break;
                 case "500":
                     Toast.makeText(context, "服务器异常，上传失败", Toast.LENGTH_SHORT).show();
+                    break;
+                default :
+                    fragment = new Personal_Fragment(context, activity , R.id.main_frame);
+                    fragment.dataClass = (User) msg.obj;
+                    head = fragment.getList1();
+                    break;
             }
         }
     };
-    /**
-     * 外部存储权限请求码
-     */
-    public static final int REQUEST_EXTERNAL_STORAGE_CODE = 9527;
     /**
      * 图片剪裁请求码
      */
@@ -115,16 +123,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             .circleCropTransform()//圆形剪裁
             .diskCacheStrategy(DiskCacheStrategy.NONE)//不做磁盘缓存
             .skipMemoryCache(true);//不做内存缓存
-
-
-
-    private void replaceFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(com.example.personal.R.id.personal_frame, fragment);
-        transaction.commit();
-    }
-
 
 
 
@@ -179,7 +177,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 //在这里获得了剪裁后的Bitmap对象，可以用于上传
                 map = bundle.getParcelable("data");
                 File file = saveImageToGallery(map);
-                Log.d("xxxxx", file.toString());
                 uploadFanganFile(file);
                 deleteSuccess(this, file.getName());
 
@@ -208,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             fos.flush();
             fos.close();
         } catch (Exception e) {
-            Log.d("xxxxx", e.toString());
+            Log.d("Personal_TAG", "保存图片异常" + e.toString());
             e.printStackTrace();
         } finally {
             if (bitmap!=null&&!bitmap.isRecycled()) {
@@ -222,6 +219,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
     }
 
+
     //删除图片
     public static void deleteSuccess(Context context, String filePath) {
         Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
@@ -231,30 +229,41 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         mContentResolver.delete(uri, where, null);
     }
 
+    //上传服务器
     public void uploadFanganFile(File file) {
-        //File file = new File(filePath);
+        String tag = fragment.getSign();
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        MultipartBody.Part body = MultipartBody.Part.createFormData("background", file.getName(), requestFile);
+        MultipartBody.Part body;
+        if("0".equals(tag)) {
+            body = MultipartBody.Part.createFormData("headSculpture", file.getName(), requestFile);
+        }else {
+            body = MultipartBody.Part.createFormData("background", file.getName(), requestFile);
+        }
         Retrofit retrofit = new RetrofitBase().getRetrofit();
         NameRequest nameRequest = retrofit.create(NameRequest.class);
-        Log.d("xxxxxx", body.toString());
-        nameRequest.upload1("944348013390725120",body).enqueue(new Callback<IClass>() {
+
+        Call<IClass0> call;
+        if("0".equals(tag)) {
+            call = nameRequest.upload2("944348013390725120", body);
+        }else {
+            call = nameRequest.upload1("944348013390725120", body);
+        }
+        call.enqueue(new Callback<IClass0>() {
             @Override
-            public void onResponse(Call<IClass> call, Response<IClass> response) {
+            public void onResponse(Call<IClass0> call, Response<IClass0> response) {
                 Message message = new Message();
                 message.obj = response.body().getCode();
-                Log.d("xxxxxx", response.body().getCode());
                 handler.sendMessage(message);
             }
 
             @Override
-            public void onFailure(Call<IClass> call, Throwable t) {
-                Log.d("xxxxxx", t.toString());
+            public void onFailure(Call<IClass0> call, Throwable t) {
+                Log.d("Personal_TAG", "请求失败" + t.toString());
             }
         });
     }
 
-
+    //申请权限
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -272,11 +281,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
-
+    //显示Toast
     private void showMsg(String msg) {
         Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
     }
 
+    //裁剪头像
     private void pictureCropping(Uri uri) {
         // 调用系统中自带的图片剪裁
         Intent intent = new Intent("com.android.camera.action.CROP");
@@ -297,6 +307,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     }
 
+    //裁剪背景
     private void pictureCropping2(Uri uri) {
         // 调用系统中自带的图片剪裁
         Intent intent = new Intent("com.android.camera.action.CROP");
@@ -328,6 +339,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         if(actionBar!=null){
             actionBar.hide();
         }
+        RetrofitBase.uid = "944348013390725120";
+        Requests.Request1(handler);
+        //Requests.Request3(handler);
     }
 
 
@@ -345,7 +359,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 break;
             case R.id.personal:
                 //替换碎片
-                fragment = new Personal_Fragment(this, this, R.id.main_frame);
+                //fragment = new Personal_Fragment(this, this, R.id.main_frame);
                 fragmentTransaction.replace(R.id.main_frame,fragment).commit();
                 break;
         }

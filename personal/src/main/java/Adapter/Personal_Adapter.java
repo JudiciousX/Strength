@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -20,6 +22,9 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.personal.R;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
@@ -38,6 +43,7 @@ import Fragments.amend_username_Fragment;
 import IView.IBackgroundView;
 import Presenters.BackgroundPresenter;
 import Tool.ReplaceFragment;
+import Tool.Requests;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Personal_Adapter extends RecyclerView.Adapter<Personal_Adapter.ViewHolder> implements IBackgroundView, View.OnClickListener {
@@ -47,7 +53,7 @@ public class Personal_Adapter extends RecyclerView.Adapter<Personal_Adapter.View
     private List<View> time1;
     private List<String> tags;
     private String tag;
-    private Blogs_Adapter adapter1 = new Blogs_Adapter();
+    private Blogs_Adapter adapter1;
     private FragmentActivity fm;
     private Activity activity;
     private ImageView imageView;
@@ -68,9 +74,24 @@ public class Personal_Adapter extends RecyclerView.Adapter<Personal_Adapter.View
     private BackgroundPresenter backgroundPresenter = new BackgroundPresenter(this);
     private int ids;
 
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.obj.toString()) {
+                case "200":
+                    Toast.makeText(context, "修改成功", Toast.LENGTH_SHORT).show();
+                    break;
+                case "500":
+                    Toast.makeText(context, "服务器异常，修改失败", Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
+
     public Personal_Adapter(Fragment fragment, Context context, FragmentActivity fm, Activity activity, int id) {
         this.context = context;
         this.ids = id;
+        adapter1 = new Blogs_Adapter(context);
         this.fragment = fragment;
         this.fm = fm;
         this.activity = activity;
@@ -96,13 +117,14 @@ public class Personal_Adapter extends RecyclerView.Adapter<Personal_Adapter.View
             case 0:
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_background, parent, false);
                 imageView = view.findViewById(R.id.personal_background);
+                Glide.with(view).load(Personal_Fragment.dataClass.getBackground()).into(imageView);
                 imageView.setOnClickListener(this);
                 return new ViewHolder(view);
             case 1:
+
                 View view1 = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_basic_information, parent, false);
                 recyclerView = view1.findViewById(R.id.personal_tags);
-                //StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
-                //recyclerView.setLayoutManager(layoutManager);
+
                 FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(context);
                 layoutManager.setFlexDirection(FlexDirection.ROW);
                 layoutManager.setJustifyContent(JustifyContent.FLEX_START);
@@ -119,6 +141,7 @@ public class Personal_Adapter extends RecyclerView.Adapter<Personal_Adapter.View
                 personal_phone = view1.findViewById(R.id.personal_phone);
                 personal_phone.setText("ID:" + Personal_Fragment.dataClass.getPhoneNumbers());
                 circleImageView = view1.findViewById(R.id.personal_photo);
+                Glide.with(view1).load(Personal_Fragment.dataClass.getHead_sculpture()).into(circleImageView);
                 circleImageView.setOnClickListener(this);
                 personal_username = view1.findViewById(R.id.personal_username);
                 personal_username.setText(Personal_Fragment.dataClass.getUsername());
@@ -220,7 +243,7 @@ public class Personal_Adapter extends RecyclerView.Adapter<Personal_Adapter.View
 
         int id = view.getId();
         if (id == R.id.personal_photo) {
-            head1 = adapter1.getHead1();
+
             tag = "0";
             dialog();
         } else if (id == R.id.personal_background) {
@@ -338,11 +361,13 @@ public class Personal_Adapter extends RecyclerView.Adapter<Personal_Adapter.View
             Toast.makeText(context, "ooo", Toast.LENGTH_SHORT).show();
             dialog.dismiss();
             //修改兴趣标签
+            Personal_Fragment.dataClass.setLabel(Personal_Fragment.tags.toString());
+            Requests.Request2(handler);
         } else {
             if (view.getBackground().getConstantState().equals(context.getResources().getDrawable(R.drawable.backggg).getConstantState())) {
                 view.setBackgroundResource(R.drawable.backgg);
                 TextView v0 = (TextView) view;
-                if (!Personal_Fragment.tags.contains(v0.getText())) {
+                if (!Personal_Fragment.tags.contains(v0.getText().toString())) {
                     Personal_Fragment.tags.add(v0.getText().toString());
                 }
 

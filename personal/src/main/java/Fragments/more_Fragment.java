@@ -1,5 +1,7 @@
 package Fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -34,10 +36,15 @@ public class more_Fragment extends Fragment {
         public void handleMessage(Message msg) {
             switch (msg.obj.toString()) {
                 case "200":
+                    SharedPreferences.Editor editor = getActivity().getSharedPreferences("LoginId", Context.MODE_PRIVATE).edit();
+                    editor.clear();
+                    editor.putBoolean("is_Login", false);
+                    editor.apply();
                     //退出登录并返回登录页面
                     ARouter.init(getActivity().getApplication()); // 尽可能早，推荐在Application中初始化ARouter
                     ARouter.getInstance().inject(this);
                     ARouter.getInstance().build("/login/login").navigation();
+                    getActivity().finish();
                     break;
                 case "500":
                     Toast.makeText(getContext(), "服务器异常，修改失败", Toast.LENGTH_SHORT).show();
@@ -61,8 +68,8 @@ public class more_Fragment extends Fragment {
                     public void onResponse(Call<SignIn_Logoff_Forget_SendSmsClass> call, Response<SignIn_Logoff_Forget_SendSmsClass> response) {
                         Message message = new Message();
                         message.obj = response.body().getCode();
-                        Log.d("xxxxxx", response.toString());
-                        Log.d("xxxxxx", response.body().getCode());
+                        Log.d("scout", response.toString());
+                        Log.d("scout", response.body().getCode());
                         handler.sendMessage(message);
                     }
 

@@ -1,5 +1,6 @@
 package Adapter;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,9 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.personal.R;
 
 import java.util.ArrayList;
@@ -24,6 +28,14 @@ public class Blogs_Adapter extends RecyclerView.Adapter<Blogs_Adapter.ViewHolder
     private List<View> head1 = new ArrayList<>();
     private List<View> user1 = new ArrayList<>();
     private List<View> time1 = new ArrayList<>();
+    private Context context;
+    /**
+     * Glide请求图片选项配置
+     */
+    private RequestOptions requestOptions = RequestOptions
+            .circleCropTransform()//圆形剪裁
+            .diskCacheStrategy(DiskCacheStrategy.NONE)//不做磁盘缓存
+            .skipMemoryCache(true);//不做内存缓存
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -33,6 +45,11 @@ public class Blogs_Adapter extends RecyclerView.Adapter<Blogs_Adapter.ViewHolder
 
         }
     }
+
+    public Blogs_Adapter(Context context) {
+        this.context = context;
+    }
+
 
     @Override
     public Blogs_Adapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -47,6 +64,7 @@ public class Blogs_Adapter extends RecyclerView.Adapter<Blogs_Adapter.ViewHolder
     @Override
     public void onBindViewHolder(Blogs_Adapter.ViewHolder holder, int position) {
         user.setText(Personal_Fragment.dataClass.getUsername());
+        Glide.with(context).load(Personal_Fragment.dataClass.getHead_sculpture()).apply(requestOptions).into(head);
         head1.add(head);
         user1.add(user);
         time1.add(time);

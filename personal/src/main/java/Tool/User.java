@@ -5,7 +5,7 @@ import java.util.List;
 
 public class User {
     private String uid;//用户id
-    private String phone_numbers;//手机号码
+    private String phoneNumbers;//手机号码
     private String username;//用户昵称
     private String signature;//个性签名
     private String label;//标签/爱好
@@ -15,13 +15,29 @@ public class User {
     private String head_sculpture;//头像
     private String background;//背景
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "uid='" + uid + '\'' +
+                ", phone_numbers='" + phoneNumbers + '\'' +
+                ", username='" + username + '\'' +
+                ", signature='" + signature + '\'' +
+                ", label='" + label + '\'' +
+                ", sex=" + sex +
+                ", email='" + email + '\'' +
+                ", birthday='" + birthday + '\'' +
+                ", head_sculpture='" + head_sculpture + '\'' +
+                ", background='" + background + '\'' +
+                '}';
+    }
+
     public User() {
     }
 
-    public User(String uid, String phone_numbers, String username, String signature, String label,
+    public User(String uid, String phoneNumbers, String username, String signature, String label,
                 short sex, String email, String birthday, String head_sculpture, String background) {
         this.uid = uid;
-        this.phone_numbers = phone_numbers;
+        this.phoneNumbers = phoneNumbers;
         this.username = username;
         this.signature = signature;
         this.label = label;
@@ -37,7 +53,7 @@ public class User {
     }
 
     public String getPhoneNumbers() {
-        return phone_numbers;
+        return phoneNumbers;
     }
 
     public String getUsername() {
@@ -77,7 +93,7 @@ public class User {
     }
 
     public void setPhoneNumbers(String phoneNumbers) {
-        this.phone_numbers = phoneNumbers;
+        this.phoneNumbers = phoneNumbers;
     }
 
     public void setUsername(String username) {

@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -21,10 +24,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.personal.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import Adapter.Personal_Adapter;
 import Tool.ReplaceFragment;
+import Tool.Requests;
 import Tool.User;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -54,7 +59,6 @@ public class Personal_Fragment extends Fragment{
     private int id;
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_personal, container, false);
@@ -74,21 +78,8 @@ public class Personal_Fragment extends Fragment{
 
 
     public void init(View view) {
-        dataClass = new User();
-        tags = new ArrayList<>();
-        tags.add("  篮球  ");
-        tags.add("  足球  ");
-        tags.add("  乒乓球  ");
-        dataClass.setLabel(tags.toString());
-        dataClass.setUsername("摩西摩西");
-        dataClass.setSex((short) 1);
-        dataClass.setPhoneNumbers("123456");
-        dataClass.setBirthday("2002-01-03");
-        dataClass.setSignature("没想好");
-        dataClass.setBackground("000");
-        dataClass.setHead_sculpture("ooo");
-        dataClass.setEmail("1111111");
-        dataClass.setUid("944348013390725120");
+        tags = Arrays.asList(Personal_Fragment.dataClass.getLabel().replace("[", "").replace("]","").split(", "));
+        tags = new ArrayList<>(tags);
         fragment = this;
         more = view.findViewById(R.id.personal_more);
         more.setOnClickListener(new View.OnClickListener() {

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,20 +17,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.commlib.RetrofitBase;
 import com.example.personal.R;
-import com.google.gson.Gson;
 
-import IClass.IClass;
-import IRequest.NameRequest;
 import Tool.Requests;
-import Tool.User;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class amend_username_Fragment extends Fragment implements View.OnClickListener {
     Button back;
@@ -81,40 +69,20 @@ public class amend_username_Fragment extends Fragment implements View.OnClickLis
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.username_over) {
-            Personal_Fragment.dataClass.setUsername(name.getText().toString());
-            Personal_Fragment.name.setText(name.getText().toString());
-            for (View view1 : Personal_Fragment.list2) {
-                TextView v = (TextView) view1;
-                v.setText(name.getText().toString());
+            if(name.getText().toString().equals("")) {
+                Toast.makeText(context, "昵称不能为空", Toast.LENGTH_SHORT).show();
+            }else {
+                Personal_Fragment.dataClass.setUsername(name.getText().toString());
+                Personal_Fragment.name.setText(name.getText().toString());
+                for (View view1 : Personal_Fragment.list2) {
+                    TextView v = (TextView) view1;
+                    v.setText(name.getText().toString());
+                }
+                Requests.Request(handler);
             }
-            Requests.Request(handler);
         } else if (id == R.id.username_back) {
             getActivity().onBackPressed();
         }
-    }
-
-    public void Request() {
-        Retrofit retrofit = new RetrofitBase().getRetrofit();
-        NameRequest nameRequest = retrofit.create(NameRequest.class);
-        //RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), String.valueOf(Personal_Fragment.dataClass));
-        Gson gson = new Gson();
-        String userInfoBean = gson.toJson(Personal_Fragment.dataClass, User.class);
-        RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), userInfoBean);
-        Log.d("xxxxx", userInfoBean);
-        nameRequest.getName(body).enqueue(new Callback<IClass>() {
-            @Override
-            public void onResponse(Call<IClass> call, Response<IClass> response) {
-                Message message = new Message();
-                message.obj = response.body().getCode();
-                Log.d("xxxxxx", response.body().getCode());
-                handler.sendMessage(message);
-            }
-
-            @Override
-            public void onFailure(Call<IClass> call, Throwable t) {
-                Log.d("TAG", "请求失败");
-            }
-        });
     }
 
 }

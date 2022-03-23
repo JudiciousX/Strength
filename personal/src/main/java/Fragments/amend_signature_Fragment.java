@@ -64,10 +64,15 @@ public class amend_signature_Fragment extends Fragment implements View.OnClickLi
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.signature_over) {
-            Personal_Fragment.dataClass.setSignature(signature_signature.getText().toString());
-            Personal_Fragment.signature.setText(signature_signature.getText().toString());
+            if(signature_signature.getText().toString().equals("")) {
+                Toast.makeText(context, "个性签名不能为空", Toast.LENGTH_SHORT).show();
+            }else {
+                Personal_Fragment.dataClass.setSignature(signature_signature.getText().toString());
+                Personal_Fragment.signature.setText(signature_signature.getText().toString());
 
-            Requests.Request(handler);
+                Requests.Request(handler);
+            }
+
         } else if (id == R.id.signature_back) {
             getActivity().onBackPressed();
         }

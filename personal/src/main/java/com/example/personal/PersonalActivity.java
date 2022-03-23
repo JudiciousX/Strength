@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -40,13 +41,15 @@ import java.util.Objects;
 
 
 import Fragments.Personal_Fragment;
-import IClass.IClass;
+import IClass.IClass0;
+import IClass.IClass2;
 import IRequest.NameRequest;
+import Tool.Requests;
+import Tool.User;
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -63,7 +66,10 @@ public class PersonalActivity extends AppCompatActivity {
     private CircleImageView circleImageView;
     private Personal_Fragment fragment;
     private Context context = this;
+    private Activity activity = this;
+    private int size = 0;
     private Bitmap map;
+    public static List<IClass2.ArticleContent> articleContent;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -72,7 +78,7 @@ public class PersonalActivity extends AppCompatActivity {
                     //设置到ImageView上
                     String tag = fragment.getSign();
                     if("0".equals(tag)) {
-                        head = fragment.getList1();
+
                         circleImageView = fragment.getCircleImageView();
                         for(View view : head) {
                             Log.d("xxxxxxxx", view.toString());
@@ -87,6 +93,19 @@ public class PersonalActivity extends AppCompatActivity {
                     break;
                 case "500":
                     Toast.makeText(context, "服务器异常，上传失败", Toast.LENGTH_SHORT).show();
+                    break;
+                case "articleContent200":
+                    size++;
+                    if(size == 2) {
+                        replaceFragment(fragment);
+                    }
+                    break;
+                default :
+                    fragment = new Personal_Fragment(context, activity , R.id.personal_frame);
+                    fragment.dataClass = (User) msg.obj;
+                    head = fragment.getList1();
+                    replaceFragment(fragment);
+                    break;
             }
         }
     };
@@ -115,9 +134,9 @@ public class PersonalActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal);
-        fragment = new Personal_Fragment(this, this, 2131230948);
-        replaceFragment(fragment);
-
+        RetrofitBase.uid = "944348013390725120";
+        Requests.Request1(handler);
+        //Requests.Request3(handler);
     }
 
     private void replaceFragment(Fragment fragment) {
@@ -180,60 +199,7 @@ public class PersonalActivity extends AppCompatActivity {
                     Log.d("xxxxxx", "eee");
                     //在这里获得了剪裁后的Bitmap对象，可以用于上传
                     map = bundle.getParcelable("data");
-//                    Retrofit retrofit = new IRetrofit().getRetrofit();
-//
-//                    NameRequest nameRequest = retrofit.create(NameRequest.class);
-//                    //File file = new File(Environment.getExternalStorageDirectory(), Const.licensepicture);
-//                    File file = new File(Environment.getExternalStorageDirectory(), System.currentTimeMillis()+".jpg");
-//                    RequestBody requestFile =
-//                            RequestBody.create(MediaType.parse("image/jpg"), file);
-//                    Log.d("xxxxxx", file.toString());
-//                    Call<IClass> uploadPicture = nameRequest.upload1(requestFile);
-//                    uploadPicture.enqueue(new Callback<IClass>() {
-//                        @Override
-//                        public void onResponse(Call<IClass> call, Response<IClass> response) {
-//                            Log.e("xxxxxx", "onResponseonResponseonResponse: "+response.body().toString() );
-//                            //Toast.makeText(uploadLicensePicture.this, (CharSequence) response.body(), Toast.LENGTH_SHORT).show();
-//
-//                        }
-//
-//                        @Override
-//                        public void onFailure(Call<IClass> call, Throwable t) {
-//                            Log.e("xxxxx", "onFailureonFailureonFailureonFailureonFailureonFailure: " );
-//                        }
-//                    });
-
-//                    File photoFileDir = new File(Environment.getExternalStorageDirectory() + "/ClipHeadPhoto/cache/");
-//                    if(!photoFileDir.exists()){    // 如果路径不存在，就创建路径
-//                        photoFileDir.mkdirs();
-//                    }
-//                    File photoFile = new File(photoFileDir, "photo");
-
-//                    File file = new File(Environment.getExternalStorageDirectory(), System.currentTimeMillis()+".jpg");
-//                    if (!file.exists()) {
-//                        file.mkdirs();
-//                    }
-                    //File file = new File(Environment.getExternalStorageDirectory(), Const.licensepicture);
-//                    FileOutputStream fileOutStream = null;
-//                    try {
-//                        fileOutStream = new FileOutputStream(file);
-//                    } catch (FileNotFoundException e) {
-//                        file.delete();
-//                        Log.d("xxxxxx", "xxx");
-//                        e.printStackTrace();
-//
-//                    }
-//                    try {
-//
-//                        image.compress(Bitmap.CompressFormat.JPEG, 100, fileOutStream);
-//                        fileOutStream.flush();
-//                        fileOutStream.close();
-//                        uploadImage(file);
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
                     File file = saveImageToGallery(map);
-                    Log.d("xxxxx", file.toString());
                     uploadFanganFile(file);
                     deleteSuccess(this, file.getName());
 
@@ -262,7 +228,7 @@ public class PersonalActivity extends AppCompatActivity {
             fos.flush();
             fos.close();
         } catch (Exception e) {
-            Log.d("xxxxx", e.toString());
+            Log.d("Personal_TAG", "保存图片异常" + e.toString());
             e.printStackTrace();
         } finally {
             if (bitmap!=null&&!bitmap.isRecycled()) {
@@ -285,54 +251,41 @@ public class PersonalActivity extends AppCompatActivity {
         mContentResolver.delete(uri, where, null);
     }
 
+    //上传服务器
     public void uploadFanganFile(File file) {
-        //File file = new File(filePath);
+        String tag = fragment.getSign();
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        MultipartBody.Part body = MultipartBody.Part.createFormData("background", file.getName(), requestFile);
+        MultipartBody.Part body;
+        if("0".equals(tag)) {
+            body = MultipartBody.Part.createFormData("headSculpture", file.getName(), requestFile);
+        }else {
+            body = MultipartBody.Part.createFormData("background", file.getName(), requestFile);
+        }
         Retrofit retrofit = new RetrofitBase().getRetrofit();
         NameRequest nameRequest = retrofit.create(NameRequest.class);
-        Log.d("xxxxxx", body.toString());
-        nameRequest.upload1("944348013390725120",body).enqueue(new Callback<IClass>() {
+
+        Call<IClass0> call;
+        if("0".equals(tag)) {
+            call = nameRequest.upload2("944348013390725120", body);
+        }else {
+            call = nameRequest.upload1("944348013390725120", body);
+        }
+        call.enqueue(new Callback<IClass0>() {
             @Override
-            public void onResponse(Call<IClass> call, Response<IClass> response) {
+            public void onResponse(Call<IClass0> call, Response<IClass0> response) {
                 Message message = new Message();
                 message.obj = response.body().getCode();
-                Log.d("xxxxxx", response.body().getCode());
                 handler.sendMessage(message);
             }
 
             @Override
-            public void onFailure(Call<IClass> call, Throwable t) {
-                Log.d("xxxxxx", t.toString());
+            public void onFailure(Call<IClass0> call, Throwable t) {
+                Log.d("Personal_TAG", "请求失败" + t.toString());
             }
         });
     }
 
-
-    //上传图片至服务器
-//    private void uploadImage(File file) {
-//        Retrofit retrofit = new IRetrofit().getRetrofit();
-//        NameRequest nameRequest = retrofit.create(NameRequest.class);
-//
-//        RequestBody requestBody = RequestBody.create(MediaType.parse("image/png"), file);
-//        Log.d("xxxxx", requestBody.toString());
-//        Log.d("xxxxx", file.toString());
-//        nameRequest.upload1(requestBody).enqueue(new Callback<IClass>() {
-//            @Override
-//            public void onResponse(Call<IClass> call, Response<IClass> response) {
-//                Message message = new Message();
-//                message.obj = response.body().getCode();
-//                Log.d("xxxxxx", response.body().getCode());
-//                handler.sendMessage(message);
-//            }
-//
-//            @Override
-//            public void onFailure(Call<IClass> call, Throwable t) {
-//                Log.d("TAG", "请求失败");
-//            }
-//        });
-//    }
-
+    //申请权限
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -340,9 +293,9 @@ public class PersonalActivity extends AppCompatActivity {
         switch (requestCode) {
             case 1:
                 if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "You agree the permission", Toast.LENGTH_SHORT).show();
+                    showMsg("You agree the permission");
                 }else {
-                    Toast.makeText(this, "You denied the permission", Toast.LENGTH_SHORT).show();
+                    showMsg("You denied the permission");
                 }
                 break;
             default:
@@ -350,23 +303,12 @@ public class PersonalActivity extends AppCompatActivity {
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
-    @AfterPermissionGranted(REQUEST_EXTERNAL_STORAGE_CODE)
-    //注解的意思是权限通过后在调用一次该方法 根据内部参数权限码
-    private void requestPermission() {
-        //一个权限组只要有一个权限通过则代表整组权限通过
-        String[] param = {Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        if(EasyPermissions.hasPermissions(this, param)) {
-            showMsg("已获得权限");
-        }else {
-            //无权限 则进行权限请求
-            EasyPermissions.requestPermissions(this,"请求权限",REQUEST_EXTERNAL_STORAGE_CODE,param);
-        }
-    }
-
+    //显示Toast
     private void showMsg(String msg) {
         Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
     }
 
+    //裁剪头像
     private void pictureCropping(Uri uri) {
         // 调用系统中自带的图片剪裁
         Intent intent = new Intent("com.android.camera.action.CROP");
@@ -387,6 +329,7 @@ public class PersonalActivity extends AppCompatActivity {
 
     }
 
+    //裁剪背景
     private void pictureCropping2(Uri uri) {
         // 调用系统中自带的图片剪裁
         Intent intent = new Intent("com.android.camera.action.CROP");
@@ -403,5 +346,4 @@ public class PersonalActivity extends AppCompatActivity {
         intent.putExtra("return-data", true);
         startActivityForResult(intent, PICTURE_CROPPING_CODE);
     }
-
 }

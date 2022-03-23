@@ -24,14 +24,14 @@
         android:theme="@style/Theme.Basketball"
         android:networkSecurityConfig="@xml/network_config">
         <activity android:name=".MainActivity">
+
+        </activity>
+        <activity android:name=".Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".Splash">
-
         </activity>
         <service android:name="com.amap.api.location.APSService" />
 

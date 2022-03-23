@@ -36,6 +36,8 @@ android {
 }
 
 dependencies {
+//    debugImplementation 'com.squareup.leakcanary: leakcanary-android-core: 2.8.1@aar'
+//    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     //  google权限管理框架
     implementation 'pub.devrel:easypermissions:3.0.0'
@@ -51,8 +53,6 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
-    implementation project(path: ':personal')
-    implementation project(path: ':court')
     annotationProcessor rootProject.ext.annotationLibs		//注释处理器
     if(!is_Module.toBoolean()){
         implementation project(":home")

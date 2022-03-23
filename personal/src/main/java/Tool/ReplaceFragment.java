@@ -14,7 +14,7 @@ public class ReplaceFragment {
         Log.d("xxxxxxxx", R.id.personal_frame + "");
         //如果fragment2没有被添加过，就添加它替换当前的fragment1
         if (!fragment2.isAdded()) {
-            fragmentTransaction.add(id,fragment2)
+            fragmentTransaction.replace(id,fragment2)
                     //加入返回栈，这样你点击返回键的时候就会回退到fragment1了
                     .addToBackStack(null)
                     // 提交事务

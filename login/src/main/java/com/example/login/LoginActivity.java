@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.example.commlib.RetrofitBase;
 
 import IPresenter.LoginPresenter;
 import IView.ILoginView;
@@ -49,8 +50,10 @@ public class LoginActivity extends BaseActivity implements ILoginView, JumpActiv
                     break;
                 default:
                     Succeed();
+                    RetrofitBase.uid = msg.obj.toString();
                     SharedPreferences.Editor editor= getSharedPreferences("LoginId", MODE_PRIVATE).edit();
                     editor.putString("uid", msg.obj.toString());
+                    editor.putBoolean("is_Login", true);
                     editor.apply();
                     break;
 
@@ -236,6 +239,7 @@ public class LoginActivity extends BaseActivity implements ILoginView, JumpActiv
     public void Succeed() {
         //跳转到首页
         ARouter.getInstance().build("/main/main").navigation();
+        this.finish();
     }
 
     @Override
