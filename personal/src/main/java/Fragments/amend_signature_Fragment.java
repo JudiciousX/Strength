@@ -49,15 +49,16 @@ public class amend_signature_Fragment extends Fragment implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.signature_over:
-                Personal_Fragment.dataClass.setSignature(signature_signature.getText().toString());
-                Personal_Fragment.signature.setText(signature_signature.getText().toString());
-            case R.id.signature_back:
-                getActivity().onBackPressed();
-                //ReplaceFragment.showFragment(fragmentTransaction, this, new Personal_Fragment(context, getActivity()));
-                break;
+        int id = view.getId();
+        if (id == R.id.signature_over) {
+            Personal_Fragment.dataClass.setSignature(signature_signature.getText().toString());
+            Personal_Fragment.signature.setText(signature_signature.getText().toString());
 
+            getActivity().onBackPressed();
+            //ReplaceFragment.showFragment(fragmentTransaction, this, new Personal_Fragment(context, getActivity()));
+        } else if (id == R.id.signature_back) {
+            getActivity().onBackPressed();
+            //ReplaceFragment.showFragment(fragmentTransaction, this, new Personal_Fragment(context, getActivity()));
         }
     }
 }

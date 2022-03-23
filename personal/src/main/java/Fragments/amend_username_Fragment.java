@@ -87,37 +87,58 @@ public class amend_username_Fragment extends Fragment implements View.OnClickLis
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.username_over:
-                Personal_Fragment.dataClass.setUsername(name.getText().toString());
-                Personal_Fragment.name.setText(name.getText().toString());
-                for(View view1 : Personal_Fragment.list2) {
-                    TextView v = (TextView) view1;
-                    v.setText(name.getText().toString());
-                }
-            case R.id.username_back:
-                Retrofit retrofit = new IRetrofit().getRetrofit();
-                NameRequest nameRequest = retrofit.create(NameRequest.class);
-                //RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), String.valueOf(Personal_Fragment.dataClass));
-                Gson gson = new Gson();
-                String userInfoBean = gson.toJson(Personal_Fragment.dataClass,User.class);
-                nameRequest.getCall(userInfoBean).enqueue(new Callback<NameClass>() {
-                    @Override
-                    public void onResponse(Call<NameClass> call, Response<NameClass> response) {
-                        Message message = new Message();
-                        message.obj = response.body().getCode();
-                        Log.d("xxxxxx", "请求");
-                        Log.d("xxxxxx", response.body().getCode());
-                        Log.d("xxxxxx", response.body().toString());
-                        handler.sendMessage(message);
-                    }
+        int id = view.getId();
+        if (id == R.id.username_over) {
+            Personal_Fragment.dataClass.setUsername(name.getText().toString());
+            Personal_Fragment.name.setText(name.getText().toString());
+            for (View view1 : Personal_Fragment.list2) {
+                TextView v = (TextView) view1;
+                v.setText(name.getText().toString());
+            }
 
-                    @Override
-                    public void onFailure(Call<NameClass> call, Throwable t) {
-                        Log.d("TAG", "请求失败");
-                    }
-                });
-                break;
+            Retrofit retrofit = new IRetrofit().getRetrofit();
+            NameRequest nameRequest = retrofit.create(NameRequest.class);
+            //RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), String.valueOf(Personal_Fragment.dataClass));
+            Gson gson = new Gson();
+            String userInfoBean = gson.toJson(Personal_Fragment.dataClass, User.class);
+            nameRequest.getCall(userInfoBean).enqueue(new Callback<NameClass>() {
+                @Override
+                public void onResponse(Call<NameClass> call, Response<NameClass> response) {
+                    Message message = new Message();
+                    message.obj = response.body().getCode();
+                    Log.d("xxxxxx", "请求");
+                    Log.d("xxxxxx", response.body().getCode());
+                    Log.d("xxxxxx", response.body().toString());
+                    handler.sendMessage(message);
+                }
+
+                @Override
+                public void onFailure(Call<NameClass> call, Throwable t) {
+                    Log.d("TAG", "请求失败");
+                }
+            });
+        } else if (id == R.id.username_back) {
+            Retrofit retrofit = new IRetrofit().getRetrofit();
+            NameRequest nameRequest = retrofit.create(NameRequest.class);
+            //RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), String.valueOf(Personal_Fragment.dataClass));
+            Gson gson = new Gson();
+            String userInfoBean = gson.toJson(Personal_Fragment.dataClass, User.class);
+            nameRequest.getCall(userInfoBean).enqueue(new Callback<NameClass>() {
+                @Override
+                public void onResponse(Call<NameClass> call, Response<NameClass> response) {
+                    Message message = new Message();
+                    message.obj = response.body().getCode();
+                    Log.d("xxxxxx", "请求");
+                    Log.d("xxxxxx", response.body().getCode());
+                    Log.d("xxxxxx", response.body().toString());
+                    handler.sendMessage(message);
+                }
+
+                @Override
+                public void onFailure(Call<NameClass> call, Throwable t) {
+                    Log.d("TAG", "请求失败");
+                }
+            });
         }
     }
 }

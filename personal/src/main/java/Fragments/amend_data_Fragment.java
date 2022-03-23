@@ -99,33 +99,33 @@ public class amend_data_Fragment extends Fragment implements View.OnClickListene
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.data_over:
-                Personal_Fragment.dataClass.setUsername(username.getText().toString());
-                Personal_Fragment.dataClass.setSignature(signature.getText().toString());
-                Personal_Fragment.signature.setText(signature.getText().toString());
-                Personal_Fragment.name.setText(username.getText().toString());
-                for(View view1 : Personal_Fragment.list2) {
-                    TextView v = (TextView) view1;
-                    v.setText(username.getText().toString());
-                }
-                if(radioGroup.getCheckedRadioButtonId() == R.id.boy) {
-                    Personal_Fragment.dataClass.setSex((short) 1);
-                    Personal_Fragment.personal_sex.setBackgroundResource(R.drawable.boy);
-                }else {
-                    Personal_Fragment.dataClass.setSex((short) 0);
-                    Personal_Fragment.personal_sex.setBackgroundResource(R.drawable.girl);
-                }
-                Personal_Fragment.dataClass.setBirthday(birthday.getText().toString());
+        int id = view.getId();
+        if (id == R.id.data_over) {
+            Personal_Fragment.dataClass.setUsername(username.getText().toString());
+            Personal_Fragment.dataClass.setSignature(signature.getText().toString());
+            Personal_Fragment.signature.setText(signature.getText().toString());
+            Personal_Fragment.name.setText(username.getText().toString());
+            for (View view1 : Personal_Fragment.list2) {
+                TextView v = (TextView) view1;
+                v.setText(username.getText().toString());
+            }
+            if (radioGroup.getCheckedRadioButtonId() == R.id.boy) {
+                Personal_Fragment.dataClass.setSex((short) 1);
+                Personal_Fragment.personal_sex.setBackgroundResource(R.drawable.boy);
+            } else {
+                Personal_Fragment.dataClass.setSex((short) 0);
+                Personal_Fragment.personal_sex.setBackgroundResource(R.drawable.girl);
+            }
+            Personal_Fragment.dataClass.setBirthday(birthday.getText().toString());
 
-            case R.id.data_back:
-                getActivity().onBackPressed();
-                //ReplaceFragment.showFragment(fragmentTransaction,this, new Personal_Fragment(context, getActivity()));
-                break;
-            case R.id.data_birthday:
-                Birthday();
-                break;
 
+            getActivity().onBackPressed();
+            //ReplaceFragment.showFragment(fragmentTransaction,this, new Personal_Fragment(context, getActivity()));
+        } else if (id == R.id.data_back) {
+            getActivity().onBackPressed();
+            //ReplaceFragment.showFragment(fragmentTransaction,this, new Personal_Fragment(context, getActivity()));
+        } else if (id == R.id.data_birthday) {
+            Birthday();
         }
     }
 
