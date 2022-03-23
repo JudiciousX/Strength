@@ -1,0 +1,18 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.message" >
+4
+5    <uses-sdk
+6        android:minSdkVersion="16"
+6-->D:\Strength\message\src\main\AndroidManifest.xml
+7        android:targetSdkVersion="30" />
+7-->D:\Strength\message\src\main\AndroidManifest.xml
+8
+9    <application>
+9-->D:\Strength\message\src\main\AndroidManifest.xml:5:5-7:19
+10        <activity android:name="com.example.message.MessageActivity" />
+10-->D:\Strength\message\src\main\AndroidManifest.xml:6:9-62
+10-->D:\Strength\message\src\main\AndroidManifest.xml:6:19-50
+11    </application>
+12
+13</manifest>
