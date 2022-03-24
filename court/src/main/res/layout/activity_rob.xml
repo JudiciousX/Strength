@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RobActivity">
+    tools:context=".RobActivity"
+    android:animateLayoutChanges="true">
 
     <TextView
         android:id="@+id/title"
@@ -106,7 +107,7 @@
     <EditText
         android:id="@+id/court_context"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="100dp"
         android:layout_marginTop="15dp"
         android:hint="留下您的应战信息..."
         android:padding="10dp"
@@ -114,19 +115,31 @@
         android:background="@drawable/edit_bg"
         app:layout_constraintTop_toBottomOf="@+id/court_context_text"
         app:layout_constraintStart_toStartOf="parent"/>
+
     <Button
         android:id="@+id/issue_publish"
-        android:layout_marginRight="15dp"
-        android:background="@color/classic"
+
+        android:visibility="gone"
+        android:layout_width="90dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/dynamic_unselect"
         android:text="应战"
         android:textColor="@color/white"
         android:textSize="25dp"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/comment_line"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/court_context" />
 
-        />
+    <View
+        android:id="@+id/comment_line"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
 
+        android:background="@color/classic"
+        app:layout_constraintTop_toBottomOf="@+id/issue_publish"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

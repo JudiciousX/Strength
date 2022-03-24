@@ -101,6 +101,7 @@
                 android:text="5V5交流赛，欢迎切磋"
                 android:textColor="@color/black"/>
 
+
             <ImageView
                 android:id="@+id/court_rob"
                 android:layout_width="40dp"
@@ -111,7 +112,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="6dp"
                 android:layout_marginEnd="15dp"
-                android:layout_marginRight="295dp"
+
                 />
 
 

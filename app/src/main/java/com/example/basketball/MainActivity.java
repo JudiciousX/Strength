@@ -348,7 +348,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         //点击替换碎片
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction =getSupportFragmentManager().beginTransaction();
         switch (item.getItemId()) {
             case R.id.home:
                 //例子

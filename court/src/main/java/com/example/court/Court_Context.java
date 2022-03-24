@@ -12,9 +12,13 @@ public class  Court_Context {
         private String address;
         private String time;
         private String information;
+        private ImageView imageView;
 
+    public ImageView getImageView() {
+        return imageView;
+    }
 
-        public int getProfile() {
+    public int getProfile() {
             return profile;
         }
 

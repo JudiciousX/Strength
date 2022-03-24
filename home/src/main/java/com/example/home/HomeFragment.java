@@ -1,8 +1,10 @@
 package com.example.home;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +15,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -39,6 +43,7 @@ import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
 import com.example.home.poisearch.PoiSearch_adapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment implements LocationSource,
@@ -76,6 +81,20 @@ public class HomeFragment extends Fragment implements LocationSource,
         textView = view.findViewById(R.id.local);
         MapsInitializer.updatePrivacyShow(context,true,true);
         MapsInitializer.updatePrivacyAgree(context,true);
+        List<String> permissionList=new ArrayList<>();
+        if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
+            permissionList.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        }
+        if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_PHONE_STATE)!= PackageManager.PERMISSION_GRANTED){
+            permissionList.add(Manifest.permission.READ_PHONE_STATE);
+        }
+        if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+            permissionList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+        if(!permissionList.isEmpty()){
+            String[] permission=permissionList.toArray(new String[permissionList.size()]);
+            ActivityCompat.requestPermissions(getActivity(),permission,1);
+        }
         initLocation();
         //-------- 定位 Start ------
         if (mLocationClient == null) {
@@ -120,7 +139,7 @@ public class HomeFragment extends Fragment implements LocationSource,
      */
     protected void doSearchQuery() {
 //            aMap.setOnMapClickListener(null);// 进行poi搜索时清除掉地图点击事件
-        query = new PoiSearch.Query("篮球", "", city);// 第一个参数表示搜索字符串，第二个参数表示poi搜索类型，第三个参数表示poi搜索区域（空字符串代表全国）
+        query = new PoiSearch.Query("篮球馆", "", city);// 第一个参数表示搜索字符串，第二个参数表示poi搜索类型，第三个参数表示poi搜索区域（空字符串代表全国）
         query.setPageSize(20);// 设置每页最多返回多少条poiitem
         query.setPageNum(1);// 设置查第一页
 //        getLatlon(city);
