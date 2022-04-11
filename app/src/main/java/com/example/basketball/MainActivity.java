@@ -36,6 +36,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.commlib.IMEIDeviceId;
 import com.example.commlib.RetrofitBase;
 import com.example.court.CourtFragment;
 import com.example.home.HomeFragment;
@@ -88,11 +89,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     String tag = fragment.getSign();
                     if("0".equals(tag)) {
                         circleImageView = fragment.getCircleImageView();
+                        Glide.with(context).load(map).apply(requestOptions).into(circleImageView);
+                        Log.d("scout", head.toString());
                         for(View view : head) {
                             Log.d("xxxxxxxx", view.toString());
                             Glide.with(context).load(map).apply(requestOptions).into((CircleImageView) view);
                         }
-                        Glide.with(context).load(map).apply(requestOptions).into(circleImageView);
+
                     }else {
                         imageView = fragment.getImageView();
                         //imageView.setImageBitmap(image);
@@ -105,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 default :
                     fragment = new Personal_Fragment(context, activity , R.id.main_frame);
                     fragment.dataClass = (User) msg.obj;
+                    Log.d("scout", msg.obj.toString());
                     head = fragment.getList1();
                     break;
             }
@@ -244,15 +248,16 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         Call<IClass0> call;
         if("0".equals(tag)) {
-            call = nameRequest.upload2("944348013390725120", body);
+            call = nameRequest.upload2(RetrofitBase.mobileToken, RetrofitBase.uid, body);
         }else {
-            call = nameRequest.upload1("944348013390725120", body);
+            call = nameRequest.upload1(RetrofitBase.mobileToken, RetrofitBase.uid, body);
         }
         call.enqueue(new Callback<IClass0>() {
             @Override
             public void onResponse(Call<IClass0> call, Response<IClass0> response) {
                 Message message = new Message();
                 message.obj = response.body().getCode();
+                Log.d("scout", response.body().getCode());
                 handler.sendMessage(message);
             }
 

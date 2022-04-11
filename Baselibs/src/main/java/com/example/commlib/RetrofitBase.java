@@ -19,4 +19,6 @@ public class RetrofitBase {
 
     public static String uid;
 
+    public static String mobileToken;
+
 }

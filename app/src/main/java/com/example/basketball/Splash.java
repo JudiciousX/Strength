@@ -13,6 +13,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.example.commlib.IMEIDeviceId;
 import com.example.commlib.RetrofitBase;
 
 import IClass.Login_StateClass;
@@ -36,6 +37,7 @@ public class Splash extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         fullScreenConfig();
         setContentView(R.layout.activity_splash);
+        RetrofitBase.mobileToken = IMEIDeviceId.getIMEIDeviceId(this);
         countDownText = findViewById(R.id.tv_count_down);
         ARouter.getInstance().inject(this);
 
