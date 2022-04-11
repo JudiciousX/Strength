@@ -20,6 +20,7 @@ import IView.IForgetView;
 import IView.ISignView;
 import Tools.TimeCount;
 
+//忘记密码
 public class ForgetFragment extends BaseFragment implements View.OnClickListener, ISignView, IForgetView {
     private ImageButton back;
     private EditText user;

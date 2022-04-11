@@ -12,7 +12,7 @@ public class User {
     private short sex;//性别 0女 1男
     private String email;//邮箱
     private String birthday;//生日
-    private String head_sculpture;//头像
+    private String headSculpture;//头像
     private String background;//背景
 
     @Override
@@ -26,7 +26,7 @@ public class User {
                 ", sex=" + sex +
                 ", email='" + email + '\'' +
                 ", birthday='" + birthday + '\'' +
-                ", head_sculpture='" + head_sculpture + '\'' +
+                ", head_sculpture='" + headSculpture + '\'' +
                 ", background='" + background + '\'' +
                 '}';
     }
@@ -44,7 +44,7 @@ public class User {
         this.sex = sex;
         this.email = email;
         this.birthday = birthday;
-        this.head_sculpture = head_sculpture;
+        this.headSculpture = head_sculpture;
         this.background = background;
     }
 
@@ -81,7 +81,7 @@ public class User {
     }
 
     public String getHead_sculpture() {
-        return head_sculpture;
+        return headSculpture;
     }
 
     public String getBackground() {
@@ -121,7 +121,7 @@ public class User {
     }
 
     public void setHead_sculpture(String head_sculpture) {
-        this.head_sculpture = head_sculpture;
+        this.headSculpture = head_sculpture;
     }
 
     public void setBackground(String background) {

@@ -36,6 +36,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.commlib.IMEIDeviceId;
 import com.example.commlib.RetrofitBase;
 import com.example.court.CourtFragment;
 import com.example.home.HomeFragment;
@@ -77,8 +78,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private Context context = this;
     private Bitmap map;
     private Activity activity = this;
-    private int size = 0;
-    public static List<IClass2.ArticleContent> articleContent;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -88,14 +87,15 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     String tag = fragment.getSign();
                     if("0".equals(tag)) {
                         circleImageView = fragment.getCircleImageView();
+                        Glide.with(context).load(map).apply(requestOptions).into(circleImageView);
+                        Log.d("scout", head.toString());
                         for(View view : head) {
                             Log.d("xxxxxxxx", view.toString());
                             Glide.with(context).load(map).apply(requestOptions).into((CircleImageView) view);
                         }
-                        Glide.with(context).load(map).apply(requestOptions).into(circleImageView);
+
                     }else {
                         imageView = fragment.getImageView();
-                        //imageView.setImageBitmap(image);
                         Glide.with(context).load(map).into(imageView);
                     }
                     break;
@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 default :
                     fragment = new Personal_Fragment(context, activity , R.id.main_frame);
                     fragment.dataClass = (User) msg.obj;
+                    Log.d("scout", msg.obj.toString());
                     head = fragment.getList1();
                     break;
             }
@@ -244,9 +245,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         Call<IClass0> call;
         if("0".equals(tag)) {
-            call = nameRequest.upload2("944348013390725120", body);
+            call = nameRequest.upload2(RetrofitBase.mobileToken, RetrofitBase.uid, body);
         }else {
-            call = nameRequest.upload1("944348013390725120", body);
+            call = nameRequest.upload1(RetrofitBase.mobileToken, RetrofitBase.uid, body);
         }
         call.enqueue(new Callback<IClass0>() {
             @Override
@@ -271,9 +272,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         switch (requestCode) {
             case 1:
                 if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "You agree the permission", Toast.LENGTH_SHORT).show();
+                    showMsg("You agree the permission");
                 }else {
-                    Toast.makeText(this, "You denied the permission", Toast.LENGTH_SHORT).show();
+                    showMsg("You denied the permission");
                 }
                 break;
             default:
@@ -286,7 +287,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
     }
 
-    //裁剪头像
+    //裁剪头像 圆形
     private void pictureCropping(Uri uri) {
         // 调用系统中自带的图片剪裁
         Intent intent = new Intent("com.android.camera.action.CROP");
@@ -307,7 +308,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     }
 
-    //裁剪背景
+    //裁剪背景 长方形
     private void pictureCropping2(Uri uri) {
         // 调用系统中自带的图片剪裁
         Intent intent = new Intent("com.android.camera.action.CROP");
@@ -340,9 +341,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         if(actionBar!=null){
             actionBar.hide();
         }
-        RetrofitBase.uid = "944348013390725120";
+        //获取用户全部信息
         Requests.Request1(handler);
-        //Requests.Request3(handler);
     }
 
 
@@ -352,17 +352,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         FragmentTransaction fragmentTransaction =getSupportFragmentManager().beginTransaction();
         switch (item.getItemId()) {
             case R.id.home:
-                //例子
+                //首页
                 fragmentTransaction.replace(R.id.main_frame, new HomeFragment()).commit();
                 break;
             case R.id.ball_game:
+                //球局
                 fragmentTransaction.replace(R.id.main_frame, new CourtFragment()).commit();
                 break;
-//            case R.id.personal:
-//                //替换碎片
-//                //fragment = new Personal_Fragment(this, this, R.id.main_frame);
-//                fragmentTransaction.replace(R.id.main_frame,fragment).commit();
-//                break;
+            case R.id.personal:
+                //个人
+                fragmentTransaction.replace(R.id.main_frame,fragment).commit();
+                break;
         }
         return true;
     }

@@ -266,9 +266,9 @@ public class PersonalActivity extends AppCompatActivity {
 
         Call<IClass0> call;
         if("0".equals(tag)) {
-            call = nameRequest.upload2("944348013390725120", body);
+            call = nameRequest.upload2(RetrofitBase.mobileToken, RetrofitBase.uid, body);
         }else {
-            call = nameRequest.upload1("944348013390725120", body);
+            call = nameRequest.upload1(RetrofitBase.mobileToken, RetrofitBase.uid, body);
         }
         call.enqueue(new Callback<IClass0>() {
             @Override

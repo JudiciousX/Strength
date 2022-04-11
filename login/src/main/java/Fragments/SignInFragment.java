@@ -17,6 +17,7 @@ import IPresenter.SignPresenter;
 import IView.ISignView;
 import Tools.TimeCount;
 
+//注册
 public class SignInFragment extends BaseFragment implements View.OnClickListener, ISignView {
     private TimeCount timeCount;
     private Activity activity;

@@ -51,7 +51,7 @@ public class Personal_Fragment extends Fragment{
     private String tag = new String();
     private Fragment fragment;
     private FragmentTransaction fragmentTransaction;
-    public static List<View> list1;
+    public static List<View> list1 = new ArrayList<>();
     public static List<View> list2;
     public static String username;
     public static TextView signature;

@@ -1,5 +1,8 @@
 package IRequest;
 
+import com.example.commlib.IMEIDeviceId;
+
+import Fragments.Personal_Fragment;
 import IClass.IClass0;
 import IClass.IClass1;
 import IClass.IClass2;
@@ -7,6 +10,9 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -14,23 +20,26 @@ import retrofit2.http.Path;
 
 public interface NameRequest {
 
-    @POST("info/updateothers")
-    Call<IClass0> getlothers(@Body RequestBody Body);
+    //修改全部信息
+    @POST("info/updateOthers")
+    Call<IClass0> getlothers(@Header("mobileToken") String mobileToken, @Header("uid") String uid, @Body RequestBody Body);
 
-    @POST("info/getinfo/{uid}")
-    Call<IClass1> getinfo(@Path("uid")String uid);
+    //获取全部信息
+    @GET("info/getInfo")
+    Call<IClass1> getinfo(@Header("mobileToken") String mobileToken, @Header("uid") String uid);
 
-    @POST("info/updatelabel")
-    Call<IClass0> getupdatelabel(@Body RequestBody Body);
+    //修改标签
+    @POST("info/updateLabel")
+    Call<IClass0> getupdatelabel(@Header("mobileToken") String mobileToken, @Header("uid") String uid, @Body RequestBody Body);
 
+    //修改背景
     @Multipart
-    @POST("info/updateback/{uid}")
-    Call<IClass0> upload1(@Path("uid")String uid, @Part() MultipartBody.Part file);
+    @POST("info/updateBack")
+    Call<IClass0> upload1(@Header("mobileToken") String mobileToken, @Header("uid") String uid, @Part() MultipartBody.Part file);
 
+    //修改头像
     @Multipart
-    @POST("info/updatehead/{uid}")
-    Call<IClass0> upload2(@Path("uid")String uid, @Part() MultipartBody.Part file);
+    @POST("info/updateHead")
+    Call<IClass0> upload2(@Header("mobileToken") String mobileToken, @Header("uid") String uid, @Part() MultipartBody.Part file);
 
-    @POST("article/getArticle/{uid}")
-    Call<IClass2> getArticle(@Path("uid")String uid);
 }

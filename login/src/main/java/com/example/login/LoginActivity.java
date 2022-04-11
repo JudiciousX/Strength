@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.example.commlib.IMEIDeviceId;
 import com.example.commlib.RetrofitBase;
 
 import IPresenter.LoginPresenter;
@@ -80,6 +81,7 @@ public class LoginActivity extends BaseActivity implements ILoginView, JumpActiv
 
     @Override
     void init() {
+        //检测是否填入账号密码 进行按钮颜色变换
         password_edit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -156,7 +158,7 @@ public class LoginActivity extends BaseActivity implements ILoginView, JumpActiv
                     } else if(phoneNumbers.length() > 11) {
                         Toast.makeText(context, "账号不得超过11位", Toast.LENGTH_SHORT).show();
                     } else {
-                        String mobileToken = loginPresenter.getModel().getIMEIDeviceId(context);
+                        String mobileToken = RetrofitBase.mobileToken;
                         loginPresenter.getModel().result(phoneNumbers, password, mobileToken, context, handler);
                     }
 
@@ -187,6 +189,7 @@ public class LoginActivity extends BaseActivity implements ILoginView, JumpActiv
                 jump("signIn");
             }
         });
+        //是否字符化显示密码
         see.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -204,6 +207,7 @@ public class LoginActivity extends BaseActivity implements ILoginView, JumpActiv
     }
 
 
+    //登录失败
     @Override
     public void Failed() {
         //弹窗（失败信息）
@@ -235,6 +239,7 @@ public class LoginActivity extends BaseActivity implements ILoginView, JumpActiv
         dialog.show();
     }
 
+    //登录成功
     @Override
     public void Succeed() {
         //跳转到首页
@@ -242,6 +247,7 @@ public class LoginActivity extends BaseActivity implements ILoginView, JumpActiv
         this.finish();
     }
 
+    //账号或密码输入为空
     @Override
     public boolean isEmpty(boolean id, boolean password) {
         if(id && password) {
@@ -250,6 +256,7 @@ public class LoginActivity extends BaseActivity implements ILoginView, JumpActiv
         return false;
     }
 
+    //跳转函数
     @Override
     public void jump(String data) {
         Intent intent = new Intent(LoginActivity.this, SignInActivity.class);

@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.example.commlib.IMEIDeviceId;
 import com.example.commlib.RetrofitBase;
 import com.example.personal.R;
 
@@ -27,6 +28,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
+//兴趣标签
 public class more_Fragment extends Fragment {
     private TextView textView;
     private Button back;
@@ -60,7 +62,7 @@ public class more_Fragment extends Fragment {
             @Override
             public void onClick(View view) {
                 //网络请求
-                mobileToken = new LoginModel().getIMEIDeviceId(view.getContext());
+                mobileToken = RetrofitBase.mobileToken;
                 Retrofit retrofit = new RetrofitBase().getRetrofit();
                 IRequests iRequests = retrofit.create(IRequests.class);
                 iRequests.getLogoff(mobileToken).enqueue(new Callback<SignIn_Logoff_Forget_SendSmsClass>() {

@@ -21,7 +21,7 @@ public interface IRequests {
     Call<Login_StateClass> getForget(@Path("phoneNumbers")String user,
                                    @Path("password")String password);
 
-    @POST("login/sendsms/{phoneNumbers}")
+    @GET("common/sendSms/{phoneNumbers}")
     Call<SignIn_Logoff_Forget_SendSmsClass> getSendSms(@Path("phoneNumbers")String phoneNumbers);
 
     @POST("login/register/{phoneNumbers}/{password}/{token}")
@@ -32,7 +32,7 @@ public interface IRequests {
     @POST("login/state/{mobileToken}")
     Call<Login_StateClass> getState(@Path("mobileToken")String mobileToken);
 
-    @POST("login/verify/{phoneNumbers}/{token}")
+    @GET("common/verify/{phoneNumbers}/{token}")
     Call<SignIn_Logoff_Forget_SendSmsClass> getVerify(@Path("phoneNumbers")String phoneNumbers,
                                                       @Path("token")String token);
 }

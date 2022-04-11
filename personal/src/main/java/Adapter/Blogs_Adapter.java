@@ -65,7 +65,7 @@ public class Blogs_Adapter extends RecyclerView.Adapter<Blogs_Adapter.ViewHolder
     public void onBindViewHolder(Blogs_Adapter.ViewHolder holder, int position) {
         user.setText(Personal_Fragment.dataClass.getUsername());
         Glide.with(context).load(Personal_Fragment.dataClass.getHead_sculpture()).apply(requestOptions).into(head);
-        head1.add(head);
+        Personal_Fragment.list1.add(head);
         user1.add(user);
         time1.add(time);
     }
@@ -73,15 +73,6 @@ public class Blogs_Adapter extends RecyclerView.Adapter<Blogs_Adapter.ViewHolder
     @Override
     public int getItemCount() {
         return 10;
-    }
-
-
-    public List<View> getHead1() {
-        return head1;
-    }
-
-    public List<View> getTime1() {
-        return time1;
     }
 
     public List<View> getUser1() {
