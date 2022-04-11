@@ -334,6 +334,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bottomNavigationView = findViewById(R.id.main_bottom);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.home);
+        
 
         //隐藏标题栏
         ActionBar actionBar = getSupportActionBar();

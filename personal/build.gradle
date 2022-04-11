@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         if(is_Module.toBoolean()){
-            applicationId "activitytest.com.example.personal"
+            applicationId "com.example.personal"
         }
 
 //        applicationId "com.example.personal"

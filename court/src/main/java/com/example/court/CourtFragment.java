@@ -1,5 +1,7 @@
-package com.example.court;
+ package com.example.court;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +15,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -43,7 +48,10 @@ public class CourtFragment extends Fragment{
             list.add(new ChoiceFragment());
             list.add(new AttentionFragment());
 
-
+//            tabLayout.addTab(tabLayout.newTab().setText("精选"));
+//            tabLayout.addTab(tabLayout.newTab().setText("关注"));
+//viewPager.setAdapter(new MyFragmentPagerAdapter(getActivity().getSupportFragmentManager(),tabLayout.getTabCount()));
+//viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
             MyFragmentPagerAdapter adapter = new MyFragmentPagerAdapter(getActivity(), list);
             viewPager.setAdapter(adapter);
             viewPager.setCurrentItem(1);
@@ -55,6 +63,23 @@ public class CourtFragment extends Fragment{
                     Log.d("tttaaa",tabs[position]);
                 }
             }).attach();
+//        tabLayout.setupWithViewPager();
+//        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+//            @Override
+//            public void onTabSelected(TabLayout.Tab tab) {
+//                viewPager.setCurrentItem(tab.getPosition());
+//            }
+//
+//            @Override
+//            public void onTabUnselected(TabLayout.Tab tab) {
+//
+//            }
+//
+//            @Override
+//            public void onTabReselected(TabLayout.Tab tab) {
+//
+//            }
+//        });
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -69,13 +94,11 @@ public class CourtFragment extends Fragment{
     static class MyFragmentPagerAdapter extends FragmentStateAdapter {
 
         List<Fragment> list;
-
-        public MyFragmentPagerAdapter(FragmentActivity activity, List<Fragment> list) {
-            super(activity);
+        public MyFragmentPagerAdapter( FragmentActivity fragmentActivity, List list) {
+            super(fragmentActivity);
             this.list = list;
-
         }
-        @NonNull
+
         @Override
         public Fragment createFragment(int position) {
             return list.get(position);
@@ -85,7 +108,43 @@ public class CourtFragment extends Fragment{
         public int getItemCount() {
             return list.size();
         }
+
+//        int num;
+//        List<Fragment> list = new ArrayList<>();
+//
+//        public MyFragmentPagerAdapter(FragmentManager manager, int num) {
+//            super(manager);
+//            this.num = num;
+//
+//        }
+//
+//        @Override
+//        public Fragment getItem(int position) {
+//            return createFragment(position);
+//        }
+//
+//        private Fragment createFragment(int pos){
+//            Fragment fragment = list.get(pos);
+//            if(fragment==null){
+//                switch (pos){
+//                    case 0:
+//                    fragment = new AttentionFragment();
+//                    break;
+//                    case 1:
+//                        fragment = new ChoiceFragment();
+//                        break;
+//                }
+//                list.add(fragment);
+//            }
+//            return fragment;
+//        }
+//
+//        @Override
+//        public int getCount() {
+//            return num;
+//        }
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();

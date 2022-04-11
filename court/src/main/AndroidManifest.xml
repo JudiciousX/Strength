@@ -2,12 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.court">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:networkSecurityConfig="@xml/network_config">
-        <activity android:name=".CourtActivity"
-            ></activity>
+        <activity android:name=".CourtActivity"></activity>
         <activity android:name=".IssueActivity"></activity>
         <activity android:name=".RobActivity"></activity>
     </application>
-k
+
 </manifest>

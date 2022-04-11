@@ -103,6 +103,7 @@ android:background="@drawable/court_telephone"
         app:layout_constraintTop_toBottomOf="@+id/time_text"/>
 
     <Button
+        android:id="@+id/reserve_button"
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:background="@color/classic"

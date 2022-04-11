@@ -4,7 +4,7 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="testRunner" value="GRADLE" />
+        <option name="testRunner" value="PLATFORM" />
         <option name="distributionType" value="LOCAL" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="gradleJvm" value="11" />
@@ -18,12 +18,12 @@
             <option value="$PROJECT_DIR$/login" />
             <option value="$PROJECT_DIR$/message" />
             <option value="$PROJECT_DIR$/myapplication" />
+            <option value="$PROJECT_DIR$/news" />
             <option value="$PROJECT_DIR$/personal" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
       </GradleProjectSettings>
     </option>
-    <option name="offlineMode" value="true" />
   </component>
 </project>

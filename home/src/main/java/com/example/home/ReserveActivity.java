@@ -35,6 +35,7 @@ public class ReserveActivity extends AppCompatActivity {
     Button back;
     TextView name;
     MapView mapView;
+    Button button;
     private AMap aMap;
     private LatLng latlng;
 
@@ -46,6 +47,7 @@ public class ReserveActivity extends AppCompatActivity {
         back = findViewById(R.id.reserve_back);
         name = findViewById(R.id.court_name);
         mapView = findViewById(R.id.map);
+        button=findViewById(R.id.reserve_button);
         tel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,6 +59,12 @@ public class ReserveActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new PayFragment().show(getSupportFragmentManager(),"tag");
             }
         });
         String court_name = getIntent().getStringExtra("court_name");

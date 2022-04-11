@@ -167,8 +167,13 @@ public class HomeFragment extends Fragment implements LocationSource,
                 mListener.onLocationChanged(aMapLocation);
                 //设置第一次焦点中心
                 latlng = new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude());
-                aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 14), 1000, null);
-                city = aMapLocation.getProvince();
+//                aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 14), 1000, null);
+//                city = aMapLocation.getProvince();
+//                MarkerOptions markerOption = new MarkerOptions().position(latlng)
+//                        .draggable(false)
+//                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.map_localicon));
+//                //将数据添加到地图上
+//                aMap.addMarker(markerOption);
                 doSearchQuery();
             } else {
                 String errText = "定位失败," + aMapLocation.getErrorCode() + ": " + aMapLocation.getErrorInfo();
@@ -202,11 +207,11 @@ public class HomeFragment extends Fragment implements LocationSource,
     public void onCameraChangeFinish(CameraPosition cameraPosition) {
         latlng = cameraPosition.target;
         aMap.clear();
-        MarkerOptions markerOption = new MarkerOptions().position(latlng)
-                .draggable(false)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.map_localicon));
-        //将数据添加到地图上
-        aMap.addMarker(markerOption);
+//        MarkerOptions markerOption = new MarkerOptions().position(latlng)
+//                .draggable(false)
+//                .icon(BitmapDescriptorFactory.fromResource(R.drawable.map_localicon));
+//        //将数据添加到地图上
+//        aMap.addMarker(markerOption);
         doSearchQuery();
     }
 
@@ -217,6 +222,17 @@ public class HomeFragment extends Fragment implements LocationSource,
                 if (result.getQuery().equals(query)) {// 是否是同一条
                     poiResult = result;
                     poiItems = poiResult.getPois();// 取得第一页的poiItem数据，页数从数字0开始
+                    for(PoiItem poii:poiItems){
+                        double latitude,longitude;
+                        latitude=poii.getLatLonPoint().getLatitude();
+                        longitude=poii.getLatLonPoint().getLongitude();
+                        LatLng lng = new LatLng(latitude,longitude);
+                        MarkerOptions markerOption = new MarkerOptions().position(lng)
+                                .draggable(false)
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.map_localicon));
+                        //将数据添加到地图上
+                        aMap.addMarker(markerOption);
+                    }
                     Log.d("conttte", poiItems.get(1).toString());
                     List<SuggestionCity> suggestionCities = poiResult
                             .getSearchSuggestionCitys();
