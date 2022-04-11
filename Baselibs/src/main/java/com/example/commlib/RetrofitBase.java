@@ -17,8 +17,10 @@ public class RetrofitBase {
         return retrofit;
     }
 
+    //网络请求所需的uid
     public static String uid;
 
+    //网络请求所需的token
     public static String mobileToken;
 
 }

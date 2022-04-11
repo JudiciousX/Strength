@@ -9,6 +9,7 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 
 public class IMEIDeviceId {
+    //获取手机唯一标识符
     public static String getIMEIDeviceId(Context context) {
         String deviceId;
 

@@ -20,19 +20,24 @@ import retrofit2.http.Path;
 
 public interface NameRequest {
 
+    //修改全部信息
     @POST("info/updateOthers")
     Call<IClass0> getlothers(@Header("mobileToken") String mobileToken, @Header("uid") String uid, @Body RequestBody Body);
 
+    //获取全部信息
     @GET("info/getInfo")
     Call<IClass1> getinfo(@Header("mobileToken") String mobileToken, @Header("uid") String uid);
 
+    //修改标签
     @POST("info/updateLabel")
     Call<IClass0> getupdatelabel(@Header("mobileToken") String mobileToken, @Header("uid") String uid, @Body RequestBody Body);
 
+    //修改背景
     @Multipart
     @POST("info/updateBack")
     Call<IClass0> upload1(@Header("mobileToken") String mobileToken, @Header("uid") String uid, @Part() MultipartBody.Part file);
 
+    //修改头像
     @Multipart
     @POST("info/updateHead")
     Call<IClass0> upload2(@Header("mobileToken") String mobileToken, @Header("uid") String uid, @Part() MultipartBody.Part file);

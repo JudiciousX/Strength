@@ -19,6 +19,7 @@ import com.example.personal.R;
 
 import Tool.Requests;
 
+//修改个性签名
 public class amend_signature_Fragment extends Fragment implements View.OnClickListener{
     Button back;
     TextView over;

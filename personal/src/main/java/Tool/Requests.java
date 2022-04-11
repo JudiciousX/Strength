@@ -26,14 +26,11 @@ public class Requests {
          Gson gson = new Gson();
          String userInfoBean = gson.toJson(Personal_Fragment.dataClass, User.class);
          RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), userInfoBean);
-         Log.d("xxxxx", userInfoBean);
          nameRequest.getlothers(RetrofitBase.mobileToken, RetrofitBase.uid, body).enqueue(new Callback<IClass0>() {
              @Override
              public void onResponse(Call<IClass0> call, Response<IClass0> response) {
                  Message message = new Message();
                  message.obj = response.body().getCode();
-                 Log.d("xxxxxx", response.toString());
-                 Log.d("xxxxxx", response.body().getCode());
                  handler.sendMessage(message);
              }
 
@@ -56,8 +53,6 @@ public class Requests {
             public void onResponse(Call<IClass0> call, Response<IClass0> response) {
                 Message message = new Message();
                 message.obj = response.body().getCode();
-                Log.d("xxxxxx", response.toString());
-                Log.d("xxxxxx", response.body().getCode());
                 handler.sendMessage(message);
             }
 
@@ -74,10 +69,8 @@ public class Requests {
         nameRequest.getinfo(RetrofitBase.mobileToken, RetrofitBase.uid).enqueue(new Callback<IClass1>() {
             @Override
             public void onResponse(Call<IClass1> call, Response<IClass1> response) {
-               // Personal_Fragment.dataClass = response.body().getData();
                 Message message = new Message();
                 message.obj = response.body().getData();
-                Log.d("scout", response.body().getData().toString());
                 handler.sendMessage(message);
 
             }

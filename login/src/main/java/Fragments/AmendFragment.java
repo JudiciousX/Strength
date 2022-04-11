@@ -19,6 +19,7 @@ import IView.IForgetView;
 import IView.ISignView;
 import Tools.TimeCount;
 
+//修改密码
 public class AmendFragment extends BaseFragment implements View.OnClickListener, ISignView,IForgetView {
     private ImageButton back;
     private EditText newPassword1;

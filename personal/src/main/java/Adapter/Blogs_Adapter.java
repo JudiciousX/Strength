@@ -75,15 +75,6 @@ public class Blogs_Adapter extends RecyclerView.Adapter<Blogs_Adapter.ViewHolder
         return 10;
     }
 
-
-    public List<View> getHead1() {
-        return head1;
-    }
-
-    public List<View> getTime1() {
-        return time1;
-    }
-
     public List<View> getUser1() {
         return user1;
     }

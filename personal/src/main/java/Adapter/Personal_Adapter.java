@@ -168,8 +168,10 @@ public class Personal_Adapter extends RecyclerView.Adapter<Personal_Adapter.View
 
                 list.add(new Recycler_Fragment(context, R.layout.fragment_blogs, adapter1));
                 list.add(new Recycler_Fragment(context, R.layout.fragment_collect, new Collect_Adapter()));
+                list.add(new Recycler_Fragment(context, R.layout.fragment_attention, new Attention_Adapter()));
                 titles.add("博客");
                 titles.add("收藏");
+                titles.add("关注");
                 Tab_Adapter adapter = new Tab_Adapter(fm, list);
                 viewPager2.setAdapter(adapter);
 
@@ -223,34 +225,15 @@ public class Personal_Adapter extends RecyclerView.Adapter<Personal_Adapter.View
     }
 
     @Override
-    public void blogs() {
-
-    }
-
-    @Override
-    public void arena() {
-
-    }
-
-    @Override
-    public void modified() {
-
-    }
-
-
-    @Override
     public void onClick(View view) {
 
         int id = view.getId();
         if (id == R.id.personal_photo) {
-
             tag = "0";
             dialog();
         } else if (id == R.id.personal_background) {
             tag = "1";
             dialog();
-            Log.d("xxxxxx", String.valueOf(imageView.getRight()));
-            Log.d("xxxxxx", String.valueOf(imageView.getBottom()));
         } else if (id == R.id.tv_camera) {
             Intent intent = backgroundPresenter.getModel().camera();
             activity.startActivityForResult(intent, SELECT_CAMER);
@@ -282,7 +265,6 @@ public class Personal_Adapter extends RecyclerView.Adapter<Personal_Adapter.View
             mSelectItem.select(personal_signature, "3");
             fragmentTransaction = fm.getSupportFragmentManager().beginTransaction();
             ReplaceFragment.showFragment(fragmentTransaction, fragment, new amend_signature_Fragment(context), ids);
-            Log.d("xxxxxxxxx", id+"");
         } else if (id == R.id.personal_edit) {
             mSelectItem.select(personal_sex, "4");
             mSelectItem.select(personal_username, "2");
@@ -358,7 +340,6 @@ public class Personal_Adapter extends RecyclerView.Adapter<Personal_Adapter.View
         } else if (id == R.id.tag_button) {
             TAG_Adapter tag_adapter = new TAG_Adapter();
             recyclerView.setAdapter(tag_adapter);
-            Toast.makeText(context, "ooo", Toast.LENGTH_SHORT).show();
             dialog.dismiss();
             //修改兴趣标签
             Personal_Fragment.dataClass.setLabel(Personal_Fragment.tags.toString());

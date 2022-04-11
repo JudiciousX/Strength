@@ -49,36 +49,4 @@ public class LoginModel implements ILoginModel {
         });
     }
 
-    //获取手机唯一标识符
-    @Override
-    public String getIMEIDeviceId(Context context) {
-        return IMEIDeviceId.getIMEIDeviceId(context);
-//        String deviceId;
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
-//        {
-//            deviceId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
-//        } else {
-//            final TelephonyManager mTelephony = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//                if (context.checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-//                    return "";
-//                }
-//            }
-//            assert mTelephony != null;
-//            if (mTelephony.getDeviceId() != null)
-//            {
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-//                {
-//                    deviceId = mTelephony.getImei();
-//                }else {
-//                    deviceId = mTelephony.getDeviceId();
-//                }
-//            } else {
-//                deviceId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
-//            }
-//        }
-//        Log.d("deviceId", deviceId);
-//        return deviceId;
-    }
 }

@@ -28,6 +28,7 @@ import Tool.DatePickerDialog;
 import Tool.DateUtil;
 import Tool.Requests;
 
+//修改个人资料
 public class amend_data_Fragment extends Fragment implements View.OnClickListener {
     Context context;
     Button back;
@@ -148,7 +149,6 @@ public class amend_data_Fragment extends Fragment implements View.OnClickListene
                 Personal_Fragment.dataClass.setBirthday(birthday.getText().toString());
 
                 Requests.Request(handler);
-                //ReplaceFragment.showFragment(fragmentTransaction,this, new Personal_Fragment(context, getActivity()));
             }
         } else if (id == R.id.data_back) {
             getActivity().onBackPressed();

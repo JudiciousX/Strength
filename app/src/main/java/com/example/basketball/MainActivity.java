@@ -78,8 +78,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private Context context = this;
     private Bitmap map;
     private Activity activity = this;
-    private int size = 0;
-    public static List<IClass2.ArticleContent> articleContent;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -98,7 +96,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
                     }else {
                         imageView = fragment.getImageView();
-                        //imageView.setImageBitmap(image);
                         Glide.with(context).load(map).into(imageView);
                     }
                     break;
@@ -257,7 +254,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             public void onResponse(Call<IClass0> call, Response<IClass0> response) {
                 Message message = new Message();
                 message.obj = response.body().getCode();
-                Log.d("scout", response.body().getCode());
                 handler.sendMessage(message);
             }
 
@@ -276,9 +272,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         switch (requestCode) {
             case 1:
                 if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "You agree the permission", Toast.LENGTH_SHORT).show();
+                    showMsg("You agree the permission");
                 }else {
-                    Toast.makeText(this, "You denied the permission", Toast.LENGTH_SHORT).show();
+                    showMsg("You denied the permission");
                 }
                 break;
             default:
@@ -291,7 +287,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
     }
 
-    //裁剪头像
+    //裁剪头像 圆形
     private void pictureCropping(Uri uri) {
         // 调用系统中自带的图片剪裁
         Intent intent = new Intent("com.android.camera.action.CROP");
@@ -312,7 +308,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     }
 
-    //裁剪背景
+    //裁剪背景 长方形
     private void pictureCropping2(Uri uri) {
         // 调用系统中自带的图片剪裁
         Intent intent = new Intent("com.android.camera.action.CROP");
@@ -344,9 +340,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         if(actionBar!=null){
             actionBar.hide();
         }
-        RetrofitBase.uid = "944348013390725120";
+        //获取用户全部信息
         Requests.Request1(handler);
-        //Requests.Request3(handler);
     }
 
 
@@ -356,15 +351,15 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         switch (item.getItemId()) {
             case R.id.home:
-                //例子
+                //首页
                 fragmentTransaction.replace(R.id.main_frame, new HomeFragment()).commit();
                 break;
             case R.id.ball_game:
+                //球局
                 fragmentTransaction.replace(R.id.main_frame, new CourtFragment()).commit();
                 break;
             case R.id.personal:
-                //替换碎片
-                //fragment = new Personal_Fragment(this, this, R.id.main_frame);
+                //个人
                 fragmentTransaction.replace(R.id.main_frame,fragment).commit();
                 break;
         }

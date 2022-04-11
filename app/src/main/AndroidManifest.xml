@@ -23,9 +23,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Basketball"
         android:networkSecurityConfig="@xml/network_config">
-        <activity android:name=".MainActivity">
-
-        </activity>
+        <activity android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+        />
         <activity android:name=".Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

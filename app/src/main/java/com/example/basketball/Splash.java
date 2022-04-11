@@ -40,6 +40,8 @@ public class Splash extends AppCompatActivity {
         RetrofitBase.mobileToken = IMEIDeviceId.getIMEIDeviceId(this);
         countDownText = findViewById(R.id.tv_count_down);
         ARouter.getInstance().inject(this);
+        //获取手机唯一标识符
+        RetrofitBase.mobileToken = IMEIDeviceId.getIMEIDeviceId(this);
 
         countDownText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +54,7 @@ public class Splash extends AppCompatActivity {
 
     }
 
+    //启动页倒计时
     private void initCountDown() {
         //倒计时总时长 倒计时间间隔
         timer = new CountDownTimer(1000 * 3, 1000) {
@@ -95,9 +98,11 @@ public class Splash extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("LoginId", MODE_PRIVATE);
 
         if(sharedPreferences.getBoolean("is_Login", false)) {
+            //登录后从文件中取出uid
             RetrofitBase.uid = sharedPreferences.getString("uid", "");
             ARouter.getInstance().build("/main/main").navigation();
         }else {
+            //未登录跳转到login模块进行登录
             Log.d("scout", "login");
             ARouter.getInstance().build("/login/login").navigation();
         }
