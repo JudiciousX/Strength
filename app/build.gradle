@@ -59,6 +59,7 @@ dependencies {
         implementation project(":login")
         implementation project(":personal")
         implementation project(":court")
+        implementation project(":news")
     }
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0' // ViewPager 2 需要使用 RecycleView 的 adapter    testImplementation 'junit:junit:4.+'

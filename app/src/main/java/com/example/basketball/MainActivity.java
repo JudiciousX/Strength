@@ -333,6 +333,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bottomNavigationView = findViewById(R.id.main_bottom);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.home);
+        
 
         //隐藏标题栏
         ActionBar actionBar = getSupportActionBar();
@@ -357,11 +358,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             case R.id.ball_game:
                 fragmentTransaction.replace(R.id.main_frame, new CourtFragment()).commit();
                 break;
-            case R.id.personal:
-                //替换碎片
-                //fragment = new Personal_Fragment(this, this, R.id.main_frame);
-                fragmentTransaction.replace(R.id.main_frame,fragment).commit();
-                break;
+//            case R.id.personal:
+//                //替换碎片
+//                //fragment = new Personal_Fragment(this, this, R.id.main_frame);
+//                fragmentTransaction.replace(R.id.main_frame,fragment).commit();
+//                break;
         }
         return true;
     }

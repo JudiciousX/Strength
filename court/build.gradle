@@ -52,7 +52,9 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0' // ViewPager 2 需要使用 RecycleView 的 adapter
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+// ViewPager 2 需要使用 RecycleView 的 adapter
     annotationProcessor rootProject.ext.annotationLibs		//注释处理器
     /*步骤二：添加retrofit依赖库*/
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'

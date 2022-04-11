@@ -125,7 +125,7 @@ public interface Api {
     //@Part用于表单字段，适用于文件上传的情况,@PartMap用于表单字段，可用于多文件上传的情况
     //@Part支持三种类型：RequestBody、MultipartBody.Part、任意类型
     @Multipart
-    @POST("user/followers")
+    @POST("addArticle/")
     Call<ResponseBody> getPartData(@Part("name") RequestBody name, @Part MultipartBody.Part file);
 
     //多文件上传
@@ -137,8 +137,9 @@ public interface Api {
     //get请求
 //    @GET("api/rand.music")
 //    Call<Data<Info>> getJsonData(@Query("sort") String sort, @Query("format") String format);
-    @GET("/article/getArticle/{uid}")
-    Call<Article> getJsonData(@Path("uid") String data);
+
+    @GET("/article/getArticleList/")
+    Call<Article> getJsonData(@Header("uid") String uid);
     //post请求
     @FormUrlEncoded
     @POST("api/comments.163")

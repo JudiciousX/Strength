@@ -1,6 +1,7 @@
 package com.example.court.choice;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.icu.text.IDNA;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,63 +44,72 @@ public class ChoiceFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.court_recyclerview, container, false);
-//        mRetrofit = new Retrofit.Builder()
-//                //设置网络请求BaseUrl地址
-//                .baseUrl("http://47.116.14.251:8888")
-//                //设置数据解析器
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-//        // 步骤5:创建网络请求接口对象实例
-//        Api api = mRetrofit.create(Api.class);
-//        //步骤6：对发送请求进行封装，传入接口参数
-//        Call<Article> jsonDataCall = api.getJsonData("944348013390725120");
-////        Call<Article> cloneCall = jsonDataCall.clone();
-//        //同步执行
-//        //步骤7:发送网络请求(异步)
-//        Log.d("uriui","get == url：" + jsonDataCall.request().url());
-//        jsonDataCall.enqueue(new Callback<Article>() {
-//            @Override
-//            public void onResponse(Call<Article> call, Response<Article> response) {
-//                //步骤8：请求处理,输出结果
-//                Toast.makeText(getActivity(), "get回调成功:异步执行", Toast.LENGTH_SHORT).show();
-////                Data<Article> body = response.body();
-////                if (body == null) return;
-////                Article article = body.getData();
-////                if (article == null) return;
-//                if( response.body().getMsg()!=null){
-//                    Court_Context court_context = new Court_Context();
-//                    court_context.setAddress(response.body().getData().getAddress());
-//                    court_context.setProfile(R.drawable.court_profile);
-//                    court_context.setName("陈末末");
-//                    court_context.setTime("1月18日 19:00");
-//                    court_context.setInformation("5V5交流赛，欢迎切磋");
-//                    list.add(court_context);
-//                    initRecyclerView();
-//                    Log.d("addd",list.get(0).getAddress());
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Article> call, Throwable t) {
-//                Log.e(TAG, "get回调失败：" + t.getMessage() + "," + t.toString());
-//                Toast.makeText(getActivity(), "get回调失败", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-// later...
-//            jsonDataCall.cancel(); //取消请求
-//            cloneCall.cancel(); //取消请求
-//            Court_Context court_context = new Court_Context();
-//            court_context.setProfile(R.drawable.court_profile);
-//            court_context.setName("陈末末");
-//            court_context.setTime("1月18日 19:00");
-//            court_context.setInformation("5V5交流赛，欢迎切磋");
-//            list.add(court_context);
-            initRecyclerView();
-            initContext();
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    requestData();
+                }
+            }).start();
+            Court_Context court_context = new Court_Context();
+            court_context.setProfile(R.drawable.court_profile);
+            court_context.setName("陈末末");
+            court_context.setTime("1月18日 19:00");
+            court_context.setInformation("5V5交流赛，欢迎切磋");
+            list.add(court_context);
+//            initRecyclerView();
+//            initContext();
 
 
 
         return view;
+    }
+
+    public void requestData(){
+        mRetrofit = new Retrofit.Builder()
+                //设置网络请求BaseUrl地址
+                .baseUrl("http://47.116.14.251:8888")
+                //设置数据解析器
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        // 步骤5:创建网络请求接口对象实例
+        Api api = mRetrofit.create(Api.class);
+        //步骤6：对发送请求进行封装，传入接口参数
+        Call<Article> jsonDataCall = api.getJsonData("944348013390725120");
+//        Call<Article> cloneCall = jsonDataCall.clone();
+        //同步执行
+        //步骤7:发送网络请求(异步)
+        Log.d("uriui","get == url：" + jsonDataCall.request().url());
+        jsonDataCall.enqueue(new Callback<Article>() {
+            @Override
+            public void onResponse(Call<Article> call, Response<Article> response) {
+                //步骤8：请求处理,输出结果
+                Toast.makeText(getActivity(), "get回调成功:异步执行", Toast.LENGTH_SHORT).show();
+//                Data<Article> body = response.body();
+//                if (body == null) return;
+//                Article article = body.getData();
+//                if (article == null) return;
+                if( response.body().getMsg()!=null){
+                    Court_Context court_context = new Court_Context();
+                    court_context.setAddress(response.body().getData().getAddress());
+                    court_context.setProfile(R.drawable.court_profile);
+                    court_context.setName("陈末末");
+                    court_context.setTime("1月18日 19:00");
+                    court_context.setInformation("5V5交流赛，欢迎切磋");
+                    list.add(court_context);
+                    initRecyclerView();
+                    Log.d("addd",list.get(0).getAddress());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Article> call, Throwable t) {
+                Log.e(TAG, "get回调失败：" + t.getMessage() + "," + t.toString());
+                Toast.makeText(getActivity(), "get回调失败", Toast.LENGTH_SHORT).show();
+            }
+        });
+        jsonDataCall.cancel(); //取消请求
+//            cloneCall.cancel(); //取消请求
     }
 
     private CourtAdapter.OnItemClickListener clickListener = new CourtAdapter.OnItemClickListener() {

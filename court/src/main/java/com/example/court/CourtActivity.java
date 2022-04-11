@@ -9,6 +9,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,6 +32,8 @@ public class CourtActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_court);
-
+        SharedPreferences pref = getSharedPreferences("LoginId",MODE_PRIVATE);
+        String token = pref.getString("LoginId","");
+        Log.d("CourtActivityToken",token);
     }
 }
