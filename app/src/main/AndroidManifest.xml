@@ -33,11 +33,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name="com.amap.api.location.APSService" />
 
-        <meta-data
-            android:name="com.amap.api.v2.apikey"
-            android:value="9399017e019c990996063a8d3969d3e3" />
     </application>
 
 </manifest>
