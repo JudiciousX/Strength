@@ -44,6 +44,7 @@ import IView.IBackgroundView;
 import Presenters.BackgroundPresenter;
 import Tool.ReplaceFragment;
 import Tool.Requests;
+import Tool.User1;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Personal_Adapter extends RecyclerView.Adapter<Personal_Adapter.ViewHolder> implements IBackgroundView, View.OnClickListener {
@@ -73,7 +74,7 @@ public class Personal_Adapter extends RecyclerView.Adapter<Personal_Adapter.View
     private int SELECT_CAMER = 0x01;
     private BackgroundPresenter backgroundPresenter = new BackgroundPresenter(this);
     private int ids;
-
+    public static List<User1.ArticleUser> list;
 
     private Handler handler = new Handler() {
         @Override
@@ -84,6 +85,9 @@ public class Personal_Adapter extends RecyclerView.Adapter<Personal_Adapter.View
                     break;
                 case "500":
                     Toast.makeText(context, "服务器异常，修改失败", Toast.LENGTH_SHORT).show();
+                default:
+                    list = (List<User1.ArticleUser>) msg.obj;
+                    break;
             }
         }
     };
@@ -168,12 +172,13 @@ public class Personal_Adapter extends RecyclerView.Adapter<Personal_Adapter.View
 
                 list.add(new Recycler_Fragment(context, R.layout.fragment_blogs, adapter1));
                 list.add(new Recycler_Fragment(context, R.layout.fragment_collect, new Collect_Adapter()));
-                list.add(new Recycler_Fragment(context, R.layout.fragment_attention, new Attention_Adapter()));
+                list.add(new Recycler_Fragment(context, R.layout.fragment_attention, new Attention_Adapter(context)));
                 titles.add("博客");
                 titles.add("收藏");
                 titles.add("关注");
                 Tab_Adapter adapter = new Tab_Adapter(fm, list);
                 viewPager2.setAdapter(adapter);
+                Requests.Request3(handler);
 
                 //关联TabLayout 添加attach()
                 new TabLayoutMediator(tabLayout, viewPager2, new TabLayoutMediator.TabConfigurationStrategy() {

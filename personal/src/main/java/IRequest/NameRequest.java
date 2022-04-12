@@ -6,6 +6,7 @@ import Fragments.Personal_Fragment;
 import IClass.IClass0;
 import IClass.IClass1;
 import IClass.IClass2;
+import Tool.User1;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -42,4 +43,7 @@ public interface NameRequest {
     @POST("info/updateHead")
     Call<IClass0> upload2(@Header("mobileToken") String mobileToken, @Header("uid") String uid, @Part() MultipartBody.Part file);
 
+    //获取关注列表
+    @GET("relation/getFollow")
+    Call<User1> getFollow(@Header("mobileToken") String mobileToken, @Header("uid") String uid);
 }

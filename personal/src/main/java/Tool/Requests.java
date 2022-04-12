@@ -82,4 +82,25 @@ public class Requests {
         });
     }
 
+    public static void Request3(Handler handler) {
+         Retrofit retrofit = new RetrofitBase().getRetrofit();
+         NameRequest nameRequest = retrofit.create(NameRequest.class);
+         nameRequest.getFollow(RetrofitBase.mobileToken, RetrofitBase.uid).enqueue(new Callback<User1>() {
+             @Override
+             public void onResponse(Call<User1> call, Response<User1> response) {
+                 Message message = new Message();
+                 if(response.body().getCode().equals("200")) {
+                     message.obj = response.body().getData();
+                 }else {
+                     message.obj = response.body().getCode();
+                 }
+                 handler.sendMessage(message);
+             }
+
+             @Override
+             public void onFailure(Call<User1> call, Throwable t) {
+                 Log.d("TAG", "请求失败");
+             }
+         });
+    }
 }
