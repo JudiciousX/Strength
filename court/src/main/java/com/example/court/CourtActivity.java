@@ -25,6 +25,8 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Retrofit;
+
 @Route(path="/court/court")
 public class CourtActivity extends AppCompatActivity {
 
@@ -32,8 +34,5 @@ public class CourtActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_court);
-        SharedPreferences pref = getSharedPreferences("LoginId",MODE_PRIVATE);
-        String token = pref.getString("LoginId","");
-        Log.d("CourtActivityToken",token);
     }
 }

@@ -9,9 +9,28 @@ public class Data {
 
 
         private String username;
-        private String head_sculpture;
+        private String headSculpture;
         private String address;
         private String article_name;
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    private String time;
+        private String content;
 
         public String getUsername() {
             return username;
@@ -22,11 +41,11 @@ public class Data {
         }
 
         public String getHead_sculpture() {
-            return head_sculpture;
+            return headSculpture;
         }
 
         public void setHead_sculpture(String head_sculpture) {
-            this.head_sculpture = head_sculpture;
+            this.headSculpture = head_sculpture;
         }
 
         public String getAddress() {

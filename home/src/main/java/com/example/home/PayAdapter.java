@@ -43,7 +43,7 @@ public class PayAdapter extends RecyclerView.Adapter<PayAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Payitem payitem = new Payitem();
+        Payitem payitem =list.get(position);
         holder.payImg.setImageResource(payitem.getPayimg());
         holder.payText.setText(payitem.getPaytext());
     }

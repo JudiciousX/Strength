@@ -7,7 +7,7 @@ import android.widget.ImageView;
 
 public class  Court_Context {
 
-        private int profile;
+        private String profile;
         private String name;
         private String address;
         private String time;
@@ -18,11 +18,11 @@ public class  Court_Context {
         return imageView;
     }
 
-    public int getProfile() {
+    public String getProfile() {
             return profile;
         }
 
-        public void setProfile(int profile) {
+        public void setProfile(String profile) {
             this.profile = profile;
         }
 

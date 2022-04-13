@@ -32,7 +32,16 @@ import java.util.List;
 public class CourtFragment extends Fragment{
     private String[] tabs = {"精选", "关注"};
     private ImageView imageView;
+    private Context context = getContext();
+    private Activity activity = getActivity();
+    private int id;
 
+//    public CourtFragment(Context context, Activity activity,int id) {
+//        this.id = id;
+//        this.context = context;
+//        this.activity = activity;
+//
+//    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -53,8 +62,9 @@ public class CourtFragment extends Fragment{
 //viewPager.setAdapter(new MyFragmentPagerAdapter(getActivity().getSupportFragmentManager(),tabLayout.getTabCount()));
 //viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
             MyFragmentPagerAdapter adapter = new MyFragmentPagerAdapter(getActivity(), list);
-            viewPager.setAdapter(adapter);
-            viewPager.setCurrentItem(1);
+        viewPager.setAdapter(adapter);
+//            viewPager.setCurrentItem(1);
+
 
             new TabLayoutMediator(tabLayout, viewPager, true, new TabLayoutMediator.TabConfigurationStrategy() {
                 @Override
@@ -94,7 +104,7 @@ public class CourtFragment extends Fragment{
     static class MyFragmentPagerAdapter extends FragmentStateAdapter {
 
         List<Fragment> list;
-        public MyFragmentPagerAdapter( FragmentActivity fragmentActivity, List list) {
+        public MyFragmentPagerAdapter( FragmentActivity fragmentActivity, List<Fragment> list) {
             super(fragmentActivity);
             this.list = list;
         }
@@ -109,12 +119,14 @@ public class CourtFragment extends Fragment{
             return list.size();
         }
 
+
+
 //        int num;
-//        List<Fragment> list = new ArrayList<>();
+//        List<Fragment> list;
 //
-//        public MyFragmentPagerAdapter(FragmentManager manager, int num) {
+//        public MyFragmentPagerAdapter(FragmentManager manager, List<Fragment> list) {
 //            super(manager);
-//            this.num = num;
+//            this.list = list;
 //
 //        }
 //

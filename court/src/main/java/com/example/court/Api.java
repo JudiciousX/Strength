@@ -138,8 +138,8 @@ public interface Api {
 //    @GET("api/rand.music")
 //    Call<Data<Info>> getJsonData(@Query("sort") String sort, @Query("format") String format);
 
-    @GET("/article/getArticleList/")
-    Call<Article> getJsonData(@Header("uid") String uid);
+    @GET("article/putChoice")
+    Call<Article> getJsonData(@Header("mobileToken") String mobileToken,@Header("uid") String uid);
     //post请求
     @FormUrlEncoded
     @POST("api/comments.163")
