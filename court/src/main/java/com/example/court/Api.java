@@ -141,8 +141,9 @@ public interface Api {
     @GET("article/putChoice")
     Call<Article> getJsonData(@Header("mobileToken") String mobileToken,@Header("uid") String uid);
     //post请求
-    @FormUrlEncoded
-    @POST("api/comments.163")
-    Call<Object> postDataCall(@Field("format") String format);
+
+    @POST("article/addArticle")
+    Call<Article> postDataCall(@Header("mobileToken") String token,@Header("uid")String uid,@Body RequestBody route);
+
 
 }

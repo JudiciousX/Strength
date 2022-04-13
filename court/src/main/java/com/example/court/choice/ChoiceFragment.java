@@ -131,7 +131,6 @@ public class ChoiceFragment extends Fragment {
             if (v.getId() == R.id.court_rob) {//对item进行判断如果是第一个那么我们进行跳转反之则提示消息
 //                    if(position==0) {//这里position用于判断item是第几个条目然后我们对其设置就可以跳转了。
                 Intent intent = new Intent(getActivity(), RobActivity.class);
-//                intent.putExtra("profile", list.get(position).getProfile());
                 intent.putExtra("content",list.get(position).getInformation());
                 intent.putExtra("time",list.get(position).getTime());
                 intent.putExtra("name",list.get(position).getName());

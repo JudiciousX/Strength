@@ -33,7 +33,7 @@
         app:layout_constraintStart_toStartOf="parent"
         />
     <EditText
-        android:id="@+id/court_local_text"
+        android:id="@+id/court_local_issue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/court_line"
@@ -56,7 +56,7 @@
         android:text="点击选择时间"
         android:textSize="16dp"
         android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@id/court_local_text"
+        app:layout_constraintTop_toBottomOf="@id/court_local_issue"
         app:layout_constraintStart_toEndOf="@id/court_time"/>
 
     <EditText
