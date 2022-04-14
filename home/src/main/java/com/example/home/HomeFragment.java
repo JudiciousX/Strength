@@ -15,17 +15,16 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps.AMap;
-import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.MapsInitializer;
@@ -46,6 +45,8 @@ import com.example.home.poisearch.PoiSearch_adapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import Search.SearchActivity;
+
 public class HomeFragment extends Fragment implements LocationSource,
         AMapLocationListener, AMap.OnCameraChangeListener, PoiSearch.OnPoiSearchListener{
 
@@ -53,6 +54,7 @@ public class HomeFragment extends Fragment implements LocationSource,
     MapView mapView;
     ListView mapList;
     TextView textView;
+    CardView search;
     //    private AMapLocationClient mLocationClient;
     private LocationSource.OnLocationChangedListener mListener;
     private AMapLocation aMapLocation;
@@ -79,6 +81,24 @@ public class HomeFragment extends Fragment implements LocationSource,
         mapView.onCreate(savedInstanceState);
         mapList = view.findViewById(R.id.map_list);
         textView = view.findViewById(R.id.local);
+        search = view.findViewById(R.id.search_title);
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),SearchActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+
+
+
+
+
+
+
+
         MapsInitializer.updatePrivacyShow(context,true,true);
         MapsInitializer.updatePrivacyAgree(context,true);
         List<String> permissionList=new ArrayList<>();

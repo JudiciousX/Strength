@@ -135,6 +135,7 @@ public class ChoiceFragment extends Fragment {
                 intent.putExtra("time",list.get(position).getTime());
                 intent.putExtra("name",list.get(position).getName());
                 intent.putExtra("address",list.get(position).getAddress());
+                intent.putExtra("profile",list.get(position).getProfile());
                 startActivity(intent);
                 //                    }
 //                    else{

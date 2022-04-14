@@ -17,6 +17,7 @@
         <activity android:name=".HomeActivity">
         </activity>
         <activity android:name=".ReserveActivity"></activity>
+        <activity android:name="Search.SearchActivity"></activity>
         <service android:name="com.amap.api.location.APSService" />
 
         <meta-data
