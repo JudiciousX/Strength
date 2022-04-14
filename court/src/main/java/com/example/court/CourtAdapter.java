@@ -3,6 +3,7 @@ package com.example.court;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,8 @@ import android.widget.Toast;
 
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -75,7 +78,10 @@ public class CourtAdapter extends RecyclerView.Adapter<CourtAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(CourtAdapter.ViewHolder holder, int position) {
         Court_Context court_context=list.get(position);
-        holder.profile.setImageResource(court_context.getProfile());
+//        holder.profile.setImageResource(court_context.getProfile());
+        Glide.with(holder.itemView.getContext())
+                .load(court_context.getProfile())
+                .into(holder.profile);
         holder.name.setText(court_context.getName());
         holder.address.setText(court_context.getAddress());
         holder.information.setText(court_context.getInformation());

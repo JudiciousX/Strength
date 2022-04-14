@@ -81,33 +81,35 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.obj.toString()) {
-                case "200":
-                    //设置到ImageView上
-                    String tag = fragment.getSign();
-                    if("0".equals(tag)) {
-                        circleImageView = fragment.getCircleImageView();
-                        Glide.with(context).load(map).apply(requestOptions).into(circleImageView);
-                        Log.d("scout", head.toString());
-                        for(View view : head) {
-                            Log.d("xxxxxxxx", view.toString());
-                            Glide.with(context).load(map).apply(requestOptions).into((CircleImageView) view);
-                        }
+            if(msg.obj!=null){
+                switch (msg.obj.toString()) {
+                    case "200":
+                        //设置到ImageView上
+                        String tag = fragment.getSign();
+                        if("0".equals(tag)) {
+                            circleImageView = fragment.getCircleImageView();
+                            Glide.with(context).load(map).apply(requestOptions).into(circleImageView);
+                            Log.d("scout", head.toString());
+                            for(View view : head) {
+                                Log.d("xxxxxxxx", view.toString());
+                                Glide.with(context).load(map).apply(requestOptions).into((CircleImageView) view);
+                            }
 
-                    }else {
-                        imageView = fragment.getImageView();
-                        Glide.with(context).load(map).into(imageView);
-                    }
-                    break;
-                case "500":
-                    Toast.makeText(context, "服务器异常，上传失败", Toast.LENGTH_SHORT).show();
-                    break;
-                default :
-                    fragment = new Personal_Fragment(context, activity , R.id.main_frame);
-                    fragment.dataClass = (User) msg.obj;
-                    Log.d("scout", msg.obj.toString());
-                    head = fragment.getList1();
-                    break;
+                        }else {
+                            imageView = fragment.getImageView();
+                            Glide.with(context).load(map).into(imageView);
+                        }
+                        break;
+                    case "500":
+                        Toast.makeText(context, "服务器异常，上传失败", Toast.LENGTH_SHORT).show();
+                        break;
+                    default :
+                        fragment = new Personal_Fragment(context, activity , R.id.main_frame);
+                        fragment.dataClass = (User) msg.obj;
+                        Log.d("scout", msg.obj.toString());
+                        head = fragment.getList1();
+                        break;
+                }
             }
         }
     };

@@ -15,21 +15,21 @@ public class User {
     private String headSculpture;//头像
     private String background;//背景
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "uid='" + uid + '\'' +
-                ", phone_numbers='" + phoneNumbers + '\'' +
-                ", username='" + username + '\'' +
-                ", signature='" + signature + '\'' +
-                ", label='" + label + '\'' +
-                ", sex=" + sex +
-                ", email='" + email + '\'' +
-                ", birthday='" + birthday + '\'' +
-                ", head_sculpture='" + headSculpture + '\'' +
-                ", background='" + background + '\'' +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "User{" +
+//                "uid='" + uid + '\'' +
+//                ", phone_numbers='" + phoneNumbers + '\'' +
+//                ", username='" + username + '\'' +
+//                ", signature='" + signature + '\'' +
+//                ", label='" + label + '\'' +
+//                ", sex=" + sex +
+//                ", email='" + email + '\'' +
+//                ", birthday='" + birthday + '\'' +
+//                ", head_sculpture='" + headSculpture + '\'' +
+//                ", background='" + background + '\'' +
+//                '}';
+//    }
 
     public User() {
     }

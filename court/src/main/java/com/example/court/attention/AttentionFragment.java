@@ -1,5 +1,7 @@
 package com.example.court.attention;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,11 +12,14 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.commlib.RetrofitBase;
 import com.example.court.Api;
 import com.example.court.Article;
 import com.example.court.CourtAdapter;
 import com.example.court.Court_Context;
+import com.example.court.Data;
 import com.example.court.R;
 
 import java.util.ArrayList;
@@ -33,19 +38,23 @@ public class AttentionFragment extends Fragment {
     private View view;
     private Retrofit mRetrofit;
     Court_Context court_context = new Court_Context();
+    private Context context;
+    private Activity activity;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     private List<Court_Context> list = new ArrayList<>();
 
+//    public AttentionFragment(Context context, Activity activity) {
+////        this.context = context;
+////        this.activity = activity;
+////
+////    }
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.court_recyclerview,container,false);
-        mRetrofit = new Retrofit.Builder()
-                //设置网络请求BaseUrl地址
-                .baseUrl("http://47.116.14.251:8888")
-                //设置数据解析器
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        for(int i = 0 ;i<3;i++){
-            court_context.setProfile(R.drawable.court_profile);
+         mRetrofit = new RetrofitBase().getRetrofit();
+
+        for(int i = 0 ;i<4;i++){
             court_context.setName("陈末末");
             court_context.setAddress("抛物线篮球场");
             court_context.setTime("1月18日 19:00");
@@ -65,7 +74,8 @@ public class AttentionFragment extends Fragment {
         // 步骤5:创建网络请求接口对象实例
         Api api = mRetrofit.create(Api.class);
         //步骤6：对发送请求进行封装，传入接口参数
-        Call<Article> jsonDataCall = api.getJsonData("944348013390725120");
+
+        Call<Article> jsonDataCall = api.getJsonData("ac9742f7e13c68d4","944348013390725120");
 
         //同步执行
 //         Response<Data<Info>> execute = jsonDataCall.execute();
@@ -82,8 +92,9 @@ public class AttentionFragment extends Fragment {
 //                Article article = body.getData();
 //                if (article == null) return;
                 if( response.body().getMsg()!=null){
+                    List<Data> article = response.body().getData();
 //                    mTextView.setText("返回的数据：" + "\n\n" + response.body().getMsg() + "\n" + response.body().getData().getUsername()+ "\n" +response.body().getData().getAddress()+ "\n" +response.body().getData().getArticle_name()+ "\n" +response.body().getData().getHead_sculpture());
-                    court_context.setAddress(response.body().getData().getAddress());
+                    court_context.setAddress(article.get(0).getAddress());
                 }
             }
 
@@ -104,7 +115,6 @@ public class AttentionFragment extends Fragment {
     public void initContext(){
         for(int i = 0 ;i<20;i++){
             Court_Context court_context = new Court_Context();
-            court_context.setProfile(R.drawable.court_profile);
             court_context.setName("陈末末");
             court_context.setAddress("西安抛物线篮球场");
             court_context.setTime("1月18日 19:00");

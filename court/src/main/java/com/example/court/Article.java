@@ -1,5 +1,7 @@
 package com.example.court;
 
+import java.util.List;
+
 public class Article {
 
     private String msg;
@@ -12,11 +14,20 @@ public class Article {
         this.msg = msg;
     }
 
-    private Data data;
+    public void setData(List<Data> data) {
+        this.data = data;
+    }
 
-    public Data getData() {
+    private List<Data> data;
+
+    public List<Data> getData() {
         return data;
     }
+
+//    public int getSize
+
+
+
 }
 
     //定义输出返回数据的方法
