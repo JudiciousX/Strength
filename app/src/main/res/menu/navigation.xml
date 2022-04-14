@@ -11,6 +11,11 @@
         android:title="球局"/>
 
     <item
+        android:id="@+id/photograph"
+        android:icon="@drawable/photograph"
+        android:title="识别"/>
+
+    <item
         android:id="@+id/personal"
         android:icon="@drawable/personal"
         android:title="我的"/>

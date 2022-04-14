@@ -9,14 +9,18 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,6 +34,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -39,12 +44,23 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.commlib.IMEIDeviceId;
 import com.example.commlib.RetrofitBase;
 import com.example.court.CourtFragment;
+import com.example.court.attention.AttentionFragment;
 import com.example.home.HomeFragment;
 import com.example.personal.PersonalActivity;
+import com.example.photograph.Adapter.DiscernResultAdapter;
+import com.example.photograph.Tools.Base64Util;
+import com.example.photograph.Tools.FileUtil;
+import com.example.photograph.model.GetDiscernResultResponse;
+import com.example.photograph.model.GetTokenResponse;
+import com.example.photograph.network.ApiService;
+import com.example.photograph.network.ServiceGenerator;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
@@ -52,6 +68,7 @@ import Fragments.Personal_Fragment;
 import IClass.IClass0;
 import IClass.IClass2;
 import IRequest.NameRequest;
+import PFragments.Photograph_Fragment;
 import Tool.Requests;
 import Tool.User;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -78,6 +95,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private Context context = this;
     private Bitmap map;
     private Activity activity = this;
+    private int size = 0;
+
+    public static List<IClass2.ArticleContent> articleContent;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -124,6 +144,36 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             .circleCropTransform()//圆形剪裁
             .diskCacheStrategy(DiskCacheStrategy.NONE)//不做磁盘缓存
             .skipMemoryCache(true);//不做内存缓存
+
+
+    /**
+     * 打开相册
+     */
+    private static final int OPEN_ALBUM_CODE = 100;
+
+    private static final String TAG = "scout";
+    /**
+     * Api服务
+     */
+    private ApiService service;
+    /**
+     * 鉴权Toeken
+     */
+    public static String accessToken;
+
+    /**
+     * 底部弹窗
+     */
+    private BottomSheetDialog bottomSheetDialog;
+    /**
+     * 弹窗视图
+     */
+    private View bottomView;
+
+    private RxPermissions rxPermissions;
+
+
+    private Photograph_Fragment fragments;
 
 
 
@@ -181,6 +231,25 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 uploadFanganFile(file);
                 deleteSuccess(this, file.getName());
 
+            }
+        }else if(resultCode == RESULT_OK) {
+            fragments.PbLoading_1();
+            if (requestCode == 65636) {
+
+                //打开相册返回
+                String[] filePathColumns = {MediaStore.Images.Media.DATA};
+                final Uri imageUri = Objects.requireNonNull(data).getData();
+                Cursor cursor = getContentResolver().query(imageUri, filePathColumns, null, null, null);
+                cursor.moveToFirst();
+                int columnIndex = cursor.getColumnIndex(filePathColumns[0]);
+                //获取图片路径
+                String imagePath = cursor.getString(columnIndex);
+                cursor.close();
+                //识别
+                localImageDiscern(imagePath);
+            }else {
+                String imagePath = fragments.recognition();
+                localImageDiscern(imagePath);
             }
         }
     }
@@ -274,7 +343,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     showMsg("You agree the permission");
                 }else {
-                    showMsg("You denied the permission");
+                    Toast.makeText(this, "You denied the permission", Toast.LENGTH_SHORT).show();
                 }
                 break;
             default:
@@ -282,12 +351,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
-    //显示Toast
-    private void showMsg(String msg) {
-        Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
-    }
 
     //裁剪头像 圆形
+    //裁剪头像
     private void pictureCropping(Uri uri) {
         // 调用系统中自带的图片剪裁
         Intent intent = new Intent("com.android.camera.action.CROP");
@@ -331,10 +397,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        service = ServiceGenerator.createService(ApiService.class);
+        requestApiGetToken();
+        bottomSheetDialog = new BottomSheetDialog(this);
+
         bottomNavigationView = findViewById(R.id.main_bottom);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.home);
-        
+
 
         //隐藏标题栏
         ActionBar actionBar = getSupportActionBar();
@@ -361,38 +431,106 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 break;
             case R.id.personal:
                 //个人
+                //替换碎片
                 fragmentTransaction.replace(R.id.main_frame,fragment).commit();
+                break;
+            case R.id.photograph:
+                fragments = new Photograph_Fragment();
+                fragmentTransaction.replace(R.id.main_frame, fragments).commit();
                 break;
         }
         return true;
     }
 
-    //传入Activity，和修改后的颜色
-    public static void setWindowStatusBarColor(Activity activity, int colorResId) {
+    /**
+     * 本地图片识别
+     */
+    private void localImageDiscern(String imagePath) {
+
         try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                Window window = activity.getWindow();
-                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                //顶部状态栏
-                window.setStatusBarColor(activity.getResources().getColor(colorResId));
-                //底部导航栏
-                window.setNavigationBarColor(activity.getResources().getColor(colorResId));
+            if (Photograph_Fragment.accessToken == null) {
+                showMsg("获取AccessToken到null");
+                return;
             }
-        } catch (Exception e) {
+            //通过图片路径显示图片
+            fragments.ivPicture_1(imagePath);
+            //按字节读取文件
+            byte[] imgData = FileUtil.readFileByBytes(imagePath);
+            //字节转Base64
+            String imageBase64 = Base64Util.encode(imgData);
+            //图像识别
+            ImageDiscern(Photograph_Fragment.accessToken, imageBase64, null);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    //设置字体颜色，true表示黑色
-    public static void setWindowLightStatusBar(Activity activity,boolean shouldChangeStatusBarTintToDark){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            View decor = activity.getWindow().getDecorView();
-            if (shouldChangeStatusBarTintToDark) {
-                decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            } else {
-                decor.setSystemUiVisibility(0);
+
+    /**
+     * 图像识别请求
+     *
+     * @param token       token
+     * @param imageBase64 图片Base64
+     * @param imgUrl      网络图片Url
+     */
+    private void ImageDiscern(String token, String imageBase64, String imgUrl) {
+        service.getDiscernResult1(token, imageBase64, imgUrl).enqueue(new Callback<GetDiscernResultResponse>() {
+            @Override
+            public void onResponse(Call<GetDiscernResultResponse> call, Response<GetDiscernResultResponse> response) {
+                List<GetDiscernResultResponse.ResultBean> result = response.body() != null ? response.body().getResult() : null;
+                if (result != null && result.size() > 0) {
+                    //显示识别结果
+                    fragments.showDiscernResult(result);
+                } else {
+                    fragments.PbLoading_2();
+                    showMsg("未获得相应的识别结果");
+                }
             }
-        }
+
+            @Override
+            public void onFailure(Call<GetDiscernResultResponse> call, Throwable t) {
+                fragments.PbLoading_2();
+                Log.e(TAG, "图像识别失败，失败原因：" + t);
+            }
+
+        });
     }
+
+    /**
+     * Toast提示
+     * @param msg 内容
+     */
+    private void showMsg(String msg){
+        Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * 访问API获取接口
+     */
+    private void requestApiGetToken() {
+        String grantType = "client_credentials";
+        String apiKey = "TjPChftoEyBq7Nzm65KNerqr";
+        String apiSecret = "eTph4jO95te6R3G2aecktGMbkieOv7rS";
+        service.getToken(grantType, apiKey, apiSecret)
+                .enqueue(new Callback<GetTokenResponse>() {
+                    @Override
+                    public void onResponse(Call<GetTokenResponse> call, Response<GetTokenResponse> response) {
+                        if (response.body() != null) {
+                            //鉴权Token
+                            accessToken = response.body().getAccess_token();
+                            Log.d(TAG,accessToken);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<GetTokenResponse> call, Throwable t) {
+                        Log.e(TAG, "获取Token失败，失败原因：" + t);
+                        accessToken = null;
+                    }
+
+                });
+    }
+
+
 
 }

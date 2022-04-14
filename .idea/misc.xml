@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Strength/app/src/main/res/layout/activity_main.xml" value="0.13188798554652212" />
+        <entry key="..\:/Strength/app/src/main/res/menu/navigation.xml" value="0.17777777777777778" />
         <entry key="..\:/Strength/app/src/main/res/xml/network_config.xml" value="0.27037037037037037" />
         <entry key="..\:/Strength/court/src/main/res/layout/court_fragment.xml" value="0.27037037037037037" />
         <entry key="..\:/Strength/court/src/main/res/layout/court_toolbar.xml" value="0.27037037037037037" />
@@ -22,6 +23,11 @@
         <entry key="..\:/Strength/personal/src/main/res/layout/layout_picker_date.xml" value="0.12685185185185185" />
         <entry key="..\:/Strength/personal/src/main/res/layout/tags_dialog.xml" value="0.13188798554652212" />
         <entry key="..\:/Strength/personal/src/main/res/layout/view_empty.xml" value="0.32592592592592595" />
+        <entry key="..\:/Strength/personal/src/main/res/layout/view_empty.xml" value="0.32592592592592595" />
+        <entry key="..\:/Strength/photograph/src/main/res/layout/activity_photograph.xml" value="0.27037037037037037" />
+        <entry key="..\:/Strength/photograph/src/main/res/layout/dialog_bottom.xml" value="0.27037037037037037" />
+        <entry key="..\:/Strength/photograph/src/main/res/layout/fragment_photograph.xml" value="0.27037037037037037" />
+        <entry key="..\:/Strength/photograph/src/main/res/layout/item_result_rv.xml" value="0.27037037037037037" />
       </map>
     </option>
   </component>

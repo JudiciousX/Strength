@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -104,8 +105,12 @@ public class Splash extends AppCompatActivity {
 
         if(sharedPreferences.getBoolean("is_Login", false)) {
             //登录后从文件中取出uid
+            Log.d("scout", "main");
             RetrofitBase.uid = sharedPreferences.getString("uid", "");
-            ARouter.getInstance().build("/main/main").navigation();
+            //显示Intent
+            Intent intent = new Intent(Splash.this, MainActivity.class);
+            startActivity(intent);
+            //ARouter.getInstance().build("/main/main").navigation();
         }else {
             //未登录跳转到login模块进行登录
             Log.d("scout", "login");
