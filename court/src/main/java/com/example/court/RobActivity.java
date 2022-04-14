@@ -12,6 +12,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 public class RobActivity extends AppCompatActivity{
 
@@ -19,6 +22,7 @@ public class RobActivity extends AppCompatActivity{
     private EditText editText;
     private Button button;
     private View view_line;
+    private TextView context_text,username,address,time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +32,19 @@ public class RobActivity extends AppCompatActivity{
         editText = findViewById(R.id.court_context);
         button = findViewById(R.id.issue_publish);
         view_line = findViewById(R.id.comment_line);
-        int user_profile = getIntent().getIntExtra("profile",0);
-        profile.setImageResource(user_profile);
+        context_text = findViewById(R.id.court_context_text);
+        username = findViewById(R.id.user_name);
+        address = findViewById(R.id.court_local_text);
+        time = findViewById(R.id.court_time_text);
+
+        String user_profile = getIntent().getStringExtra("profile");
+        String content = getIntent().getStringExtra("content");
+//        String time =getIntent().get
+
+        Glide.with(getApplicationContext())
+                .load(user_profile)
+                .into(profile);
+        context_text.setText(content);
 
         editText.addTextChangedListener(new TextWatcher() {
             @SuppressLint("ResourceAsColor")
