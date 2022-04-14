@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
@@ -42,6 +43,8 @@ import Fragments.amend_signature_Fragment;
 import Fragments.amend_username_Fragment;
 import IView.IBackgroundView;
 import Presenters.BackgroundPresenter;
+import Tool.ArticleContent;
+import Tool.Data;
 import Tool.ReplaceFragment;
 import Tool.Requests;
 import Tool.User1;
@@ -54,7 +57,7 @@ public class Personal_Adapter extends RecyclerView.Adapter<Personal_Adapter.View
     private List<View> time1;
     private List<String> tags;
     private String tag;
-    private Blogs_Adapter adapter1;
+    public static Blogs_Adapter adapter1;
     private FragmentActivity fm;
     private Activity activity;
     private ImageView imageView;
@@ -75,6 +78,7 @@ public class Personal_Adapter extends RecyclerView.Adapter<Personal_Adapter.View
     private BackgroundPresenter backgroundPresenter = new BackgroundPresenter(this);
     private int ids;
     public static List<User1.ArticleUser> list;
+
 
     private Handler handler = new Handler() {
         @Override
@@ -160,6 +164,8 @@ public class Personal_Adapter extends RecyclerView.Adapter<Personal_Adapter.View
                 return new ViewHolder(view1);
             case 2:
                 View view2 = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_more, parent, false);
+                Requests.Request3();
+
                 TabLayout tabLayout = view2.findViewById(R.id.personal_tabLayout);
                 ViewPager2 viewPager2 = view2.findViewById(R.id.personal_vp2);
                 //设置滑动方向
@@ -170,15 +176,15 @@ public class Personal_Adapter extends RecyclerView.Adapter<Personal_Adapter.View
                 List<Fragment> list = new ArrayList<>();
                 List<String> titles = new ArrayList<>();
 
-                list.add(new Recycler_Fragment(context, R.layout.fragment_blogs, adapter1));
-                list.add(new Recycler_Fragment(context, R.layout.fragment_collect, new Collect_Adapter()));
-                list.add(new Recycler_Fragment(context, R.layout.fragment_attention, new Attention_Adapter(context)));
+                list.add(new Recycler_Fragment(context, R.layout.fragment_blogs, adapter1, 0));
+                list.add(new Recycler_Fragment(context, R.layout.fragment_collect, new Collect_Adapter(), 1));
+                list.add(new Recycler_Fragment(context, R.layout.fragment_attention, new Attention_Adapter(context), 2));
                 titles.add("博客");
                 titles.add("收藏");
                 titles.add("关注");
-                Tab_Adapter adapter = new Tab_Adapter(fm, list);
+                MyFragmentPagerAdapter adapter = new MyFragmentPagerAdapter(fm, list);
                 viewPager2.setAdapter(adapter);
-                Requests.Request3(handler);
+
 
                 //关联TabLayout 添加attach()
                 new TabLayoutMediator(tabLayout, viewPager2, new TabLayoutMediator.TabConfigurationStrategy() {
@@ -191,6 +197,26 @@ public class Personal_Adapter extends RecyclerView.Adapter<Personal_Adapter.View
                 return new ViewHolder(view2);
         }
         return null;
+    }
+
+    public class MyFragmentPagerAdapter extends FragmentStateAdapter {
+
+        List<Fragment> list;
+
+        public MyFragmentPagerAdapter(FragmentActivity fragmentActivity, List<Fragment> list) {
+            super(fragmentActivity);
+            this.list = list;
+        }
+
+        @Override
+        public Fragment createFragment(int position) {
+            return list.get(position);
+        }
+
+        @Override
+        public int getItemCount() {
+            return list.size();
+        }
     }
 
     @Override

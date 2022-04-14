@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -28,9 +29,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import Adapter.Personal_Adapter;
+import Tool.ArticleContent;
 import Tool.ReplaceFragment;
 import Tool.Requests;
 import Tool.User;
+import Tool.User1;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Personal_Fragment extends Fragment{
@@ -57,7 +60,8 @@ public class Personal_Fragment extends Fragment{
     public static TextView signature;
     public static CircleImageView personal_sex;
     private int id;
-
+    public static List<ArticleContent> ArticleContentList = new ArrayList<>();
+    public static Personal_Adapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

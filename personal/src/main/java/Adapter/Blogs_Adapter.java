@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Fragments.Personal_Fragment;
+import Tool.Requests;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Blogs_Adapter extends RecyclerView.Adapter<Blogs_Adapter.ViewHolder> {
@@ -38,6 +39,7 @@ public class Blogs_Adapter extends RecyclerView.Adapter<Blogs_Adapter.ViewHolder
             .skipMemoryCache(true);//不做内存缓存
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+
 
 
         public ViewHolder(View itemView) {
@@ -63,6 +65,8 @@ public class Blogs_Adapter extends RecyclerView.Adapter<Blogs_Adapter.ViewHolder
 
     @Override
     public void onBindViewHolder(Blogs_Adapter.ViewHolder holder, int position) {
+        time.setText(Personal_Fragment.ArticleContentList.get(position).getTime());
+        description.setText(Personal_Fragment.ArticleContentList.get(position).getContent());
         user.setText(Personal_Fragment.dataClass.getUsername());
         Glide.with(context).load(Personal_Fragment.dataClass.getHead_sculpture()).apply(requestOptions).into(head);
         Personal_Fragment.list1.add(head);
@@ -72,7 +76,7 @@ public class Blogs_Adapter extends RecyclerView.Adapter<Blogs_Adapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return 10;
+        return Personal_Fragment.ArticleContentList.size();
     }
 
     public List<View> getUser1() {

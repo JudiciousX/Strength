@@ -1,11 +1,15 @@
 package Tool;
 
+import Adapter.Personal_Adapter;
 import IClass.IClass1;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.widget.Toast;
+
 import IClass.IClass2;
 import com.example.commlib.RetrofitBase;
+import com.example.court.Article;
 import com.example.personal.PersonalActivity;
 import com.google.gson.Gson;
 
@@ -82,19 +86,13 @@ public class Requests {
         });
     }
 
-    public static void Request3(Handler handler) {
+    public static void Request3() {
          Retrofit retrofit = new RetrofitBase().getRetrofit();
          NameRequest nameRequest = retrofit.create(NameRequest.class);
          nameRequest.getFollow(RetrofitBase.mobileToken, RetrofitBase.uid).enqueue(new Callback<User1>() {
              @Override
              public void onResponse(Call<User1> call, Response<User1> response) {
-                 Message message = new Message();
-                 if(response.body().getCode().equals("200")) {
-                     message.obj = response.body().getData();
-                 }else {
-                     message.obj = response.body().getCode();
-                 }
-                 handler.sendMessage(message);
+                 Personal_Adapter.list = response.body().getData();
              }
 
              @Override
@@ -103,4 +101,9 @@ public class Requests {
              }
          });
     }
+
+    public static void Request4() {
+
+    }
+
 }

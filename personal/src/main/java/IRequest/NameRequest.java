@@ -1,11 +1,13 @@
 package IRequest;
 
 import com.example.commlib.IMEIDeviceId;
+import com.example.court.Article;
 
 import Fragments.Personal_Fragment;
 import IClass.IClass0;
 import IClass.IClass1;
 import IClass.IClass2;
+import Tool.Data;
 import Tool.User1;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -46,4 +48,13 @@ public interface NameRequest {
     //获取关注列表
     @GET("relation/getFollow")
     Call<User1> getFollow(@Header("mobileToken") String mobileToken, @Header("uid") String uid);
+
+    //获取用户自己所发的文章
+    @GET("article/getArticleList")
+    Call<Data> getArticleList(@Header("mobileToken") String token, @Header("uid")String uid);
+
+
+    //获取用户自己所发的文章
+    @GET("article/getArticleList")
+    Call<Object> getArticleList1(@Header("mobileToken") String token, @Header("uid")String uid);
 }

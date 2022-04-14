@@ -14,6 +14,7 @@ public class User {
     private String birthday;//生日
     private String headSculpture;//头像
     private String background;//背景
+    private int isFollow;//是否关注 0未关注 1已关注 2用户本人
 
 //    @Override
 //    public String toString() {
@@ -128,4 +129,7 @@ public class User {
         this.background = background;
     }
 
+    public int getIsFollow() {
+        return isFollow;
+    }
 }
