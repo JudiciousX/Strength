@@ -15,7 +15,7 @@
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/court_toolbar_viewpager"
         android:layout_width="match_parent"
-        android:layout_height="600dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/court_toolbar"/>

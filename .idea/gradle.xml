@@ -20,6 +20,7 @@
             <option value="$PROJECT_DIR$/myapplication" />
             <option value="$PROJECT_DIR$/news" />
             <option value="$PROJECT_DIR$/personal" />
+            <option value="$PROJECT_DIR$/photograph" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
