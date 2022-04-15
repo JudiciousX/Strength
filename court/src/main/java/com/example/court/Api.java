@@ -138,8 +138,11 @@ public interface Api {
 //    @GET("api/rand.music")
 //    Call<Data<Info>> getJsonData(@Query("sort") String sort, @Query("format") String format);
 
+    @GET("article/putFollow")
+    Call<Article> getChoiceData(@Header("mobileToken") String mobileToken,@Header("uid") String uid);
+
     @GET("article/putChoice")
-    Call<Article> getJsonData(@Header("mobileToken") String mobileToken,@Header("uid") String uid);
+    Call<Article> getAttentionData(@Header("mobileToken") String mobileToken,@Header("uid") String uid);
     //post请求
 
     @POST("article/addArticle")
