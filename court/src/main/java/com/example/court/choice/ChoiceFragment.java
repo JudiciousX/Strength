@@ -84,7 +84,7 @@ public class ChoiceFragment extends Fragment {
         // 步骤5:创建网络请求接口对象实例
         Api api = mRetrofit.create(Api.class);
         //步骤6：对发送请求进行封装，传入接口参数
-        Call<Article> jsonDataCall = api.getJsonData(RetrofitBase.mobileToken,RetrofitBase.uid);
+        Call<Article> jsonDataCall = api.getChoiceData(RetrofitBase.mobileToken,"944348013390725120");
 //        RetrofitBase.mobileToken,RetrofitBase.uid
 //        Call<Article> cloneCall = jsonDataCall.clone();
         //同步执行
@@ -135,6 +135,7 @@ public class ChoiceFragment extends Fragment {
                 intent.putExtra("time",list.get(position).getTime());
                 intent.putExtra("name",list.get(position).getName());
                 intent.putExtra("address",list.get(position).getAddress());
+                intent.putExtra("profile",list.get(position).getProfile());
                 startActivity(intent);
                 //                    }
 //                    else{

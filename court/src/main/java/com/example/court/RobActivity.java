@@ -22,7 +22,7 @@ public class RobActivity extends AppCompatActivity{
     private EditText editText;
     private Button button;
     private View view_line;
-    private TextView context_text,username,address,time;
+    private TextView context_text,username,address,time,name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,15 +36,22 @@ public class RobActivity extends AppCompatActivity{
         username = findViewById(R.id.user_name);
         address = findViewById(R.id.court_local_text);
         time = findViewById(R.id.court_time_text);
+        name = findViewById(R.id.user_name);
 
         String user_profile = getIntent().getStringExtra("profile");
         String content = getIntent().getStringExtra("content");
-//        String time =getIntent().get
+        String address_setting = getIntent().getStringExtra("address");
+        String time_setting =getIntent().getStringExtra("time");
+        String name = getIntent().getStringExtra("name");
 
         Glide.with(getApplicationContext())
                 .load(user_profile)
                 .into(profile);
         context_text.setText(content);
+        username.setText(name);
+        address.setText(address_setting);
+        time.setText(time_setting);
+
 
         editText.addTextChangedListener(new TextWatcher() {
             @SuppressLint("ResourceAsColor")
