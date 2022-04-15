@@ -2,6 +2,8 @@ package com.example.court;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
@@ -16,6 +18,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RobActivity extends AppCompatActivity{
 
     private ImageView profile;
@@ -23,6 +28,7 @@ public class RobActivity extends AppCompatActivity{
     private Button button;
     private View view_line;
     private TextView context_text,username,address,time,name;
+    private List<Comment> list = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +58,11 @@ public class RobActivity extends AppCompatActivity{
         address.setText(address_setting);
         time.setText(time_setting);
 
+        initContext();
+        RecyclerView recyclerView = findViewById(R.id.comment_recyclerview);
+        CommentAdapter adapter = new CommentAdapter(list);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
 
         editText.addTextChangedListener(new TextWatcher() {
             @SuppressLint("ResourceAsColor")
@@ -79,5 +90,14 @@ public class RobActivity extends AppCompatActivity{
 //
             }
         });
+    }
+        public void initContext() {
+        for (int i = 0; i < 20; i++) {
+            Comment comment = new Comment();
+            comment.setProfile(R.drawable.court_profile);
+            comment.setUsername("陈末末");
+            comment.setComment("5V5交流赛，欢迎切磋");
+            list.add(comment);
+        }
     }
 }

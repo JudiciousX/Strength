@@ -65,7 +65,7 @@ public class Blogs_Adapter extends RecyclerView.Adapter<Blogs_Adapter.ViewHolder
 
     @Override
     public void onBindViewHolder(Blogs_Adapter.ViewHolder holder, int position) {
-        time.setText(Personal_Fragment.ArticleContentList.get(position).getTime());
+        time.setText(Personal_Fragment.ArticleContentList.get(position).getGmtCreate());
         description.setText(Personal_Fragment.ArticleContentList.get(position).getContent());
         user.setText(Personal_Fragment.dataClass.getUsername());
         Glide.with(context).load(Personal_Fragment.dataClass.getHead_sculpture()).apply(requestOptions).into(head);

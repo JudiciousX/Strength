@@ -142,4 +142,10 @@
         app:layout_constraintTop_toBottomOf="@+id/issue_publish"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/comment_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/comment_line"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
