@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -52,6 +53,7 @@ public class CourtFragment extends Fragment{
             ViewPager2 viewPager = view.findViewById(R.id.court_toolbar_viewpager);
             Button button = view.findViewById(R.id.court_toolbar_add);
 
+            
 
             List<Fragment> list  = new ArrayList<>();
             list.add(new ChoiceFragment());
@@ -100,6 +102,8 @@ public class CourtFragment extends Fragment{
 
         return view;
     }
+
+
 
     static class MyFragmentPagerAdapter extends FragmentStateAdapter {
 

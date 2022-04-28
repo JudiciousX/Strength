@@ -30,7 +30,9 @@ import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -96,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private Bitmap map;
     private Activity activity = this;
     private int size = 0;
+
 
     public static List<IClass2.ArticleContent> articleContent;
     private Handler handler = new Handler() {
@@ -406,7 +409,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bottomNavigationView = findViewById(R.id.main_bottom);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.home);
-
 
         //隐藏标题栏
         ActionBar actionBar = getSupportActionBar();

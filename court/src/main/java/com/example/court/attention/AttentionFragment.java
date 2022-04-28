@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -98,7 +99,6 @@ public class AttentionFragment extends Fragment {
 //                Article article = body.getData();
 //                if (article == null) return;
                 if( response.body().getMsg()!=null){
-
                     for (int i = 0;i<response.body().getData().size();i++){
                         Court_Context court_context = new Court_Context();
                         court_context.setAddress(response.body().getData().get(i).getAddress());
@@ -156,7 +156,8 @@ public class AttentionFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.dynamic_recycler);
         CourtAdapter adapter = new CourtAdapter(list);
         adapter.setOnItemClickListener(clickListener);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new MyLinearLayoutManager(getContext()));
+        adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh);
         swipeRefreshLayout.setColorSchemeResources(R.color.classic);
@@ -173,6 +174,39 @@ public class AttentionFragment extends Fragment {
                 },500);
             }
         });
+
+    }
+    public class MyLinearLayoutManager extends LinearLayoutManager {
+        public MyLinearLayoutManager(Context context) {
+            super(context);
+        }
+
+        public MyLinearLayoutManager(Context context, int orientation, boolean reverseLayout) {
+            super(context, orientation, reverseLayout);
+        }
+
+        public MyLinearLayoutManager(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+            super(context, attrs, defStyleAttr, defStyleRes);
+        }
+
+        @Override
+        public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
+            try {
+                super.onLayoutChildren(recycler, state);
+            } catch (IndexOutOfBoundsException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public int scrollVerticallyBy(int dy, RecyclerView.Recycler recycler, RecyclerView.State state) {
+            try {
+                return super.scrollVerticallyBy(dy, recycler, state);
+            } catch (IndexOutOfBoundsException e) {
+                e.printStackTrace();
+            }
+            return 0;
+        }
 
     }
 

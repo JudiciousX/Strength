@@ -71,7 +71,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     }
 
 
-
     @Override
     public int getItemCount() {
         return list.size();
