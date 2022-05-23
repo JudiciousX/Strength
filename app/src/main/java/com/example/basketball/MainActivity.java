@@ -6,13 +6,9 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -20,7 +16,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,26 +25,17 @@ import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.commlib.IMEIDeviceId;
 import com.example.commlib.RetrofitBase;
 import com.example.court.CourtFragment;
-import com.example.court.attention.AttentionFragment;
 import com.example.home.HomeFragment;
-import com.example.personal.PersonalActivity;
-import com.example.photograph.Adapter.DiscernResultAdapter;
 import com.example.photograph.Tools.Base64Util;
 import com.example.photograph.Tools.FileUtil;
 import com.example.photograph.model.GetDiscernResultResponse;
@@ -67,8 +53,8 @@ import java.util.List;
 import java.util.Objects;
 
 import Fragments.Personal_Fragment;
-import IClass.IClass0;
 import IClass.IClass2;
+import IClass.IClass3;
 import IRequest.NameRequest;
 import PFragments.Photograph_Fragment;
 import Tool.Requests;
@@ -317,22 +303,33 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         Retrofit retrofit = new RetrofitBase().getRetrofit();
         NameRequest nameRequest = retrofit.create(NameRequest.class);
 
-        Call<IClass0> call;
+        Call<IClass3> call;
         if("0".equals(tag)) {
             call = nameRequest.upload2(RetrofitBase.mobileToken, RetrofitBase.uid, body);
         }else {
             call = nameRequest.upload1(RetrofitBase.mobileToken, RetrofitBase.uid, body);
         }
-        call.enqueue(new Callback<IClass0>() {
+        call.enqueue(new Callback<IClass3>() {
             @Override
-            public void onResponse(Call<IClass0> call, Response<IClass0> response) {
+            public void onResponse(Call<IClass3> call, Response<IClass3> response) {
                 Message message = new Message();
                 message.obj = response.body().getCode();
+                if(message.obj.equals("200")) {
+                    String tag = fragment.getSign();
+                    if("0".equals(tag)) {
+                        Personal_Fragment.dataClass.setHead_sculpture(response.body().getData());
+                    }else {
+                        Personal_Fragment.dataClass.setBackground(response.body().getData());
+                    }
+                    Log.d("viper", response.body().getData());
+
+
+                }
                 handler.sendMessage(message);
             }
 
             @Override
-            public void onFailure(Call<IClass0> call, Throwable t) {
+            public void onFailure(Call<IClass3> call, Throwable t) {
                 Log.d("Personal_TAG", "请求失败" + t.toString());
             }
         });

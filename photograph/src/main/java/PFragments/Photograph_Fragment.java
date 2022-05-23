@@ -128,8 +128,6 @@ public class Photograph_Fragment extends Fragment implements View.OnClickListene
         int id = view.getId();
         if(id == R.id.photo_image || id == R.id.photo_text) {
             //打开相机进行拍照
-            //IdentifyWebPictures(view);
-//            IdentifyAlbumPictures(view);
             IdentifyTakePhotoImage(view);
         }else {
             //打开相册选择照片
@@ -226,38 +224,6 @@ public class Photograph_Fragment extends Fragment implements View.OnClickListene
         startActivityForResult(intent, 100);
     }
 
-    //识别网络图片
-    public void IdentifyWebPictures(View view) {
-        pbLoading.setVisibility(View.VISIBLE);
-        if (accessToken == null) {
-            showMsg("获取AccessToken到null");
-            return;
-        }
-        String imgUrl = "https://lijiaxuan.oss-cn-shanghai.aliyuncs.com/head_sculpture/2022/04/11/a778598808324d808c394ebf93ba18e81649674061934.png";
-        //显示图片
-        Glide.with(this).load(imgUrl).into(ivPicture);
-        showMsg("图像识别中");
-        service.getDiscernResult(accessToken, imgUrl).enqueue(new Callback<GetDiscernResultResponse>() {
-            @Override
-            public void onResponse(Call<GetDiscernResultResponse> call, Response<GetDiscernResultResponse> response) {
-                List<GetDiscernResultResponse.ResultBean> result = response.body() != null ? response.body().getResult() : null;
-                if (result != null && result.size() > 0) {
-                    //显示识别结果
-                    showDiscernResult(result);
-                } else {
-                    pbLoading.setVisibility(View.GONE);
-                    showMsg("未获得相应的识别结果");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<GetDiscernResultResponse> call, Throwable t) {
-                pbLoading.setVisibility(View.GONE);
-                Log.e(TAG, "图像识别失败，失败原因：" + t.toString());
-            }
-
-        });
-    }
 
     /**
      * Toast提示

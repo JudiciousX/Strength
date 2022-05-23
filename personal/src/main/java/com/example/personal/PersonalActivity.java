@@ -43,6 +43,7 @@ import java.util.Objects;
 import Fragments.Personal_Fragment;
 import IClass.IClass0;
 import IClass.IClass2;
+import IClass.IClass3;
 import IRequest.NameRequest;
 import Tool.Requests;
 import Tool.User;
@@ -264,22 +265,22 @@ public class PersonalActivity extends AppCompatActivity {
         Retrofit retrofit = new RetrofitBase().getRetrofit();
         NameRequest nameRequest = retrofit.create(NameRequest.class);
 
-        Call<IClass0> call;
+        Call<IClass3> call;
         if("0".equals(tag)) {
             call = nameRequest.upload2(RetrofitBase.mobileToken, RetrofitBase.uid, body);
         }else {
             call = nameRequest.upload1(RetrofitBase.mobileToken, RetrofitBase.uid, body);
         }
-        call.enqueue(new Callback<IClass0>() {
+        call.enqueue(new Callback<IClass3>() {
             @Override
-            public void onResponse(Call<IClass0> call, Response<IClass0> response) {
+            public void onResponse(Call<IClass3> call, Response<IClass3> response) {
                 Message message = new Message();
                 message.obj = response.body().getCode();
                 handler.sendMessage(message);
             }
 
             @Override
-            public void onFailure(Call<IClass0> call, Throwable t) {
+            public void onFailure(Call<IClass3> call, Throwable t) {
                 Log.d("Personal_TAG", "请求失败" + t.toString());
             }
         });

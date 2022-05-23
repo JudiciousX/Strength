@@ -7,6 +7,7 @@ import Fragments.Personal_Fragment;
 import IClass.IClass0;
 import IClass.IClass1;
 import IClass.IClass2;
+import IClass.IClass3;
 import Tool.Data;
 import Tool.User1;
 import okhttp3.MultipartBody;
@@ -38,12 +39,12 @@ public interface NameRequest {
     //修改背景
     @Multipart
     @POST("info/updateBack")
-    Call<IClass0> upload1(@Header("mobileToken") String mobileToken, @Header("uid") String uid, @Part() MultipartBody.Part file);
+    Call<IClass3> upload1(@Header("mobileToken") String mobileToken, @Header("uid") String uid, @Part() MultipartBody.Part file);
 
     //修改头像
     @Multipart
     @POST("info/updateHead")
-    Call<IClass0> upload2(@Header("mobileToken") String mobileToken, @Header("uid") String uid, @Part() MultipartBody.Part file);
+    Call<IClass3> upload2(@Header("mobileToken") String mobileToken, @Header("uid") String uid, @Part() MultipartBody.Part file);
 
     //获取关注列表
     @GET("relation/getFollow")
