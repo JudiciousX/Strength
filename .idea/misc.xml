@@ -4,11 +4,32 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Strength/app/src/main/res/layout/activity_main.xml" value="0.13188798554652212" />
+        <entry key="..\:/Strength/app/src/main/res/layout/activity_splash.xml" value="0.15898825654923215" />
         <entry key="..\:/Strength/app/src/main/res/menu/navigation.xml" value="0.17777777777777778" />
         <entry key="..\:/Strength/app/src/main/res/xml/network_config.xml" value="0.27037037037037037" />
+        <entry key="..\:/Strength/court/src/main/res/layout/activity_court.xml" value="0.15898825654923215" />
+        <entry key="..\:/Strength/court/src/main/res/layout/activity_issue.xml" value="0.32592592592592595" />
+        <entry key="..\:/Strength/court/src/main/res/layout/activity_rob.xml" value="0.32592592592592595" />
+        <entry key="..\:/Strength/court/src/main/res/layout/comment_item.xml" value="0.32592592592592595" />
         <entry key="..\:/Strength/court/src/main/res/layout/court_fragment.xml" value="0.27037037037037037" />
+        <entry key="..\:/Strength/court/src/main/res/layout/court_item.xml" value="0.32592592592592595" />
+        <entry key="..\:/Strength/court/src/main/res/layout/court_recyclerview.xml" value="0.32592592592592595" />
         <entry key="..\:/Strength/court/src/main/res/layout/court_toolbar.xml" value="0.27037037037037037" />
+        <entry key="..\:/Strength/court/src/main/res/layout/date_dialog.xml" value="0.32592592592592595" />
+        <entry key="..\:/Strength/court/src/main/res/layout/time_dialog.xml" value="0.32592592592592595" />
+        <entry key="..\:/Strength/home/src/main/res/layout/activity_home.xml" value="0.15898825654923215" />
+        <entry key="..\:/Strength/home/src/main/res/layout/activity_pay.xml" value="0.32592592592592595" />
+        <entry key="..\:/Strength/home/src/main/res/layout/activity_reserve.xml" value="0.15898825654923215" />
+        <entry key="..\:/Strength/home/src/main/res/layout/activity_search.xml" value="0.32592592592592595" />
+        <entry key="..\:/Strength/home/src/main/res/layout/fragment_home.xml" value="0.15898825654923215" />
+        <entry key="..\:/Strength/home/src/main/res/layout/fragment_search.xml" value="0.15898825654923215" />
+        <entry key="..\:/Strength/home/src/main/res/layout/item_poi_search.xml" value="0.32592592592592595" />
+        <entry key="..\:/Strength/home/src/main/res/layout/pay_item.xml" value="0.32592592592592595" />
+        <entry key="..\:/Strength/login/src/main/res/layout/activity_login.xml" value="0.15898825654923215" />
+        <entry key="..\:/Strength/login/src/main/res/layout/activity_sign_in.xml" value="0.15898825654923215" />
+        <entry key="..\:/Strength/login/src/main/res/layout/fragment_amend_password.xml" value="0.15898825654923215" />
         <entry key="..\:/Strength/login/src/main/res/layout/fragment_forget_password.xml" value="0.13188798554652212" />
+        <entry key="..\:/Strength/login/src/main/res/layout/fragment_sign_in.xml" value="0.15898825654923215" />
         <entry key="..\:/Strength/personal/src/main/res/layout/activity_personal.xml" value="0.13188798554652212" />
         <entry key="..\:/Strength/personal/src/main/res/layout/amend_data.xml" value="0.13188798554652212" />
         <entry key="..\:/Strength/personal/src/main/res/layout/amend_signature.xml" value="0.15898825654923215" />
@@ -17,12 +38,15 @@
         <entry key="..\:/Strength/personal/src/main/res/layout/fragment_attention.xml" value="0.32592592592592595" />
         <entry key="..\:/Strength/personal/src/main/res/layout/fragment_blogs.xml" value="0.15898825654923215" />
         <entry key="..\:/Strength/personal/src/main/res/layout/fragment_collect.xml" value="0.15898825654923215" />
+        <entry key="..\:/Strength/personal/src/main/res/layout/fragment_more.xml" value="0.15898825654923215" />
         <entry key="..\:/Strength/personal/src/main/res/layout/fragment_personal.xml" value="0.15898825654923215" />
+        <entry key="..\:/Strength/personal/src/main/res/layout/item_background.xml" value="0.15898825654923215" />
         <entry key="..\:/Strength/personal/src/main/res/layout/item_basic_information.xml" value="0.12685185185185185" />
         <entry key="..\:/Strength/personal/src/main/res/layout/item_more.xml" value="0.15898825654923215" />
         <entry key="..\:/Strength/personal/src/main/res/layout/layout_picker_date.xml" value="0.12685185185185185" />
+        <entry key="..\:/Strength/personal/src/main/res/layout/recycler_personal.xml" value="0.15898825654923215" />
+        <entry key="..\:/Strength/personal/src/main/res/layout/tags.xml" value="0.15898825654923215" />
         <entry key="..\:/Strength/personal/src/main/res/layout/tags_dialog.xml" value="0.13188798554652212" />
-        <entry key="..\:/Strength/personal/src/main/res/layout/view_empty.xml" value="0.32592592592592595" />
         <entry key="..\:/Strength/personal/src/main/res/layout/view_empty.xml" value="0.32592592592592595" />
         <entry key="..\:/Strength/photograph/src/main/res/layout/activity_photograph.xml" value="0.27037037037037037" />
         <entry key="..\:/Strength/photograph/src/main/res/layout/dialog_bottom.xml" value="0.27037037037037037" />

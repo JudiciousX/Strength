@@ -28,7 +28,7 @@
             android:id="@+id/app_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="约球"
+            android:text="GoNow"
             android:textColor="@color/black"
             android:textSize="35sp"
             app:layout_constraintEnd_toEndOf="parent"
