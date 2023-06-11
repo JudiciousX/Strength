@@ -12,6 +12,18 @@ public class ArticleContent {
     private Integer state;//是否结束
     private String comment;
 
+    public ArticleContent(String articleId, String uid, String username, String headSculpture, String content, String address, String time, String gmtCreate, Integer state, String comment) {
+        this.articleId = articleId;
+        this.uid = uid;
+        this.username = username;
+        this.headSculpture = headSculpture;
+        this.content = content;
+        this.address = address;
+        this.time = time;
+        this.gmtCreate = gmtCreate;
+        this.state = state;
+        this.comment = comment;
+    }
     public String getUsername() {
         return username;
     }

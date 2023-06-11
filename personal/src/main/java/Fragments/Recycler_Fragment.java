@@ -22,6 +22,7 @@ import java.util.List;
 
 import Adapter.Blogs_Adapter;
 import IRequest.NameRequest;
+import Tool.ArticleContent;
 import Tool.Data;
 import Tool.Requests;
 import retrofit2.Call;
@@ -61,35 +62,45 @@ public class Recycler_Fragment extends Fragment {
         if(position == 0) {
 
             recyclerView.setAdapter(new Blogs_Adapter(getContext()));
-            Retrofit retrofit = new RetrofitBase().getRetrofit();
-            NameRequest nameRequest = retrofit.create(NameRequest.class);
-            nameRequest.getArticleList(RetrofitBase.mobileToken, RetrofitBase.uid).enqueue(new Callback<Data>() {
-                @Override
-                public void onResponse(Call<Data> call, Response<Data> response) {
-
-                    Personal_Fragment.ArticleContentList = response.body().getData();
-                    Log.d("scout", response.body().getData().get(0).toString() + "");
-                    adapter.notifyDataSetChanged();
-                    recyclerView.setAdapter(adapter);
-
-                }
-
-                @Override
-                public void onFailure(Call<Data> call, Throwable t) {
-                    Log.d("scout", "请求失败");
-                }
-            });
-            nameRequest.getArticleList1(RetrofitBase.mobileToken, RetrofitBase.uid).enqueue(new Callback<Object>() {
-                @Override
-                public void onResponse(Call<Object> call, Response<Object> response) {
-                    Log.d("scout", "onResponse: " + response.body().toString());
-                }
-
-                @Override
-                public void onFailure(Call<Object> call, Throwable t) {
-
-                }
-            });
+//            Retrofit retrofit = new RetrofitBase().getRetrofit();
+//            NameRequest nameRequest = retrofit.create(NameRequest.class);
+//            nameRequest.getArticleList(RetrofitBase.mobileToken, RetrofitBase.uid).enqueue(new Callback<Data>() {
+//                @Override
+//                public void onResponse(Call<Data> call, Response<Data> response) {
+//
+//                    Personal_Fragment.ArticleContentList = response.body().getData();
+//                    Log.d("scout", response.body().getData().get(0).toString() + "");
+//                    adapter.notifyDataSetChanged();
+//                    recyclerView.setAdapter(adapter);
+//
+//                }
+//
+//                @Override
+//                public void onFailure(Call<Data> call, Throwable t) {
+//                    Log.d("scout", "请求失败");
+//                }
+//            });
+//            nameRequest.getArticleList1(RetrofitBase.mobileToken, RetrofitBase.uid).enqueue(new Callback<Object>() {
+//                @Override
+//                public void onResponse(Call<Object> call, Response<Object> response) {
+//                    Log.d("scout", "onResponse: " + response.body().toString());
+//                }
+//
+//                @Override
+//                public void onFailure(Call<Object> call, Throwable t) {
+//
+//                }
+//            });
+            ArticleContent articleContent1 = new ArticleContent("123", "13389106597", "JudiciousX", "http://m.qpic.cn/psc?/V10JG2ek3hqAnT/ruAMsa53pVQWN7FLK88i5r.79Xn0Bn3vTtBqRcD8czKSSO2mXDYx*s7PJJ5MbwuwVl5WVhS3wS9HaJywcefLyrRj5pbP7Xyfk44Xl*HBlmo!/b&bo=8ADwAPAA8AABFzA!&rf=viewer_4", "来打球呀", "西邮体育场", "2023-6-8", "2023-6-6", 1, "");
+            ArticleContent articleContent2 = new ArticleContent("123", "13389106597", "JudiciousX", "http://m.qpic.cn/psc?/V10JG2ek3hqAnT/ruAMsa53pVQWN7FLK88i5r.79Xn0Bn3vTtBqRcD8czKSSO2mXDYx*s7PJJ5MbwuwVl5WVhS3wS9HaJywcefLyrRj5pbP7Xyfk44Xl*HBlmo!/b&bo=8ADwAPAA8AABFzA!&rf=viewer_4", "来场紧张刺激的比赛吧", "西邮体育场", "2023-6-8", "2023-6-6", 1, "");
+            ArticleContent articleContent3 = new ArticleContent("123", "13389106598", "CCCJJz_", "http://m.qpic.cn/psc?/V10JG2ek3hqAnT/ruAMsa53pVQWN7FLK88i5h9VNGcdnk6x.mjCHYEFmNrmiwqwsLpGCyhkGvnR9bVRnV0b2qcCdvear8F6k30aFF06dlKA6QDf*EM6eYej50Y!/b&bo=NwSTBDcEkwQBFzA!&rf=viewer_4", "有人一起打羽毛球嘛", "西邮体育场", "2023-6-8", "2023-6-7", 1, "");
+            ArrayList list = new ArrayList();
+            list.add(articleContent1);
+            list.add(articleContent2);
+            list.add(articleContent3);
+            Personal_Fragment.ArticleContentList = list;
+            adapter.notifyDataSetChanged();
+            recyclerView.setAdapter(adapter);
         }
     }
 }

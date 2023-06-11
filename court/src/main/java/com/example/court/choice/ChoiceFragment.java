@@ -65,15 +65,15 @@ public class ChoiceFragment extends Fragment {
 
 
 
-            requestData();
-//            Court_Context court_context = new Court_Context();
-//            court_context.setProfile(R.drawable.court_profile);
-//            court_context.setName("陈末末");
-//            court_context.setTime("1月18日 19:00");
-//            court_context.setInformation("5V5交流赛，欢迎切磋");
-//            list.add(court_context);
-//            initRecyclerView();
-//            initContext();
+//            requestData();
+            Court_Context court_context = new Court_Context();
+            court_context.setProfile(R.drawable.court_profile);
+            court_context.setName("陈末末");
+            court_context.setTime("1月18日 19:00");
+            court_context.setInformation("5V5交流赛，欢迎切磋");
+            list.add(court_context);
+            initRecyclerView();
+            initContext();
 
 
 
@@ -105,7 +105,7 @@ public class ChoiceFragment extends Fragment {
                     for (int i = 0;i<response.body().getData().size();i++){
                         Court_Context court_context = new Court_Context();
                         court_context.setAddress(response.body().getData().get(i).getAddress());
-                        court_context.setProfile(response.body().getData().get(i).getHead_sculpture());
+//                        court_context.setProfile(response.body().getData().get(i).getHead_sculpture());
                         Log.d("profile",response.body().getData().get(i).getHead_sculpture()+"");
                         court_context.setName(response.body().getData().get(i).getUsername());
                         court_context.setTime(response.body().getData().get(i).getTime());
@@ -164,19 +164,19 @@ public class ChoiceFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh);
         swipeRefreshLayout.setColorSchemeResources(R.color.classic);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        list.clear();
-                        requestData();
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
-                },500);
-            }
-        });
+//        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        list.clear();
+////                        requestData();
+//                        swipeRefreshLayout.setRefreshing(false);
+//                    }
+//                },500);
+//            }
+//        });
 
     }
     public class MyLinearLayoutManager extends LinearLayoutManager {
@@ -213,15 +213,15 @@ public class ChoiceFragment extends Fragment {
 
     }
 
-//    public void initContext() {
-//        for (int i = 0; i < 20; i++) {
-//            Court_Context court_context = new Court_Context();
-//            court_context.setProfile(R.drawable.court_profile);
-//            court_context.setName("陈末末");
-//            court_context.setAddress("西安抛物线篮球场");
-//            court_context.setTime("1月18日 19:00");
-//            court_context.setInformation("5V5交流赛，欢迎切磋");
-//            list.add(court_context);
-//        }
-//    }
+    public void initContext() {
+        for (int i = 0; i < 20; i++) {
+            Court_Context court_context = new Court_Context();
+            court_context.setProfile(R.drawable.court_profile);
+            court_context.setName("陈末末");
+            court_context.setAddress("西安抛物线篮球场");
+            court_context.setTime("1月18日 19:00");
+            court_context.setInformation("5V5交流赛，欢迎切磋");
+            list.add(court_context);
+        }
+    }
 }

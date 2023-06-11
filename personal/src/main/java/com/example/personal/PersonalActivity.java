@@ -89,7 +89,8 @@ public class PersonalActivity extends AppCompatActivity {
                     }else {
                         imageView = fragment.getImageView();
                         //imageView.setImageBitmap(image);
-                        Glide.with(context).load(map).into(imageView);
+                        Glide.with(context).load(map).fallback(R.drawable.abc_vector_test).into(imageView);
+                        Glide.with(context).asDrawable().load(map).into(imageView);
                     }
                     break;
                 case "500":
@@ -135,7 +136,7 @@ public class PersonalActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal);
-        RetrofitBase.uid = "944348013390725120";
+        RetrofitBase.uid = "13389106597";
         Requests.Request1(handler);
         //Requests.Request3(handler);
     }
@@ -160,7 +161,7 @@ public class PersonalActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == SELECT_PICTURE && resultCode == RESULT_OK) {
-            final Uri imageUri = Objects.requireNonNull(data).getData();
+            final Uri imageUri = Uri.parse("http://phototj.photo.store.qq.com/psc?/V506PzcE3M9HJv06WJzs3aG2Lm3l2E9J/ruAMsa53pVQWN7FLK88i5on7m.7Eg*cakseAvA4U3nvQe*4lzdavfmGOQ9*uGGXKBsrTDymCeeoRESaDTPO4asvzywXXtJXaOX4KhgzeeMs!/b&bo=YAlABmAJQAYDByI!&rf=viewer_4");
             String tag = fragment.getSign();
             if("0".equals(tag)) {
                 pictureCropping2(imageUri);
@@ -172,8 +173,10 @@ public class PersonalActivity extends AppCompatActivity {
 
             if(data.getData() == null) {
                 Log.d("xxxxxx", "xxx");
-                bitmap = (Bitmap) data.getExtras().get("data");
-                Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, null,null));
+//                bitmap = (Bitmap) data.getExtras().get("data");
+                final Uri uri = Uri.parse("http://phototj.photo.store.qq.com/psc?/V506PzcE3M9HJv06WJzs3aG2Lm3l2E9J/ruAMsa53pVQWN7FLK88i5on7m.7Eg*cakseAvA4U3nvQe*4lzdavfmGOQ9*uGGXKBsrTDymCeeoRESaDTPO4asvzywXXtJXaOX4KhgzeeMs!/b&bo=YAlABmAJQAYDByI!&rf=viewer_4");
+
+//                Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, null,null));
                 String tag = fragment.getSign();
                 if("0".equals(tag)) {
                     pictureCropping2(uri);
@@ -183,7 +186,9 @@ public class PersonalActivity extends AppCompatActivity {
                 }
             }else {
                 Log.d("xxxxxx", "xx");
-                final Uri imageUri = Objects.requireNonNull(data).getData();
+//                final Uri imageUri = Objects.requireNonNull(data).getData();
+                final Uri imageUri = Uri.parse("http://phototj.photo.store.qq.com/psc?/V506PzcE3M9HJv06WJzs3aG2Lm3l2E9J/ruAMsa53pVQWN7FLK88i5on7m.7Eg*cakseAvA4U3nvQe*4lzdavfmGOQ9*uGGXKBsrTDymCeeoRESaDTPO4asvzywXXtJXaOX4KhgzeeMs!/b&bo=YAlABmAJQAYDByI!&rf=viewer_4");
+
                 String tag = fragment.getSign();
                 if("0".equals(tag)) {
                     pictureCropping2(imageUri);
@@ -254,36 +259,39 @@ public class PersonalActivity extends AppCompatActivity {
 
     //上传服务器
     public void uploadFanganFile(File file) {
-        String tag = fragment.getSign();
-        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        MultipartBody.Part body;
-        if("0".equals(tag)) {
-            body = MultipartBody.Part.createFormData("headSculpture", file.getName(), requestFile);
-        }else {
-            body = MultipartBody.Part.createFormData("background", file.getName(), requestFile);
-        }
-        Retrofit retrofit = new RetrofitBase().getRetrofit();
-        NameRequest nameRequest = retrofit.create(NameRequest.class);
-
-        Call<IClass3> call;
-        if("0".equals(tag)) {
-            call = nameRequest.upload2(RetrofitBase.mobileToken, RetrofitBase.uid, body);
-        }else {
-            call = nameRequest.upload1(RetrofitBase.mobileToken, RetrofitBase.uid, body);
-        }
-        call.enqueue(new Callback<IClass3>() {
-            @Override
-            public void onResponse(Call<IClass3> call, Response<IClass3> response) {
-                Message message = new Message();
-                message.obj = response.body().getCode();
-                handler.sendMessage(message);
-            }
-
-            @Override
-            public void onFailure(Call<IClass3> call, Throwable t) {
-                Log.d("Personal_TAG", "请求失败" + t.toString());
-            }
-        });
+//        String tag = fragment.getSign();
+//        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+//        MultipartBody.Part body;
+//        if("0".equals(tag)) {
+//            body = MultipartBody.Part.createFormData("headSculpture", file.getName(), requestFile);
+//        }else {
+//            body = MultipartBody.Part.createFormData("background", file.getName(), requestFile);
+//        }
+//        Retrofit retrofit = new RetrofitBase().getRetrofit();
+//        NameRequest nameRequest = retrofit.create(NameRequest.class);
+//
+//        Call<IClass3> call;
+//        if("0".equals(tag)) {
+//            call = nameRequest.upload2(RetrofitBase.mobileToken, RetrofitBase.uid, body);
+//        }else {
+//            call = nameRequest.upload1(RetrofitBase.mobileToken, RetrofitBase.uid, body);
+//        }
+//        call.enqueue(new Callback<IClass3>() {
+//            @Override
+//            public void onResponse(Call<IClass3> call, Response<IClass3> response) {
+//                Message message = new Message();
+//                message.obj = response.body().getCode();
+//                handler.sendMessage(message);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<IClass3> call, Throwable t) {
+//                Log.d("Personal_TAG", "请求失败" + t.toString());
+//            }
+//        });
+        Message message = new Message();
+        message.obj = "200";
+        handler.sendMessage(message);
     }
 
     //申请权限

@@ -19,10 +19,17 @@ public class User1 {
         return data;
     }
 
-    public class ArticleUser {
+    public static class ArticleUser {
         private String uid;//用户uid
         private String username;//用户名
         private String headSculpture;//用户头像
+
+        public ArticleUser(String uid, String username, String headSculpture) {
+            this.uid = uid;
+            this.username = username;
+            this.headSculpture = headSculpture;
+        }
+
 
         public String getHeadSculpture() {
             return headSculpture;

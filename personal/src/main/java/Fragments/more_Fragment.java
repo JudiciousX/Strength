@@ -62,25 +62,27 @@ public class more_Fragment extends Fragment {
             @Override
             public void onClick(View view) {
                 //网络请求
-                mobileToken = RetrofitBase.mobileToken;
-                Retrofit retrofit = new RetrofitBase().getRetrofit();
-                IRequests iRequests = retrofit.create(IRequests.class);
-                iRequests.getLogoff(mobileToken).enqueue(new Callback<SignIn_Logoff_Forget_SendSmsClass>() {
-                    @Override
-                    public void onResponse(Call<SignIn_Logoff_Forget_SendSmsClass> call, Response<SignIn_Logoff_Forget_SendSmsClass> response) {
-                        Message message = new Message();
-                        message.obj = response.body().getCode();
-                        Log.d("scout", response.toString());
-                        Log.d("scout", response.body().getCode());
-                        handler.sendMessage(message);
-                    }
-
-                    @Override
-                    public void onFailure(Call<SignIn_Logoff_Forget_SendSmsClass> call, Throwable t) {
-                        Log.d("TAG", "请求失败");
-                    }
-                });
-
+//                mobileToken = RetrofitBase.mobileToken;
+//                Retrofit retrofit = new RetrofitBase().getRetrofit();
+//                IRequests iRequests = retrofit.create(IRequests.class);
+//                iRequests.getLogoff(mobileToken).enqueue(new Callback<SignIn_Logoff_Forget_SendSmsClass>() {
+//                    @Override
+//                    public void onResponse(Call<SignIn_Logoff_Forget_SendSmsClass> call, Response<SignIn_Logoff_Forget_SendSmsClass> response) {
+//                        Message message = new Message();
+//                        message.obj = response.body().getCode();
+//                        Log.d("scout", response.toString());
+//                        Log.d("scout", response.body().getCode());
+//                        handler.sendMessage(message);
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<SignIn_Logoff_Forget_SendSmsClass> call, Throwable t) {
+//                        Log.d("TAG", "请求失败");
+//                    }
+//                });
+                Message message = new Message();
+                message.obj = "200";
+                handler.sendMessage(message);
             }
         });
         back = view.findViewById(R.id.more_back);

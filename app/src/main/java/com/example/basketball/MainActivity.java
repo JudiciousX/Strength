@@ -114,8 +114,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                         break;
                     default :
                         fragment = new Personal_Fragment(context, activity , R.id.main_frame);
-                        fragment.dataClass = (User) msg.obj;
-                        Log.d("scout", msg.obj.toString());
+//                        fragment.dataClass = (User) msg.obj;
+                        fragment.dataClass = new User("13389106597", "13389106597", "JudiciousX", "减肥也要多吃饭", "[  足球  ,   台球  ,   网球  ]", (short) 0, "12345@qq.com", "2023-6-9", "http://m.qpic.cn/psc?/V10JG2ek3hqAnT/ruAMsa53pVQWN7FLK88i5r.79Xn0Bn3vTtBqRcD8czKwdyVjx6j0Pge0wNn1HxHIsFoUF4dIVxbQcuKrQp2LWvuKo29FXjs8WuAMiK6sBO0!/b&bo=sAR3A7AEdwMHFzY!&rf=viewer_4", "http://phototj.photo.store.qq.com/psc?/V506PzcE3M9HJv06WJzs3aG2Lm3l2E9J/ruAMsa53pVQWN7FLK88i5k..BW0E3Wx96XSpdfLwIwQZHaXwdocLZjEhUBoeAkJndqAGNe3j5zdn*RlkS2b2Y3Syz2LKPqCcKCxzEgKVrKE!/b&bo=YAlABmAJQAYDl7I!&rf=viewer_4");
+//                        Log.d("scout", msg.obj.toString());
                         head = fragment.getList1();
                         break;
                 }
@@ -179,6 +180,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == SELECT_PICTURE && resultCode == RESULT_OK) {
             final Uri imageUri = Objects.requireNonNull(data).getData();
+//            final Uri imageUri = Uri.parse("http://phototj.photo.store.qq.com/psc?/V506PzcE3M9HJv06WJzs3aG2Lm3l2E9J/ruAMsa53pVQWN7FLK88i5on7m.7Eg*cakseAvA4U3nvfCtBQb13*qx9LC8WOXpucZ7b.U7creo*ZoZKj1yJ7TGoLYFl96FILKAxDTeZvzIg!/b&bo=7wk*Bu8JPwYDByI!&rf=viewer_4");
             String tag = fragment.getSign();
             if("0".equals(tag)) {
                 pictureCropping2(imageUri);
@@ -192,6 +194,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 Log.d("xxxxxx", "xxx");
                 bitmap = (Bitmap) data.getExtras().get("data");
                 Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, null,null));
+//                Uri uri = Uri.parse("http://phototj.photo.store.qq.com/psc?/V506PzcE3M9HJv06WJzs3aG2Lm3l2E9J/ruAMsa53pVQWN7FLK88i5on7m.7Eg*cakseAvA4U3nvfCtBQb13*qx9LC8WOXpucZ7b.U7creo*ZoZKj1yJ7TGoLYFl96FILKAxDTeZvzIg!/b&bo=7wk*Bu8JPwYDByI!&rf=viewer_4");
                 String tag = fragment.getSign();
                 if("0".equals(tag)) {
                     pictureCropping2(uri);
@@ -202,6 +205,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             }else {
                 Log.d("xxxxxx", "xx");
                 final Uri imageUri = Objects.requireNonNull(data).getData();
+//                final Uri imageUri = Uri.parse("http://phototj.photo.store.qq.com/psc?/V506PzcE3M9HJv06WJzs3aG2Lm3l2E9J/ruAMsa53pVQWN7FLK88i5on7m.7Eg*cakseAvA4U3nvfCtBQb13*qx9LC8WOXpucZ7b.U7creo*ZoZKj1yJ7TGoLYFl96FILKAxDTeZvzIg!/b&bo=7wk*Bu8JPwYDByI!&rf=viewer_4");
                 String tag = fragment.getSign();
                 if("0".equals(tag)) {
                     pictureCropping2(imageUri);
@@ -220,7 +224,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 map = bundle.getParcelable("data");
                 File file = saveImageToGallery(map);
                 uploadFanganFile(file);
-                deleteSuccess(this, file.getName());
+//                deleteSuccess(this, file.getName());
 
             }
         }else if(resultCode == RESULT_OK) {
@@ -293,46 +297,55 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     //上传服务器
     public void uploadFanganFile(File file) {
         String tag = fragment.getSign();
-        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        MultipartBody.Part body;
-        if("0".equals(tag)) {
-            body = MultipartBody.Part.createFormData("headSculpture", file.getName(), requestFile);
+//        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+//        MultipartBody.Part body;
+//        if("0".equals(tag)) {
+//            body = MultipartBody.Part.createFormData("headSculpture", file.getName(), requestFile);
+//        }else {
+//            body = MultipartBody.Part.createFormData("background", file.getName(), requestFile);
+//        }
+//        Retrofit retrofit = new RetrofitBase().getRetrofit();
+//        NameRequest nameRequest = retrofit.create(NameRequest.class);
+
+//        Call<IClass3> call;
+//        if("0".equals(tag)) {
+//            call = nameRequest.upload2(RetrofitBase.mobileToken, RetrofitBase.uid, body);
+//        }else {
+//            call = nameRequest.upload1(RetrofitBase.mobileToken, RetrofitBase.uid, body);
+//        }
+//        call.enqueue(new Callback<IClass3>() {
+//            @Override
+//            public void onResponse(Call<IClass3> call, Response<IClass3> response) {
+//                Message message = new Message();
+//                message.obj = response.body().getCode();
+//                if(message.obj.equals("200")) {
+//                    String tag = fragment.getSign();
+//                    if("0".equals(tag)) {
+//                        Personal_Fragment.dataClass.setHead_sculpture(response.body().getData());
+//                    }else {
+//                        Personal_Fragment.dataClass.setBackground(response.body().getData());
+//                    }
+//                    Log.d("viper", response.body().getData());
+//
+//
+//                }
+//                handler.sendMessage(message);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<IClass3> call, Throwable t) {
+//                Log.d("Personal_TAG", "请求失败" + t.toString());
+//            }
+//        });
+        Message message = new Message();
+        message.obj = "200";
+        String tag1 = fragment.getSign();
+        if("0".equals(tag1)) {
+            Personal_Fragment.dataClass.setHead_sculpture("http://phototj.photo.store.qq.com/psc?/V506PzcE3M9HJv06WJzs3aG2Lm3l2E9J/ruAMsa53pVQWN7FLK88i5on7m.7Eg*cakseAvA4U3nvQe*4lzdavfmGOQ9*uGGXKBsrTDymCeeoRESaDTPO4asvzywXXtJXaOX4KhgzeeMs!/b&bo=YAlABmAJQAYDByI!&rf=viewer_4");
         }else {
-            body = MultipartBody.Part.createFormData("background", file.getName(), requestFile);
+            Personal_Fragment.dataClass.setBackground("http://m.qpic.cn/psc?/V10JG2ek3hqAnT/ruAMsa53pVQWN7FLK88i5r.79Xn0Bn3vTtBqRcD8czJMZMOV4K1Rajw*rnY420RWh7qDY94*doE97W2EuaZalXm4XPLg6izcaQKClg1UVzQ!/b&bo=OASgBTgEoAUBFzA!&rf=viewer_4");
         }
-        Retrofit retrofit = new RetrofitBase().getRetrofit();
-        NameRequest nameRequest = retrofit.create(NameRequest.class);
-
-        Call<IClass3> call;
-        if("0".equals(tag)) {
-            call = nameRequest.upload2(RetrofitBase.mobileToken, RetrofitBase.uid, body);
-        }else {
-            call = nameRequest.upload1(RetrofitBase.mobileToken, RetrofitBase.uid, body);
-        }
-        call.enqueue(new Callback<IClass3>() {
-            @Override
-            public void onResponse(Call<IClass3> call, Response<IClass3> response) {
-                Message message = new Message();
-                message.obj = response.body().getCode();
-                if(message.obj.equals("200")) {
-                    String tag = fragment.getSign();
-                    if("0".equals(tag)) {
-                        Personal_Fragment.dataClass.setHead_sculpture(response.body().getData());
-                    }else {
-                        Personal_Fragment.dataClass.setBackground(response.body().getData());
-                    }
-                    Log.d("viper", response.body().getData());
-
-
-                }
-                handler.sendMessage(message);
-            }
-
-            @Override
-            public void onFailure(Call<IClass3> call, Throwable t) {
-                Log.d("Personal_TAG", "请求失败" + t.toString());
-            }
-        });
+        handler.sendMessage(message);
     }
 
     //申请权限
@@ -400,7 +413,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         service = ServiceGenerator.createService(ApiService.class);
-        requestApiGetToken();
+//        requestApiGetToken();
         bottomSheetDialog = new BottomSheetDialog(this);
 
         bottomNavigationView = findViewById(R.id.main_bottom);
@@ -414,6 +427,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
         //获取用户全部信息
         Requests.Request1(handler);
+//        Message message = new Message();
+//        message.obj = "200";
+//        handler.sendMessage(message);
     }
 
 

@@ -106,7 +106,7 @@ public class IssueActivity extends AppCompatActivity {
                 data.setTime(date.getText().toString());
                 data.setAddress(address.getText().toString());
                 data.setContent(content.getText().toString());
-                Request_Content();
+//                Request_Content();
                 finish();
             }
         });

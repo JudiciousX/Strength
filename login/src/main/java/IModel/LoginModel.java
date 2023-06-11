@@ -25,28 +25,31 @@ public class LoginModel implements ILoginModel {
     @Override
     public void result(String phoneNumbers, String password, String mobileToken, Context context, Handler handler) {
         //网络请求
-        Retrofit retrofit = new RetrofitBase().getRetrofit();
-
-        IRequests loginRequest = retrofit.create(IRequests.class);
-        //Log.d("xxxxxx", "login");
-        loginRequest.getLogin(phoneNumbers, password, mobileToken).enqueue(new Callback<Login_StateClass>() {
-            @Override
-            public void onResponse(Call<Login_StateClass> call, Response<Login_StateClass> response) {
-                Message message = new Message();
-                Log.d("xxxxxx", response.body().getCode());
-                if(response.body().getCode().equals("200")) {
-                    message.obj = response.body().getData();
-                }else {
-                    message.obj = "Login" + response.body().getCode();
-                }
-                handler.sendMessage(message);
-            }
-
-            @Override
-            public void onFailure(Call<Login_StateClass> call, Throwable t) {
-                Log.d("TAG", "请求失败");
-            }
-        });
+//        Retrofit retrofit = new RetrofitBase().getRetrofit();
+//
+//        IRequests loginRequest = retrofit.create(IRequests.class);
+//        //Log.d("xxxxxx", "login");
+//        loginRequest.getLogin(phoneNumbers, password, mobileToken).enqueue(new Callback<Login_StateClass>() {
+//            @Override
+//            public void onResponse(Call<Login_StateClass> call, Response<Login_StateClass> response) {
+//                Message message = new Message();
+//                Log.d("xxxxxx", response.body().getCode());
+//                if(response.body().getCode().equals("200")) {
+//                    message.obj = response.body().getData();
+//                }else {
+//                    message.obj = "Login" + response.body().getCode();
+//                }
+//                handler.sendMessage(message);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Login_StateClass> call, Throwable t) {
+//                Log.d("TAG", "请求失败");
+//            }
+//        });
+        Message message = new Message();
+        message.obj = "13389106597";
+        handler.sendMessage(message);
     }
 
 }
